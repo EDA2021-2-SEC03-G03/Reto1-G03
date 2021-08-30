@@ -37,9 +37,10 @@ operación solicitada
 def printMenu():
     print("Bienvenido")
     print("1- Cargar información en el catálogo")
-    print("2- ")
+    print("2- Lista cronológica de los artistas")
 
 catalog = None
+
 
 """
 Menu principal
@@ -51,7 +52,16 @@ while True:
         print("Cargando información de los archivos ....")
 
     elif int(inputs[0]) == 2:
-        pass
+        print("Cargando información de los archivos ....")
+        anoInicial = input('Ingrese el año inicial: ')
+        anoFinal = input('Ingrese el año final: ')
+
+        print("Número total de artistas en el rango de año: ")
+        print("Primeros 3 y últimos 3 artistas del rango cronológico: ")
+        print("Nombre del artista: ")
+        print("Año de nacimiento del artista: ")
+        print("Nscionalidad: ")
+        print("Género: ")
 
     else:
         sys.exit(0)
