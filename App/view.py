@@ -38,6 +38,10 @@ def printMenu():
     print("Bienvenido")
     print("1- Cargar información en el catálogo")
     print("2- Lista cronológica de los artistas")
+    print("3- Lista cronológica de adquisiciones")
+    print("4- Calsificación de obras de un artista por técnica")
+    print("5- Clasificar obras por la nacionalidad de sus creadores")
+    print("6- Transporte de obras de un departamento")
 
 catalog = None
 
@@ -52,7 +56,6 @@ while True:
         print("Cargando información de los archivos ....")
 
     elif int(inputs[0]) == 2:
-        print("Cargando información de los archivos ....")
         anoInicial = input('Ingrese el año inicial: ')
         anoFinal = input('Ingrese el año final: ')
 
@@ -62,6 +65,63 @@ while True:
         print("Año de nacimiento del artista: ")
         print("Nscionalidad: ")
         print("Género: ")
+
+    elif int(inputs[0]) == 3:
+        anioInicial= input('Ingrese el año inicial: ')
+        mesInicial= input('Ingrese el mes de la fecha inical: ')
+        diaInicial = input('Ingrese el dia de la fecha inicial: ')
+        anioFinal = input('Ingrese el año final: ')
+        mesFinal=input('Ingrese el mes de la fecha final: ')
+        diaFinal = input('Ingrese el dia de la fecha final: ')
+
+        print("Número total de obras en el rango cronológico: ")
+        print("Número total de obras adquiridas por compra ('purchase...'): ")
+        print("Primeras 3 y últimas 3 obras del rango: ")
+        print("Título de la obra: ")
+        print("Artista(s) de la obra: ")
+        print("Fecha de la obra: ")
+        print("Medio: ")
+        print("Dimensiones: ")
+
+    elif int(inputs[0]) == 4:
+        artista= input('Ingrese el nombre del artista: ')
+
+        print("Total de obras: ")
+        print("Total técnias (medios) utilizados: ")
+        print("La técnica más utlizada: ")
+        print("El listado de las obras de dicha técnica: ")
+        print("Titulo de la obra: ")
+        print("Fecha de la obra: ")
+        print("Medio: ")
+        print("Dimensiones: ")
+
+    
+    elif int(inputs[0]) == 5:
+        obras= input('Ingrese las obras del museo: ')
+
+        print("Lista de nacionalidades ordenadas por el total de obras de mayor a menor: ")
+        print("Información de las obras de la nacionalidad con el mayor número de obras: ")
+        print("Titulo de la obra: ")
+        print("Artista(s): ")
+        print("Fecha de la obra: ")
+        print("Medio: ")
+        print("Dimensiones: ")
+
+    elif int(inputs[0]) == 6:
+        departamento= input('Ingrese el departamento del museo: ')
+
+        print("Total de obras para transportar: ")
+        print("Precio estimado del servicio en USD: ")
+        print("5 obras más antigua a transportar: ")
+        print("5 obras más costosas para transportar: ")
+        print("Título de la obra: ")
+        print("Artista(s): ")
+        print("Clasificación: ")
+        print("Fecha de la obra: ")
+        print("Medio: ")
+        print("Dimensiones: ")
+        print("Costo asociado al transporte: ")
+
 
     else:
         sys.exit(0)
