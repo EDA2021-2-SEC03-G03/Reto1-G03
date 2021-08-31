@@ -37,6 +37,19 @@ los mismos.
 
 # Construccion de modelos
 
+def newCatalog():
+    
+    catalog = {'obras': None,
+               'artistas': None, 
+               'obras_artistas': None}
+
+    catalog['obras'] = lt.newList()
+    catalog['artistas'] = lt.newList('SINGLE_LINKED',
+                                    cmpfunction=compareartist)
+    catalog["obras_artistas"] = lt.newList('SINGLE_LINKED')
+
+    return catalog
+
 # Funciones para agregar informacion al catalogo
 
 # Funciones para creacion de datos
@@ -44,5 +57,10 @@ los mismos.
 # Funciones de consulta
 
 # Funciones utilizadas para comparar elementos dentro de una lista
+
+def compareartist(authorname1, author):
+    if (authorname1.lower() in author['name'].lower()):
+        return 0
+    return -1
 
 # Funciones de ordenamiento
