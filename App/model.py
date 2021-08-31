@@ -40,13 +40,10 @@ los mismos.
 def newCatalog():
     
     catalog = {'obras': None,
-               'artistas': None, 
-               'obras_artistas': None}
+               'artistas': None}
 
     catalog['obras'] = lt.newList()
-    catalog['artistas'] = lt.newList('SINGLE_LINKED',
-                                    cmpfunction=compareartist)
-    catalog["obras_artistas"] = lt.newList('SINGLE_LINKED')
+    catalog['artistas'] = lt.newList()
 
     return catalog
 
