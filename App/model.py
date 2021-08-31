@@ -44,13 +44,15 @@ def newCatalog():
                'obras_artistas': None}
 
     catalog['obras'] = lt.newList()
-    catalog['artistas'] = lt.newList('SINGLE_LINKED',
+    catalog['artistas'] = lt.newList('ARRAY_LIST',
                                     cmpfunction=compareartist)
-    catalog["obras_artistas"] = lt.newList('SINGLE_LINKED')
+    catalog["obras_artistas"] = lt.newList('ARRAY_LIST')
 
     return catalog
 
 # Funciones para agregar informacion al catalogo
+
+
 
 # Funciones para creacion de datos
 
