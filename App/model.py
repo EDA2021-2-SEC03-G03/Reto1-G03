@@ -39,25 +39,80 @@ los mismos.
 
 def newCatalog():
     
-    catalog = {'obras': None,
-               'artistas': None}
+    catalog = {'artwork': None,
+               'artists': None,
+               'artworkArtistID': None}
 
-    catalog['obras'] = lt.newList()
-    catalog['artistas'] = lt.newList()
+    catalog['artwork'] = lt.newList()
+    catalog['artists'] = lt.newList('ARRAY_LIST',
+                                    cmpfunction=compareartists)
+    catalog['artworkArtistID'] = lt.newList('ARRAY_LIST')
 
     return catalog
 
 # Funciones para agregar informacion al catalogo
 
+def addArtwork(catalog, artwork):
+ 
+    lt.addLast(catalog['artwork'], artwork)
+
+    artists = artwork['artist'].split(",")
+    for artist in artists:
+        addArtwork(catalog, artist.strip(), artwork)  
+
+
+def addArtist(catalog, artistname, artwork):
+    """
+    Adiciona un autor a lista de autores, la cual guarda referencias
+    a los libros de dicho autor
+    """
+    artists = catalog['artists']
+    posartist = lt.isPresent(artists, artistname)
+    if posartist > 0:
+        artist = lt.getElement(artists, posartist)
+    else:
+        artist = newArtist(artistname)
+        lt.addLast(artists, artist)
+    lt.addLast(artist['artworks'], artwork)
+
+def addIdentificacion(catalog, identification):
+    
+    i = newIdentification(identification['Identification_name'], identification['id'])
+    lt.addLast(catalog['identification'], i)
+
 
 
 # Funciones para creacion de datos
+def newArtist(name):
+    
+    artist = {'DisplayName': "", "artworks": None}
+    artist['DisplayName'] = name
+    artist['artowrks'] = lt.newList('ARRAY_LIST')
+    return artist
+
+def newIdentification(name, id):
+    
+    identification = {'name': '', 'identification': ''}
+    identification['name'] = name
+    identification['identification'] = id
+    return identification
+
+
 
 # Funciones de consulta
+def getArtworkbyArtist(catalog, artistname):
+    """
+    Retorna un autor con sus libros a partir del nombre del autor
+    """
+    posartist = lt.isPresent(catalog['authors'], artistname)
+    if posartist > 0:
+        artist = lt.getElement(catalog['artist'], posartist)
+        return artist
+    return None 
 
 # Funciones utilizadas para comparar elementos dentro de una lista
 
-def compareartist(authorname1, author):
+def compareartists(authorname1, author):
     if (authorname1.lower() in author['name'].lower()):
         return 0
     return -1
