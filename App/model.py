@@ -40,14 +40,11 @@ los mismos.
 def newCatalog():
     
     catalog = {'artwork': None,
-               'artists': None,
-               'artworkArtistID': None}
+               'artists': None}
 
     catalog['artwork'] = lt.newList()
     catalog['artists'] = lt.newList('ARRAY_LIST',
                                     cmpfunction=compareartists)
-    catalog['artworkArtistID'] = lt.newList('ARRAY_LIST')
-
     return catalog
 
 # Funciones para agregar informacion al catalogo
@@ -74,12 +71,6 @@ def addArtist(catalog, artistname, artwork):
         artist = newArtist(artistname)
         lt.addLast(artists, artist)
     lt.addLast(artist['artworks'], artwork)
-
-def addIdentificacion(catalog, identification):
-    
-    i = newIdentification(identification['Identification_name'], identification['id'])
-    lt.addLast(catalog['identification'], i)
-
 
 
 # Funciones para creacion de datos
