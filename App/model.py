@@ -39,12 +39,25 @@ los mismos.
 
 def newCatalog():
     
-    catalog = {'artwork': None,
-               'artists': None}
+    catalog = {'Artwork': None,
+               'Artists': None,
+               'Artist_ID': None,
+               'Artwork_ID': None,
+               'Tecnique': None, 
+               'Nationality':None}
 
-    catalog['artwork'] = lt.newList()
-    catalog['artists'] = lt.newList('ARRAY_LIST',
+    catalog['Artwork'] = lt.newList('ARRAY_LIST')
+    catalog['Artists'] = lt.newList('ARRAY_LIST',
                                     cmpfunction=compareartists)
+    catalog['Artist_ID'] = lt.newList('SINGLE_LINKED', 
+                                    cmpfunction=compareartist_ID)
+    catalog['Artwork_ID'] = lt.newList('SINGLE_LINKED', 
+                                    cmpfunction=compareartwork_ID) 
+    catalog['Tecnique'] = lt.newList('SINGLE_LINKED', 
+                                    cmpfunction=comparetecnique)  
+    catalog['Nationality'] = lt.newList('SINGLE_LINKED', 
+                                        cmpfunction=comparenationality)   
+
     return catalog
 
 # Funciones para agregar informacion al catalogo
@@ -53,59 +66,36 @@ def addArtwork(catalog, artwork):
  
     lt.addLast(catalog['artwork'], artwork)
 
-    artists = artwork['artist'].split(",")
-    for artist in artists:
-        addArtwork(catalog, artist.strip(), artwork)  
+def addArtist(catalog, artistname):
+    
+    lt.addLast(catalog['artist'], artistname)
 
+def addArtworkArtist(catalog, artwork):
+    pass
 
-def addArtist(catalog, artistname, artwork):
-    """
-    Adiciona un autor a lista de autores, la cual guarda referencias
-    a los libros de dicho autor
-    """
-    artists = catalog['artists']
-    posartist = lt.isPresent(artists, artistname)
-    if posartist > 0:
-        artist = lt.getElement(artists, posartist)
-    else:
-        artist = newArtist(artistname)
-        lt.addLast(artists, artist)
-    lt.addLast(artist['artworks'], artwork)
+def addArtist_ID(catalog, artists):
+    pass
 
 
 # Funciones para creacion de datos
-def newArtist(name):
-    
-    artist = {'DisplayName': "", "artworks": None}
-    artist['DisplayName'] = name
-    artist['artowrks'] = lt.newList('ARRAY_LIST')
-    return artist
-
-def newIdentification(name, id):
-    
-    identification = {'name': '', 'identification': ''}
-    identification['name'] = name
-    identification['identification'] = id
-    return identification
-
-
 
 # Funciones de consulta
-def getArtworkbyArtist(catalog, artistname):
-    """
-    Retorna un autor con sus libros a partir del nombre del autor
-    """
-    posartist = lt.isPresent(catalog['authors'], artistname)
-    if posartist > 0:
-        artist = lt.getElement(catalog['artist'], posartist)
-        return artist
-    return None 
 
 # Funciones utilizadas para comparar elementos dentro de una lista
 
-def compareartists(authorname1, author):
-    if (authorname1.lower() in author['name'].lower()):
-        return 0
-    return -1
+def compareartists():
+    pass
+
+def compareartist_ID():
+    pass
+
+def compareartwork_ID():
+    pass
+
+def comparetecnique():
+    pass
+
+def comparenationality():
+    pass
 
 # Funciones de ordenamiento

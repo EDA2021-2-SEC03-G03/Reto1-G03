@@ -65,19 +65,7 @@ def loadArtists(catalog):
         model.addTag(catalog, artist)
 # Funciones de ordenamiento
 
-def sortArtworks(catalog):
-    """
-    Ordena los libros por average_rating
-    """
-    model.sortBooks(catalog)
-
 # Funciones de consulta sobre el catálogo
-def getArtworksByArtist(catalog, artistname):
-    """
-    Retrona los libros de un autor
-    """
-    artist = model.getArtworksByArtist(catalog, artistname)
-    return artist
 
 
 

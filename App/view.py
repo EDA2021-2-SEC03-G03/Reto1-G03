@@ -54,6 +54,15 @@ while True:
     inputs = input('Seleccione una opción para continuar\n')
     if int(inputs[0]) == 1:
         print("Cargando información de los archivos ....")
+        catalog = controller.initCatalog()
+
+        controller.loadData(catalog)
+
+        print('Obras de arte cargados: ' + str(lt.size(catalog['Artwork'])))
+        print('Artistas cargados: ' + str(lt.size(catalog['Artist'])))
+        print('últimas tres obras: ')
+        print('Últimos tres artistas: ')
+
 
     elif int(inputs[0]) == 2:
         anoInicial = input('Ingrese el año inicial: ')
