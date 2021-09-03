@@ -64,11 +64,11 @@ def newCatalog():
 
 def addArtwork(catalog, artwork):
  
-    lt.addLast(catalog['artwork'], artwork)
+    lt.addLast(catalog['Artwork'], artwork)
 
 def addArtist(catalog, artistname):
     
-    lt.addLast(catalog['artist'], artistname)
+    lt.addLast(catalog['Artists'], artistname)
 
 def addArtworkArtist(catalog, artwork):
     pass

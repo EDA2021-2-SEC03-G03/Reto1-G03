@@ -62,7 +62,7 @@ def loadArtists(catalog):
     artistsfile = cf.data_dir + 'MoMA/Artists-utf8-small.csv'
     input_file = csv.DictReader(open(artistsfile, encoding='utf-8'))
     for artist in input_file:
-        model.addTag(catalog, artist)
+        model.addArtist(catalog, artist)
 # Funciones de ordenamiento
 
 # Funciones de consulta sobre el catálogo

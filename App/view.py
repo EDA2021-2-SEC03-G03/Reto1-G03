@@ -59,9 +59,17 @@ while True:
         controller.loadData(catalog)
 
         print('Obras de arte cargados: ' + str(lt.size(catalog['Artwork'])))
-        print('Artistas cargados: ' + str(lt.size(catalog['Artist'])))
-        print('últimas tres obras: ' + str(catalog['Artworks']['Elements'][-3]))
-        print('Últimos tres artistas: ' + str(catalog['Artists']['Elements'][-3]))
+        print('Artistas cargados: ' + str(lt.size(catalog['Artists'])))
+        i = -1
+        print('Últimas tres obras: ')
+        while i > -4:
+            print(str(catalog['Artwork']['elements'][i]))
+            i-=1
+        j = -1
+        print('Últimos tres artistas: ')
+        while j > -4:
+            print(str(catalog['Artists']['elements'][i]))
+            j-=1
 
 
     elif int(inputs[0]) == 2:
