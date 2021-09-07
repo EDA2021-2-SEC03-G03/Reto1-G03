@@ -73,7 +73,9 @@ while True:
 
 
     elif int(inputs[0]) == 2:
-        pass
+        anoInicial = input('Ingresa el año inicial del rango: ')
+        anoFinal = input('Ingrese el año final del rango: ')
+
 
     elif int(inputs[0]) == 3:
         pass

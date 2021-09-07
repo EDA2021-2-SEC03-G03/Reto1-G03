@@ -40,35 +40,29 @@ los mismos.
 def newCatalog():
     
     catalog = {'Artwork': None,
-               'Artists': None,
-               'Artist_ID': None,
-               'Artwork_ID': None,
-               'Tecnique': None, 
-               'Nationality':None}
+               'Artists': None}
 
     catalog['Artwork'] = lt.newList('ARRAY_LIST')
     catalog['Artists'] = lt.newList('ARRAY_LIST',
-                                    cmpfunction=compareartists)
-    catalog['Artist_ID'] = lt.newList('SINGLE_LINKED', 
-                                    cmpfunction=compareartist_ID)
-    catalog['Artwork_ID'] = lt.newList('SINGLE_LINKED', 
-                                    cmpfunction=compareartwork_ID) 
-    catalog['Tecnique'] = lt.newList('SINGLE_LINKED', 
-                                    cmpfunction=comparetecnique)  
-    catalog['Nationality'] = lt.newList('SINGLE_LINKED', 
-                                        cmpfunction=comparenationality)   
+                                    cmpfunction=compareartists)   
 
     return catalog
 
 # Funciones para agregar informacion al catalogo
 
 def addArtwork(catalog, artwork):
- 
-    lt.addLast(catalog['Artwork'], artwork)
 
-def addArtist(catalog, artistname):
+    listArtwork = {'ObjectID': artwork['ObjectID'], 'Title': artwork['Title'], 'ConstituentID': artwork['ConstituentID'], 'Date': artwork['Date'], 'Medium': artwork['Medium'], 'Dimensions': artwork['Dimensions'], 
+    'CreditLine': artwork['CreditLine'], 'Department': artwork['Department'], 'DateAcquired': artwork['DateAcquired']}
+ 
+    lt.addLast(catalog['Artwork'], listArtwork)
+
+def addArtist(catalog, artist):
+
+    listArtist = {'ConstituentID': artist['ConstituentID'], 'DisplayName': artist['DisplayName'], 'Nationality': artist['Nationality'], 'Gender': artist['Gender'],
+    'BeginDate': artist['BeginDate'], 'EndDate': artist['EndDate']}
     
-    lt.addLast(catalog['Artists'], artistname)
+    lt.addLast(catalog['Artists'], listArtist)
 
 def addArtworkArtist(catalog, artwork):
     pass
