@@ -40,11 +40,15 @@ los mismos.
 def newCatalog():
     
     catalog = {'Artwork': None,
-               'Artists': None}
+               'Artists': None,
+               'artworkArtist': None,
+               'ArtistsDate': None}
 
     catalog['Artwork'] = lt.newList('ARRAY_LIST')
     catalog['Artists'] = lt.newList('ARRAY_LIST',
-                                    cmpfunction=compareartists)   
+                                    cmpfunction=compareartists) 
+    catalog['artworkArtist'] = lt.newList('SINGLE_LINKED', cmpfunction='')
+    catalog['ArtistDate'] = lt.newList('SINGLE_LINKED', cmpfunction='')
 
     return catalog
 
@@ -64,26 +68,49 @@ def addArtist(catalog, artist):
     
     lt.addLast(catalog['Artists'], listArtist)
 
-def addArtworkArtist(catalog, artwork):
-    pass
+#def addArtworkArtist(catalog, artwork, artistID):
+    #artists = catalog['artoworkArtist']
+    #posartist = lt.isPresent(artists, artistID)
+    #if posartist > 0:
+        #artist = lt.getElement(artists, posartist)
+    #else:
+        #artist = newArtist(artistID)
+        #lt.addLast(artists, artist)
+    #lt.addLast(artist['artworkArtist'], artwork)
 
-def addArtist_ID(catalog, artists):
-    pass
+def addArtistDate(catalog, artist, BeginDate, EndDate, nationality, gender):
+    if int(BeginDate) != 0:
+        addDate = newArtistDate(artist, BeginDate, EndDate, nationality, gender)
 
+        lt.addLast(catalog['ArtistsDate'], addDate)
 
 # Funciones para creacion de datos
+
+def newArtist(artistname):
+    artist= {'artist_ID': '', 'Artworks': None}
+    artist['artistID'] = artistname
+    artist['Artworks'] = lt.newList('ARRAY_LIST')
+
+    return artist
+
+def newArtistDate(artist, BeginDate, EndDate, nationality, gender):
+    artistDate = {'Name': '', 'BeginDate': '', 'EndDate': '', 'Nationality': '', 'Gender': ''}
+    artistDate['Name'] = artist
+    artistDate['BeginDate'] = BeginDate
+    artistDate['EndDate'] = EndDate
+    artistDate['Nationality'] = nationality
+    artistDate['Gender'] = gender
 
 # Funciones de consulta
 
 def getArtistByDate(catalog, BeginDate, EndDate):
 
-    #artists = catalog['Artists']['BeginDate']
-    print(catalog['Artists']['BeginDate'])
-    DatesArtist = lt.newList()
+    
+    DatesArtist = lt.newList('ARRAY_LIST')
 
-    for a in catalog['Artists']: 
+    for a in lt.iterator(catalog['ArtistsDate']): 
         
-        if int(a['BeginDate']) <= BeginDate and int(a['BeginDate']) >= EndDate:
+        if int(a['BeginDate']) >= BeginDate and int(a['BeginDate']) <= EndDate:
             lt.addLast(DatesArtist, a)
 
     return DatesArtist 

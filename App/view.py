@@ -77,7 +77,7 @@ while True:
         anoFinal = int(input('Ingrese el año final del rango: '))
         DatesA = controller.getArtistByDate(catalog, anoInicial, anoFinal)
         print('There are ' + str(lt.size(DatesA)) + ' artist born between ' + str(anoInicial) + ' and ' + str(anoFinal))
-
+        
 
     elif int(inputs[0]) == 3:
         pass
