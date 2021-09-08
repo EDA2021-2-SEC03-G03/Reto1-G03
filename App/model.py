@@ -75,6 +75,23 @@ def addArtist_ID(catalog, artists):
 
 # Funciones de consulta
 
+def getArtistByDate(catalog, BeginDate, EndDate):
+
+    #artists = catalog['Artists']['BeginDate']
+    print(catalog['Artists']['BeginDate'])
+    DatesArtist = lt.newList()
+
+    for a in catalog['Artists']: 
+        
+        if int(a['BeginDate']) <= BeginDate and int(a['BeginDate']) >= EndDate:
+            lt.addLast(DatesArtist, a)
+
+    return DatesArtist 
+
+
+
+    
+
 # Funciones utilizadas para comparar elementos dentro de una lista
 
 def compareartists():
