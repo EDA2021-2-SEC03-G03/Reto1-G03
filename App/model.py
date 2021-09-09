@@ -27,7 +27,7 @@
 
 import config as cf
 from DISClib.ADT import list as lt
-from DISClib.Algorithms.Sorting import shellsort as sa
+from DISClib.Algorithms.Sorting import mergesort as sa
 assert cf
 
 """
@@ -47,8 +47,8 @@ def newCatalog():
     catalog['Artwork'] = lt.newList('ARRAY_LIST')
     catalog['Artists'] = lt.newList('ARRAY_LIST',
                                     cmpfunction=compareartists) 
-    catalog['artworkArtist'] = lt.newList('SINGLE_LINKED', cmpfunction='')
-    catalog['ArtistDate'] = lt.newList('SINGLE_LINKED', cmpfunction='')
+    catalog['artworkArtist'] = lt.newList('ARRAY_LIST', cmpfunction='')
+    catalog['ArtistDate'] = lt.newList('ARRAY_LIST', cmpfunction='')
 
     return catalog
 
@@ -56,33 +56,58 @@ def newCatalog():
 
 def addArtwork(catalog, artwork):
 
-    listArtwork = {'ObjectID': artwork['ObjectID'], 'Title': artwork['Title'], 'ConstituentID': artwork['ConstituentID'], 'Date': artwork['Date'], 'Medium': artwork['Medium'], 'Dimensions': artwork['Dimensions'], 
-    'CreditLine': artwork['CreditLine'], 'Department': artwork['Department'], 'DateAcquired': artwork['DateAcquired']}
+    listArtwork = {'ObjectID': artwork['ObjectID'], 
+                  'Title': artwork['Title'],
+                  'ConstituentID': artwork['ConstituentID'],
+                  'Date': artwork['Date'],
+                  'Medium': artwork['Medium'],
+                  'Dimensions': artwork['Dimensions'],
+                  'CreditLine': artwork['CreditLine'],
+                  'Department': artwork['Department'],
+                  'DateAcquired': artwork['DateAcquired']}
  
     lt.addLast(catalog['Artwork'], listArtwork)
 
+    artistID = listArtwork['ConstittuentID'].split(',')
+    for a in artistID:
+        addArtworkArtist(catalog, artwork, artistID[1:-1])
+        
+
 def addArtist(catalog, artist):
 
-    listArtist = {'ConstituentID': artist['ConstituentID'], 'DisplayName': artist['DisplayName'], 'Nationality': artist['Nationality'], 'Gender': artist['Gender'],
-    'BeginDate': artist['BeginDate'], 'EndDate': artist['EndDate']}
+    #artist = catalog['Artists']
+
+    listArtist = {'DisplayName': artist['DisplayName'],
+                'ConstituentID': artist['ConstituentID'],
+                'Nationality': artist['Nationality'],
+                'Gender': artist['Gender'],
+                'BeginDate': artist['BeginDate'], 
+                'EndDate': artist['EndDate'], 
+                'Artworks': lt.newList('ARRAY_LIST')} #artist['DisplayName'] == aaa
+                                                      #artist['Artoworks']['Medium']
+
+    addArtistDate(catalog, artist['DisplayName'], artist['BeginDate'], artist['EndDate'], artist['Nationality'], artist['Gender'])
     
     lt.addLast(catalog['Artists'], listArtist)
 
-#def addArtworkArtist(catalog, artwork, artistID):
-    #artists = catalog['artoworkArtist']
-    #posartist = lt.isPresent(artists, artistID)
-    #if posartist > 0:
-        #artist = lt.getElement(artists, posartist)
-    #else:
-        #artist = newArtist(artistID)
-        #lt.addLast(artists, artist)
-    #lt.addLast(artist['artworkArtist'], artwork)
+
+def addArtworkArtist(catalog, artwork, artistID):
+    artists = catalog['artoworkArtist']
+    posartist = lt.isPresent(artists, artistID)
+    if posartist > 0:
+        artist = lt.getElement(artists, posartist)
+    else:
+        artist = newArtist(artistID)
+        lt.addLast(artists, artist)
+    lt.addLast(artist['artworkArtist'], artwork)
 
 def addArtistDate(catalog, artist, BeginDate, EndDate, nationality, gender):
     if int(BeginDate) != 0:
         addDate = newArtistDate(artist, BeginDate, EndDate, nationality, gender)
 
         lt.addLast(catalog['ArtistsDate'], addDate)
+
+
 
 # Funciones para creacion de datos
 
@@ -101,6 +126,8 @@ def newArtistDate(artist, BeginDate, EndDate, nationality, gender):
     artistDate['Nationality'] = nationality
     artistDate['Gender'] = gender
 
+    return artistDate
+
 # Funciones de consulta
 
 def getArtistByDate(catalog, BeginDate, EndDate):
@@ -113,9 +140,12 @@ def getArtistByDate(catalog, BeginDate, EndDate):
         if int(a['BeginDate']) >= BeginDate and int(a['BeginDate']) <= EndDate:
             lt.addLast(DatesArtist, a)
 
-    return DatesArtist 
+    Dates_Artist = SortDates(DatesArtist)
 
+    return Dates_Artist 
 
+def ArtistByTecnique(catalog, artist):
+    pass
 
     
 
@@ -124,11 +154,16 @@ def getArtistByDate(catalog, BeginDate, EndDate):
 def compareartists():
     pass
 
-def compareartist_ID():
-    pass
+def compArtistDate(Artist1, Artist2):
 
-def compareartwork_ID():
-    pass
+    return Artist1['BeginDate']< Artist2['BeginDate']
+
+
+#def compareartist_ID():
+    #pass
+
+#def compareartwork_ID():
+    #pass
 
 def comparetecnique():
     pass
@@ -137,3 +172,6 @@ def comparenationality():
     pass
 
 # Funciones de ordenamiento
+
+def SortDates(DatesArtist):
+    sa.sort(DatesArtist, compArtistDate)
