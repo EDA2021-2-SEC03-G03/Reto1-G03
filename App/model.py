@@ -48,7 +48,7 @@ def newCatalog():
     catalog['Artists'] = lt.newList('ARRAY_LIST',
                                     cmpfunction=compareartists) 
     catalog['artworkArtist'] = lt.newList('ARRAY_LIST', cmpfunction='')
-    catalog['ArtistDate'] = lt.newList('ARRAY_LIST', cmpfunction='')
+    catalog['ArtistsDate'] = lt.newList('ARRAY_LIST', cmpfunction='')
 
     return catalog
 
@@ -68,10 +68,10 @@ def addArtwork(catalog, artwork):
  
     lt.addLast(catalog['Artwork'], listArtwork)
 
-    artistID = listArtwork['ConstituentID'].split(',') 
+    #artistID = listArtwork['ConstituentID'].split(',') 
 
-    for a in artistID:
-        addArtworkArtist(catalog, artwork, artistID[1:-1])
+    #for a in artistID:
+        #addArtworkArtist(catalog, artwork, artistID[1:-1])
         
 
 def addArtist(catalog, artist):
@@ -80,10 +80,10 @@ def addArtist(catalog, artist):
 
     listArtist = {'DisplayName': artist['DisplayName'],
                 'ConstituentID': artist['ConstituentID'],
-                'Nationality': artist['Nationality'],
-                'Gender': artist['Gender'],
                 'BeginDate': artist['BeginDate'], 
-                'EndDate': artist['EndDate'], 
+                'EndDate': artist['EndDate'],
+                'Nationality': artist['Nationality'],
+                'Gender': artist['Gender'], 
                 'Artworks': lt.newList('ARRAY_LIST')} #artist['DisplayName'] == aaa
                                                       #artist['Artoworks']['Medium']
 
@@ -92,15 +92,7 @@ def addArtist(catalog, artist):
     lt.addLast(catalog['Artists'], listArtist)
 
 
-def addArtworkArtist(catalog, artwork, artistID):
-    artists = catalog['artworkArtist']
-    posartist = lt.isPresent(artists, artistID)
-    if posartist > 0:
-        artist = lt.getElement(artists, posartist)
-    else:
-        artist = newArtist(artistID)
-        lt.addLast(artists, artist)
-    lt.addLast(artist['artworkArtist'], artwork)
+
 
 def addArtistDate(catalog, artist, BeginDate, EndDate, nationality, gender):
     if int(BeginDate) != 0:
@@ -159,7 +151,7 @@ def compareartists():
 
 def compArtistDate(Artist1, Artist2):
 
-    return Artist1['BeginDate']< Artist2['BeginDate']
+    return int(Artist1['BeginDate'])< int(Artist2['BeginDate'])
 
 
 #def compareartist_ID():
