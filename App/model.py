@@ -68,9 +68,15 @@ def addArtwork(catalog, artwork):
  
     lt.addLast(catalog['Artwork'], listArtwork)
 
-    artistID = listArtwork['ConstittuentID'].split(',')
+    artist_ID = listArtwork['ConstituentID'].split(',') 
+    
+    characters = "[]"
+
+    for x in range(len(characters)):
+        artistID = artist_ID.replace(characters[x],"")
+
     for a in artistID:
-        addArtworkArtist(catalog, artwork, artistID[1:-1])
+        addArtworkArtist(catalog, artwork, artistID)
         
 
 def addArtist(catalog, artist):
@@ -112,8 +118,11 @@ def addArtistDate(catalog, artist, BeginDate, EndDate, nationality, gender):
 # Funciones para creacion de datos
 
 def newArtist(artistname):
-    artist= {'artist_ID': '', 'Artworks': None}
+    artist= {'artist_ID': '',
+             'Artworks': None,
+             'DisplayName': None}
     artist['artistID'] = artistname
+
     artist['Artworks'] = lt.newList('ARRAY_LIST')
 
     return artist
