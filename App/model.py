@@ -91,7 +91,16 @@ def addArtist(catalog, artist):
     
     lt.addLast(catalog['Artists'], listArtist)
 
-
+#Función exótica que creó Mariale
+def addArtworkArtist(catalog, artist_id, artwork):
+    artists = catalog['ArtworkArtist']
+    posartist = lt.isPresent(artists,artist_id)
+    if posartist > 0:
+        artist = newArtist(artist_id)
+    else:
+        artist = newArtist(artist_id)
+        lt.addLast(artists, artist)
+    lt.addLast(artist['ArtworkArtist'], artwork)
 
 
 def addArtistDate(catalog, artist, BeginDate, EndDate, nationality, gender):
@@ -104,10 +113,10 @@ def addArtistDate(catalog, artist, BeginDate, EndDate, nationality, gender):
 
 # Funciones para creacion de datos
 
-def newArtist(artistname):
+def newArtist(artistid):
     artist= {'artistID': '',
              'Artworks': None,}
-    artist['artistID'] = artistname
+    artist['artistID'] = artistid
 
     artist['Artworks'] = lt.newList('ARRAY_LIST')
 
