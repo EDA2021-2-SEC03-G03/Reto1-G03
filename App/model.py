@@ -106,7 +106,6 @@ def addArtworkArtist(catalog, artist_id, artwork):
 def addArtistDate(catalog, listArtist):
         addDate = newArtistDate(listArtist['DisplayName'], listArtist['BeginDate'], listArtist['EndDate'], listArtist['Nationality'], listArtist['Gender'])
         lt.addLast(catalog['ArtistsDate'], addDate)
-        print(addDate)
 
 
 
@@ -139,13 +138,12 @@ def getArtistByDate(catalog, BeginDate, EndDate):
     DatesArtist = lt.newList('ARRAY_LIST')
 
     for a in lt.iterator(catalog['ArtistsDate']): 
-        
         if int(a['BeginDate']) >= BeginDate and int(a['BeginDate']) <= EndDate:
             lt.addLast(DatesArtist, a)
 
-    Dates_Artist = SortDates(DatesArtist)
+    #Dates_Artist = SortDates(DatesArtist)
 
-    return Dates_Artist 
+    return DatesArtist 
 
 def ArtistByTecnique(catalog, artist):
     pass

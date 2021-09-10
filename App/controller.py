@@ -69,7 +69,6 @@ def loadArtists(catalog):
 
 def getArtistByDate(catalog, BeginDate, EndDate): 
     a = model.getArtistByDate(catalog, BeginDate, EndDate)
-
     return a
 
 
