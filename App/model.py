@@ -86,10 +86,10 @@ def addArtist(catalog, artist):
                 'Gender': artist['Gender'], 
                 'Artworks': lt.newList('ARRAY_LIST')} #artist['DisplayName'] == aaa
                                                       #artist['Artoworks']['Medium']
-
-    addArtistDate(catalog, artist['DisplayName'], artist['BeginDate'], artist['EndDate'], artist['Nationality'], artist['Gender'])
     
     lt.addLast(catalog['Artists'], listArtist)
+    addArtistDate(catalog,listArtist)
+
 
 #Función exótica que creó Mariale
 def addArtworkArtist(catalog, artist_id, artwork):
@@ -103,11 +103,10 @@ def addArtworkArtist(catalog, artist_id, artwork):
     lt.addLast(artist['ArtworkArtist'], artwork)
 
 
-def addArtistDate(catalog, artist, BeginDate, EndDate, nationality, gender):
-    if int(BeginDate) != 0:
-        addDate = newArtistDate(artist, BeginDate, EndDate, nationality, gender)
-
+def addArtistDate(catalog, listArtist):
+        addDate = newArtistDate(listArtist['DisplayName'], listArtist['BeginDate'], listArtist['EndDate'], listArtist['Nationality'], listArtist['Gender'])
         lt.addLast(catalog['ArtistsDate'], addDate)
+        print(addDate)
 
 
 
