@@ -141,7 +141,7 @@ def getArtistByDate(catalog, BeginDate, EndDate):
         if int(a['BeginDate']) >= BeginDate and int(a['BeginDate']) <= EndDate:
             lt.addLast(DatesArtist, a)
 
-    #Dates_Artist = SortDates(DatesArtist)
+    Dates_Artist = SortDates(DatesArtist)
 
     return DatesArtist 
 
