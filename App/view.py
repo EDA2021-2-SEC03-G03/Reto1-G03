@@ -68,7 +68,7 @@ while True:
         j = -1
         print('Últimos tres artistas: ')
         while j > -4:
-            print(str(catalog['Artists']['elements'][i]))
+            print(str(catalog['Artists']['elements'][j]))
             j-=1
 
 
@@ -76,14 +76,16 @@ while True:
         anoInicial = int(input('Ingresa el año inicial del rango: '))
         anoFinal = int(input('Ingrese el año final del rango: '))
         DatesA = controller.getArtistByDate(catalog, anoInicial, anoFinal)
-        print('There are ' + str(lt.size(DatesA)) + ' artist born between ' + str(anoInicial) + ' and ' + str(anoFinal))
-
-        while i > -4:
+        print('There are ' + str(lt.size(DatesA)) + ' artists born between ' + str(anoInicial) + ' and ' + str(anoFinal))
+        i=1
+        print("First three artists")
+        while i < 4:
             print(str(DatesA['elements'][i]))
-            i-=1
+            i+=1
         j = -1
+        print("Last three artists")
         while j > -4:
-            print(str(DatesA['elements'][i]))
+            print(str(DatesA['elements'][j]))
             j-=1
         
 

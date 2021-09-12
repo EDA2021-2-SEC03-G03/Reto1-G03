@@ -86,28 +86,35 @@ def addArtist(catalog, artist):
                 'Gender': artist['Gender'], 
                 'Artworks': lt.newList('ARRAY_LIST')} #artist['DisplayName'] == aaa
                                                       #artist['Artoworks']['Medium']
-
-    addArtistDate(catalog, artist['DisplayName'], artist['BeginDate'], artist['EndDate'], artist['Nationality'], artist['Gender'])
     
     lt.addLast(catalog['Artists'], listArtist)
+    addArtistDate(catalog,listArtist)
 
 
+#Función exótica que creó Mariale
+def addArtworkArtist(catalog, artist_id, artwork):
+    artists = catalog['ArtworkArtist']
+    posartist = lt.isPresent(artists,artist_id)
+    if posartist > 0:
+        artist = newArtist(artist_id)
+    else:
+        artist = newArtist(artist_id)
+        lt.addLast(artists, artist)
+    lt.addLast(artist['ArtworkArtist'], artwork)
 
 
-def addArtistDate(catalog, artist, BeginDate, EndDate, nationality, gender):
-    if int(BeginDate) != 0:
-        addDate = newArtistDate(artist, BeginDate, EndDate, nationality, gender)
-
+def addArtistDate(catalog, listArtist):
+        addDate = newArtistDate(listArtist['DisplayName'], listArtist['BeginDate'], listArtist['EndDate'], listArtist['Nationality'], listArtist['Gender'])
         lt.addLast(catalog['ArtistsDate'], addDate)
 
 
 
 # Funciones para creacion de datos
 
-def newArtist(artistname):
+def newArtist(artistid):
     artist= {'artistID': '',
              'Artworks': None,}
-    artist['artistID'] = artistname
+    artist['artistID'] = artistid
 
     artist['Artworks'] = lt.newList('ARRAY_LIST')
 
@@ -131,13 +138,12 @@ def getArtistByDate(catalog, BeginDate, EndDate):
     DatesArtist = lt.newList('ARRAY_LIST')
 
     for a in lt.iterator(catalog['ArtistsDate']): 
-        
         if int(a['BeginDate']) >= BeginDate and int(a['BeginDate']) <= EndDate:
             lt.addLast(DatesArtist, a)
 
-    Dates_Artist = SortDates(DatesArtist)
+    #Dates_Artist = SortDates(DatesArtist)
 
-    return Dates_Artist 
+    return DatesArtist 
 
 def ArtistByTecnique(catalog, artist):
     pass
