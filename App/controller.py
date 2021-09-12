@@ -30,9 +30,9 @@ El controlador se encarga de mediar entre la vista y el modelo.
 """
 
 # Inicialización del Catálogo de libros
-def initCatalog():
+def initCatalog(listType):
     
-    catalog = model.newCatalog()
+    catalog = model.newCatalog(listType)
     return catalog
 
 # Funciones para la carga de datos
