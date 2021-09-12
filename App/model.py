@@ -150,8 +150,12 @@ def compareartists():
     pass
 
 def compArtistDate(Artist1, Artist2):
+    a1 = Artist1['BeginDate'] 
+    a2 = Artist2['BeginDate']
+    if a1 != "" and a1 != "0" and a2 != "" and a2 != "0":
+        compare = int(a1)< int(a2)
 
-    return int(Artist1['BeginDate'])< int(Artist2['BeginDate'])
+    return compare 
 
 
 #def compareartist_ID():
