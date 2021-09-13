@@ -60,14 +60,15 @@ def newCatalog(listType):
 
 def addArtist(catalog, artist):
 
-    #artist = catalog['Artists']
-
     listArtist = {'DisplayName': artist['DisplayName'],
                 'ConstituentID': artist['ConstituentID'],
                 'BeginDate': artist['BeginDate'], 
                 'EndDate': artist['EndDate'],
                 'Nationality': artist['Nationality'],
-                'Gender': artist['Gender'], 
+                'Gender': artist['Gender'],
+                'ArtistBio': artist['ArtistBio'],
+                'Wiki QID': artist['Wiki QID'],
+                'ULAN': artist['ULAN'],
                 'Artworks': lt.newList('ARRAY_LIST')} #artist['DisplayName'] == aaa
                                                       #artist['Artoworks']['Medium']
     
