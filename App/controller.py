@@ -71,8 +71,8 @@ def getArtistByDate(catalog, BeginDate, EndDate):
     a = model.getArtistByDate(catalog, BeginDate, EndDate)
     return a
 
-def getArtworksByDateAcquired(catalog, dateAcquired):
-    aDateAcquired = model.artworksByDate(catalog, dateAcquired)
+def getArtworksByDateAcquired(catalog, inicial, final):
+    aDateAcquired = model.artworksByDate(catalog, inicial, final)
     return aDateAcquired 
 
 

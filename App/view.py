@@ -97,15 +97,9 @@ while True:
         Final = input('Ingrese la fecha final del rango, en el formato AAAA-MM-DD: ')
         datesArtworks = controller.getArtworksByDateAcquired(catalog, Inicial, Final)
         print('The MoMA acquired ' + str(lt.size(datesArtworks)) + ' unique pieces between ' + Inicial + ' and ' + Final)
-        print("First three elements:")
-        while i < 4:
-            print(str(lt.getElement(datesArtworks, i)))
-            i+=1
-        j = -2
-        print("Last three elements: ")
-        while j < 1:
-            print(str(lt.getElement(datesArtworks, j)))
-            j+=1
+        print("First three  and last three elements:")
+        print(datesArtworks['elements'][:-3])
+        print(datesArtworks['elements'][-3:])
 
     elif int(inputs[0]) == 4:
         pass
