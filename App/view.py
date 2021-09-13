@@ -54,7 +54,8 @@ while True:
     inputs = input('Seleccione una opción para continuar\n')
     if int(inputs[0]) == 1:
         print("Cargando información de los archivos ....")
-        listType = input(print('Ingrese el tipo de lista que quiere implementar (ARRAY_LIST o LINKED_LIST): '))
+        listType = input('Ingrese el tipo de lista que quiere implementar (ARRAY_LIST o LINKED_LIST): ')
+        
         catalog = controller.initCatalog(listType)
 
         controller.loadData(catalog)
@@ -79,15 +80,15 @@ while True:
         DatesA = controller.getArtistByDate(catalog, anoInicial, anoFinal)
         print('There are ' + str(lt.size(DatesA)) + ' artists born between ' + str(anoInicial) + ' and ' + str(anoFinal))
         i=1
-        print("First three artists")
+        print("First three artists:")
         while i < 4:
-            print(str(DatesA['elements'][i]))
+            print(str(lt.getElement(DatesA, i)))
             i+=1
-        j = -1
-        print("Last three artists")
-        while j > -4:
-            print(str(DatesA['elements'][j]))
-            j-=1
+        j = -2
+        print("Last three artists: ")
+        while j < 1:
+            print(str(lt.getElement(DatesA, j)))
+            j+=1
         
 
     elif int(inputs[0]) == 3:
