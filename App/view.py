@@ -91,7 +91,12 @@ while True:
         
 
     elif int(inputs[0]) == 3:
-        pass
+        Inicial = int(input('Ingresa la fecha inicial del rango, en el formato AAAA-MM-DD: '))
+        
+        Final = int(input('Ingrese la fecha final del rango, en el formato AAAA-MM-DD: '))
+
+        datesArtworks = controller.getArtworksByDateAcquired(catalog, Inicial, Final)
+
 
     elif int(inputs[0]) == 4:
         pass

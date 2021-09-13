@@ -30,6 +30,8 @@ from DISClib.ADT import list as lt
 from DISClib.Algorithms.Sorting import mergesort as sa
 assert cf
 
+from datetime import date
+
 """
 Se define la estructura de un catálogo de videos. El catálogo tendrá dos listas, una para los videos, otra para las categorias de
 los mismos.
@@ -42,13 +44,15 @@ def newCatalog(listType):
     catalog = {'Artwork': None,
                'Artists': None,
                'artworkArtist': None,
-               'ArtistsDate': None}
+               'ArtistsDate': None,
+               'ArtworksDateAcquired': None}
 
     catalog['Artwork'] = lt.newList(listType)
     catalog['Artists'] = lt.newList(listType,
                                     cmpfunction=compareartists) 
     catalog['artworkArtist'] = lt.newList(listType, cmpfunction='')
     catalog['ArtistsDate'] = lt.newList(listType, cmpfunction='')
+    catalog['ArtworksDateAcquired'] = lt.newList(listType, cmpfunction='')
 
     return catalog
 
@@ -107,6 +111,10 @@ def addArtistDate(catalog, listArtist):
         addDate = newArtistDate(listArtist['DisplayName'], listArtist['BeginDate'], listArtist['EndDate'], listArtist['Nationality'], listArtist['Gender'])
         lt.addLast(catalog['ArtistsDate'], addDate)
 
+def addArtworkDAcquired(catalof, listArtwork):
+    addDateAcquired = newArtworksDateAcquired(listArtwork['Title'], listArtwork['DateAcquired'])
+    lt.addLast(catalof['ArtworksDateAcquired'], addDateAcquired)
+
 
 
 # Funciones para creacion de datos
@@ -130,6 +138,13 @@ def newArtistDate(artist, BeginDate, EndDate, nationality, gender):
 
     return artistDate
 
+def newArtworksDateAcquired(artwork, DateAcquired):
+    ArtworkDateAcquired = {'Title': '', 'DateAcquired': ''}
+    ArtworkDateAcquired['Title'] = artwork
+    ArtworkDateAcquired['DateAcquired'] = DateAcquired 
+
+    return ArtworkDateAcquired
+
 # Funciones de consulta
 
 def getArtistByDate(catalog, BeginDate, EndDate):
@@ -143,7 +158,21 @@ def getArtistByDate(catalog, BeginDate, EndDate):
 
     Dates_Artist = SortDates(DatesArtist)
 
-    return DatesArtist 
+    return Dates_Artist 
+
+def artworksByDate(catalog, inicial, final):
+
+    artworksDate = lt.newList('ARRAY_LIST')
+
+    inicialDate = date.fromisoformat(inicial)
+    finalDate = date.fromisoformat(final)
+
+    #for a in lt.iterator(catalog['ArtworksDateAcquired']):
+        #if int(a['Date']) >= inicialDate and int(a['BeginDate']) <= finalDate:
+            #lt.addLast(DatesArtist, a)
+
+    return artworksDate
+
 
 def ArtistByTecnique(catalog, artist):
     pass
