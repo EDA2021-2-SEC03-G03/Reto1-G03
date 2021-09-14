@@ -98,7 +98,7 @@ while True:
         datesArtworks = controller.getArtworksByDateAcquired(catalog, Inicial, Final)
         print('The MoMA acquired ' + str(lt.size(datesArtworks)) + ' unique pieces between ' + Inicial + ' and ' + Final)
         print("First three  and last three elements:")
-        print(datesArtworks['elements'][:-3])
+        print(datesArtworks['elements'][0:3])
         print(datesArtworks['elements'][-3:])
 
     elif int(inputs[0]) == 4:
