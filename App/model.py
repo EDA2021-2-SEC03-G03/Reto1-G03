@@ -153,6 +153,13 @@ def newArtworksDateAcquired(ObjectID, artwork, Medium, Dimensions, Date, DateAcq
 
     return ArtworkDateAcquired
 
+def subListArtwork(catalog, ListSyze):
+    """
+    Genera la sublista de Artworks
+    """
+    ArtworkSample = lt.subList(catalog['Artwork'],1,ListSyze)
+    return ArtworkSample
+
 # Funciones de consulta
 
 def getArtistByDate(catalog, BeginDate, EndDate):

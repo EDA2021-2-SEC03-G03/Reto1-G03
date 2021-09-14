@@ -63,6 +63,14 @@ def loadArtists(catalog):
     input_file = csv.DictReader(open(artistsfile, encoding='utf-8'))
     for artist in input_file:
         model.addArtist(catalog, artist)
+
+def subListArtwork(catalog, ListSyze):
+    """
+    Genera la sublista de Artworks
+    """
+    ArtworkSample = model.subListArtwork(catalog, ListSyze)
+    return ArtworkSample
+
 # Funciones de ordenamiento
 
 # Funciones de consulta sobre el catálogo

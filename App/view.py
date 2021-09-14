@@ -55,7 +55,6 @@ while True:
     if int(inputs[0]) == 1:
         print("Cargando información de los archivos ....")
         listType = input('Ingrese el tipo de lista que quiere implementar (ARRAY_LIST o LINKED_LIST): ')
-        
         catalog = controller.initCatalog(listType)
 
         controller.loadData(catalog)
@@ -72,7 +71,15 @@ while True:
         while j > -4:
             print(str(catalog['Artists']['elements'][j]))
             j-=1
-
+        print("")
+        ListSyze = int(input('Por favor ingrese el tamaño de muestra que desea utilizar(tenga en cuenta el tamaño de los datos cargados): '))
+        if lt.size(catalog['Artwork']) < ListSyze:
+            print("")
+            print("El número indicado es más grande que el número de datos en la lista. ")
+        else:
+            subListArt = controller.subListArtwork(catalog, ListSyze)
+            print('Muestra de obras de arte cargados: ' + str(lt.size(subListArt)))
+            print(subListArt)
 
     elif int(inputs[0]) == 2:
         anoInicial = int(input('Ingresa el año inicial del rango: '))
