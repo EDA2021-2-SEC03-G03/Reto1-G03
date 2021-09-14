@@ -227,24 +227,18 @@ def SortDates(DatesArtist, ordenamiento):
         sorted_list = mergesort.sort(DatesArtist, compArtistDate)
         stop_time = time.process_time()
         elapsed_time_mseg = (stop_time - start_time)*1000
-        
-        return sorted_list, elapsed_time_mseg
     
     elif ordenamiento == 'insertionsort':
         start_time = time.process_time()
         sorted_list = insertionsort.sort(DatesArtist, compArtistDate)
         stop_time = time.process_time()
         elapsed_time_mseg = (stop_time - start_time)*1000
-        
-        return sorted_list, elapsed_time_mseg
     
     elif ordenamiento == 'shellsort':
         start_time = time.process_time()
         sorted_list = shellsort.sort(DatesArtist, compArtistDate)
         stop_time = time.process_time()
         elapsed_time_mseg = (stop_time - start_time)*1000
-        
-        return sorted_list, elapsed_time_mseg
     
     elif ordenamiento == 'quicksort':
         start_time = time.process_time()
@@ -252,7 +246,8 @@ def SortDates(DatesArtist, ordenamiento):
         stop_time = time.process_time()
         elapsed_time_mseg = (stop_time - start_time)*1000
         
-        return sorted_list, elapsed_time_mseg
+    return sorted_list, elapsed_time_mseg
+
 def sortDateAcquired(artworksDate):
     sorted_list = mergesort.sort(artworksDate, compDateAcquired)
     return sorted_list

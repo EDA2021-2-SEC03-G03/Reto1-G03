@@ -59,7 +59,7 @@ def loadArtists(catalog):
     """
     Carga todos los tags del archivo y los agrega a la lista de tags
     """
-    artistsfile = cf.data_dir + 'MoMA (1)/Artists-utf8-small.csv'
+    artistsfile = cf.data_dir + 'MoMA (1)/Artists-utf8-large.csv'
     input_file = csv.DictReader(open(artistsfile, encoding='utf-8'))
     for artist in input_file:
         model.addArtist(catalog, artist)
