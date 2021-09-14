@@ -27,7 +27,10 @@
 
 import config as cf
 from DISClib.ADT import list as lt
-from DISClib.Algorithms.Sorting import mergesort as sa
+from DISClib.Algorithms.Sorting import mergesort
+from DISClib.Algorithms.Sorting import shellsort
+from DISClib.Algorithms.Sorting import quicksort
+from DISClib.Algorithms.Sorting import insertionsort
 assert cf
 
 from datetime import date
@@ -162,7 +165,7 @@ def subListArtwork(catalog, ListSyze):
 
 # Funciones de consulta
 
-def getArtistByDate(catalog, BeginDate, EndDate):
+def getArtistByDate(catalog, BeginDate, EndDate, ordenamiento):
 
     
     DatesArtist = lt.newList('ARRAY_LIST')
@@ -171,7 +174,7 @@ def getArtistByDate(catalog, BeginDate, EndDate):
         if int(a['BeginDate']) >= BeginDate and int(a['BeginDate']) <= EndDate and a['BeginDate'] != "" and a['BeginDate'] != 0:
             lt.addLast(DatesArtist, a)
 
-    Dates_Artist = SortDates(DatesArtist)
+    Dates_Artist = SortDates(DatesArtist, ordenamiento)
 
     return Dates_Artist 
 
@@ -217,10 +220,24 @@ def compDateAcquired(Date1, Date2):
 
 # Funciones de ordenamiento
 
-def SortDates(DatesArtist):
-    sorted_list = sa.sort(DatesArtist, compArtistDate)
-    return sorted_list
+def SortDates(DatesArtist, ordenamiento):
+
+    if ordenamiento == 'mergesort':
+        sorted_list = mergesort.sort(DatesArtist, compArtistDate)
+        return sorted_list
+    
+    elif ordenamiento == 'insertionsort':
+        sorted_list = insertionsort.sort(DatesArtist, compArtistDate)
+        return sorted_list
+    
+    elif ordenamiento == 'shellsort':
+        sorted_list = shellsort.sort(DatesArtist, compArtistDate)
+        return sorted_list
+    
+    elif ordenamiento == 'quicksort':
+        sorted_list = quicksort.sort(DatesArtist, compArtistDate)
+        return sorted_list
 
 def sortDateAcquired(artworksDate):
-    sorted_list = sa.sort(artworksDate, compDateAcquired)
+    sorted_list = mergesort.sort(artworksDate, compDateAcquired)
     return sorted_list

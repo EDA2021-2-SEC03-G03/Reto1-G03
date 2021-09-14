@@ -75,8 +75,8 @@ def subListArtwork(catalog, ListSyze):
 
 # Funciones de consulta sobre el catálogo
 
-def getArtistByDate(catalog, BeginDate, EndDate): 
-    a = model.getArtistByDate(catalog, BeginDate, EndDate)
+def getArtistByDate(catalog, BeginDate, EndDate, ordenamiento): 
+    a = model.getArtistByDate(catalog, BeginDate, EndDate, ordenamiento)
     return a
 
 def getArtworksByDateAcquired(catalog, inicial, final):
