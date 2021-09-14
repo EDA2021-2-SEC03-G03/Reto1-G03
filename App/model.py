@@ -189,7 +189,6 @@ def artworksByDate(catalog, inicial, final):
 def ArtistByTecnique(catalog, artist):
     pass
 
-    
 
 # Funciones utilizadas para comparar elementos dentro de una lista
 
