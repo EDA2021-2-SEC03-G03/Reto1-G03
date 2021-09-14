@@ -50,7 +50,7 @@ def newCatalog(listType):
                'ArtistsDate': None,
                'ArtworksDateAcquired': None}
 
-    catalog['Artwork'] = lt.newList(listType)
+    catalog['Artwork'] = lt.newList(listType, cmpfunction=compareartworks)
     catalog['Artists'] = lt.newList(listType,
                                     cmpfunction=compareartists) 
     catalog['artworkArtist'] = lt.newList(listType, cmpfunction='')
@@ -202,8 +202,30 @@ def ArtistByTecnique(catalog, artist):
 
 # Funciones utilizadas para comparar elementos dentro de una lista
 
-def compareartists():
-    pass
+def compareartists(a1, a2):
+    if a1['ConstituentID'] < a2['ConstituentID']:
+        return -1
+    elif a1['ConstituentID'] == a2['ConstituentID']:
+        return 0
+    else:
+        return 1
+
+def compareartworks(a1, a2):
+    if a1['ObjectID'] < a2['ObjectID']:
+        return -1
+    elif a1['ObjectID'] == a2['ObjectID']:
+        return 0
+    else:
+        return 1
+
+def cmpartistartowork(o1, o2):
+    if (o1['ObjectID'] < o2['ObjectID']) or (o1['ConstituentID'] < o2['ConstituentID']):
+        return -1
+    elif (o1['ObjectID'] == o2['ObjectID']) and (o1['ConstituentID'] == o2['ConstituentID']):
+        return 0
+    else:
+        return 1
+
 
 def compArtistDate(Artist1, Artist2):
     return (int(Artist1['BeginDate']) < int(Artist2['BeginDate'])) 
