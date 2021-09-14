@@ -69,8 +69,7 @@ def addArtist(catalog, artist):
                 'ArtistBio': artist['ArtistBio'],
                 'Wiki QID': artist['Wiki QID'],
                 'ULAN': artist['ULAN'],
-                'Artworks': lt.newList('ARRAY_LIST')} #artist['DisplayName'] == aaa
-                                                      #artist['Artoworks']['Medium']
+                'Artworks': lt.newList('ARRAY_LIST')} 
     
     lt.addLast(catalog['Artists'], listArtist)
     addArtistDate(catalog,listArtist)
@@ -88,7 +87,7 @@ def addArtwork(catalog, artwork):
                   'DateAcquired': artwork['DateAcquired']}
  
     lt.addLast(catalog['Artwork'], listArtwork)
-
+    addArtworkDAcquired(catalog, listArtwork)
     #artistID = listArtwork['ConstituentID'].split(',') 
 
     #for a in artistID:
@@ -177,7 +176,7 @@ def artworksByDate(catalog, inicial, final):
 
     for a in lt.iterator(catalog['ArtworksDateAcquired']):
         a1 = date.fromisoformat(a['DateAcquired'])
-
+        
         if a1 >= inicialDate and a1 <= finalDate and a1 != '' and a1!='0':
             lt.addLast(artworksDate, a)
 
