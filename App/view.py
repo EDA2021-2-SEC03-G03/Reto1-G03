@@ -25,6 +25,7 @@ import sys
 import controller
 from DISClib.ADT import list as lt
 assert cf
+import time
 
 
 """
@@ -84,8 +85,7 @@ while True:
     elif int(inputs[0]) == 2:
         anoInicial = int(input('Ingresa el año inicial del rango: '))
         anoFinal = int(input('Ingrese el año final del rango: '))
-        ordenamiento = input('Ingrese el tipo de algoritmo de ordenamiento iterativo (insertionsort, shellsort, mergesort, quicksort): ').lower()
-        DatesA = controller.getArtistByDate(catalog, anoInicial, anoFinal, ordenamiento)
+        DatesA = controller.getArtistByDate(catalog, anoInicial, anoFinal)
         print('There are ' + str(lt.size(DatesA)) + ' artists born between ' + str(anoInicial) + ' and ' + str(anoFinal))
         i=1
         print("First three artists:")
@@ -98,6 +98,7 @@ while True:
             print(str(lt.getElement(DatesA, j)))
             j+=1
         
+
 
     elif int(inputs[0]) == 3:
         Inicial = input('Ingresa la fecha inicial del rango, en el formato AAAA-MM-DD: ')
