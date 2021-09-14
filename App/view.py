@@ -85,7 +85,8 @@ while True:
     elif int(inputs[0]) == 2:
         anoInicial = int(input('Ingresa el año inicial del rango: '))
         anoFinal = int(input('Ingrese el año final del rango: '))
-        DatesA = controller.getArtistByDate(catalog, anoInicial, anoFinal)
+        ordenamiento = input('Ingrese el tipo de algoritmo de ordenamiento iterativo (insertionsort, shellsort, mergesort, quicksort): ').lower()
+        DatesA = controller.getArtistByDate(catalog, anoInicial, anoFinal, ordenamiento)
         print('There are ' + str(lt.size(DatesA)) + ' artists born between ' + str(anoInicial) + ' and ' + str(anoFinal))
         i=1
         print("First three artists:")
