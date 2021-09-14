@@ -176,11 +176,10 @@ def artworksByDate(catalog, inicial, final):
     finalDate = date.fromisoformat(final)
 
     for a in lt.iterator(catalog['ArtworksDateAcquired']):
-        print(a['DateAcquired'])
-        a1 = date.fromisoformat(a['DateAcquired'])
-        if a1 >= inicialDate and a1 <= finalDate and a1 != '' and a1!='0':
-            print(a)
-            lt.addLast(artworksDate, a)
+        if a['DateAcquired'] != '' and a['DateAcquired']!='0':
+            a1 = date.fromisoformat(a['DateAcquired'])
+            if a1 >= inicialDate and a1 <= finalDate and a1 != '' and a1!='0':
+                lt.addLast(artworksDate, a)
 
     sort_DateAcquired = sortDateAcquired(artworksDate)
 
@@ -208,7 +207,7 @@ def comparenationality():
     pass
 
 def compDateAcquired(Date1, Date2):
-    return (date.fromisoformat(Date1['BeginDate']) < date.fromisoformat(Date2['BeginDate']))
+    return (date.fromisoformat(Date1['DateAcquired']) < date.fromisoformat(Date2['DateAcquired']))
 
 # Funciones de ordenamiento
 
