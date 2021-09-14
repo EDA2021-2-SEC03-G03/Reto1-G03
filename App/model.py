@@ -85,7 +85,8 @@ def addArtwork(catalog, artwork):
                   'Dimensions': artwork['Dimensions'],
                   'CreditLine': artwork['CreditLine'],
                   'Department': artwork['Department'],
-                  'DateAcquired': artwork['DateAcquired']}
+                  'DateAcquired': artwork['DateAcquired'],
+                  'URL': artwork['URL']}
  
     lt.addLast(catalog['Artwork'], listArtwork)
 
@@ -176,9 +177,10 @@ def artworksByDate(catalog, inicial, final):
     finalDate = date.fromisoformat(final)
 
     for a in lt.iterator(catalog['ArtworksDateAcquired']):
+        print(a['DateAcquired'])
         a1 = date.fromisoformat(a['DateAcquired'])
-
         if a1 >= inicialDate and a1 <= finalDate and a1 != '' and a1!='0':
+            print(a)
             lt.addLast(artworksDate, a)
 
     sort_DateAcquired = sortDateAcquired(artworksDate)
@@ -207,7 +209,7 @@ def comparenationality():
     pass
 
 def compDateAcquired(Date1, Date2):
-    return (int(Date1['BeginDate']) < int(Date2['BeginDate']))
+    return (date.fromisoformat(Date1['BeginDate']) < date.fromisoformat(Date2['BeginDate']))
 
 # Funciones de ordenamiento
 
