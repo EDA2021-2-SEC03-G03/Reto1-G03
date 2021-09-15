@@ -27,6 +27,9 @@ from DISClib.ADT import list as lt
 assert cf
 import time
 
+defaul_time = 1000
+sys.setrecursionlimit(defaul_time*10)
+
 
 """
 La vista se encarga de la interacción con el usuario
@@ -46,6 +49,8 @@ def printMenu():
 
 catalog = None
 
+#funciones de print
+
 
 """
 Menu principal
@@ -55,63 +60,68 @@ while True:
     inputs = input('Seleccione una opción para continuar\n')
     if int(inputs[0]) == 1:
         print("Cargando información de los archivos ....")
-        listType = input('Ingrese el tipo de lista que quiere implementar (ARRAY_LIST o LINKED_LIST): ').upper()
+        listType = input('Ingrese el tipo de lista que quiere implementar (ARRAY_LIST o SINGLE_LINKED): ').upper()
         catalog = controller.initCatalog(listType)
 
         controller.loadData(catalog)
 
         print('Obras de arte cargados: ' + str(lt.size(catalog['Artwork'])))
         print('Artistas cargados: ' + str(lt.size(catalog['Artists'])))
-        i = -1
-        print('Últimas tres obras: ')
-        while i > -4:
-            print(str(catalog['Artwork']['elements'][i]))
-            i-=1
-        j = -1
-        print('Últimos tres artistas: ')
-        while j > -4:
-            print(str(catalog['Artists']['elements'][j]))
-            j-=1
-        print("")
-        ListSyze = int(input('Por favor ingrese el tamaño de muestra que desea utilizar(tenga en cuenta el tamaño de los datos cargados): '))
-        if lt.size(catalog['Artwork']) < ListSyze:
-            print("")
-            print("El número indicado es más grande que el número de datos en la lista. ")
-        else:
-            subListArt = controller.subListArtwork(catalog, ListSyze)
-            print('Muestra de obras de arte cargados: ' + str(lt.size(subListArt)))
-            print(subListArt)
-
+        size1 = lt.size(catalog['Artwork'])
+        size2 = lt.size(catalog['Artists'])
+        L3Artworks = lt.subList(catalog['Artwork'], size1 - 2, 3 )
+        print('Últimas tres obras:')
+        for artwork in lt.iterator(L3Artworks):
+            print(artwork)
+        print('----------------------------------------------------------------------------------------')
+        print('Últimos tres artistas')
+        L3Artists = lt.subList(catalog['Artists'], size2 - 2, 3)
+        for artist in lt.iterator(L3Artists):
+            print(artist)
+        
+        
+        
+        
     elif int(inputs[0]) == 2:
-        anoInicial = int(input('Ingresa el año inicial del rango: '))
-        anoFinal = int(input('Ingrese el año final del rango: '))
+        
+        ListSyze = int(input('Por favor ingrese el tamaño de muestra que desea utilizar(tenga en cuenta el tamaño de los datos cargados): '))
+        if ListSyze > lt.size(catalog['Artwork']):
+            ListSyze = int(input('El tamaño que escogió es muy grande, elija una muestra menor a ', str(lt.size(catalog['Artwork'])), ': '))
         ordenamiento = input('Ingrese el tipo de algoritmo de ordenamiento iterativo (insertionsort, shellsort, mergesort, quicksort): ').lower()
-        DatesA = controller.getArtistByDate(catalog, anoInicial, anoFinal, ordenamiento)
-        print("Tiempo utilizado en el ordenamiento: " + str(DatesA[1]) + " Milisegundos" )
-        print('There are ' + str(lt.size(DatesA[0])) + ' artists born between ' + str(anoInicial) + ' and ' + str(anoFinal))
-        i=1
-        print("First three artists:")
-        while i < 4:
-            print(str(lt.getElement(DatesA[0], i)))
-            i+=1
-        j = -2
-        print("Last three artists: ")
-        while j < 1:
-            print(str(lt.getElement(DatesA[0], j)))
-            j+=1
+        
+        #Req1: 
+        #anoInicial = int(input('Ingresa el año inicial del rango: '))
+        #anoFinal = int(input('Ingrese el año final del rango: '))
+        #DatesA = controller.getArtistByDate(catalog, anoInicial, anoFinal, ordenamiento)
+        #print("Tiempo utilizado en el ordenamiento: " + str(DatesA[1]) + " Milisegundos" )
+        #print('There are ' + str(lt.size(DatesA[0])) + ' artists born between ' + str(anoInicial) + ' and ' + str(anoFinal))
+        #i=1
+        #print("First three artists:")
+        #while i < 4:
+            #print(str(lt.getElement(DatesA[0], i)))
+            #i+=1
+        #j = -2
+        #print("Last three artists: ")
+        #while j < 1:
+            #print(str(lt.getElement(DatesA[0], j)))
+            #j+=1
         
 
 
     elif int(inputs[0]) == 3:
-        Inicial = input('Ingresa la fecha inicial del rango, en el formato AAAA-MM-DD: ')
         
-        Final = input('Ingrese la fecha final del rango, en el formato AAAA-MM-DD: ')
-        datesArtworks = controller.getArtworksByDateAcquired(catalog, Inicial, Final)
-        print('The MoMA acquired ' + str(lt.size(datesArtworks)) + ' unique pieces between ' + Inicial + ' and ' + Final)
-        print("First three elements: ")
-        print(datesArtworks['elements'][0:3])
-        print("Last three elements: ")
-        print(datesArtworks['elements'][-3:])
+        ordi = controller.sortDateArtwork(catalog, ordenamiento, ListSyze)
+        print("Tiempo utilizado en el ordenamiento: " + str(ordi[1]) + " Milisegundos " + " con un tamaño de muestra de " + str(ListSyze))
+        #print("Para la muestra de", ListSyze, " elementos, el tiempo (mseg) es: ", str(ordi[0]))
+        #Req2:
+        #Inicial = input('Ingresa la fecha inicial del rango, en el formato AAAA-MM-DD: ')
+        #Final = input('Ingrese la fecha final del rango, en el formato AAAA-MM-DD: ')
+        #datesArtworks = controller.getArtworksByDateAcquired(catalog, Inicial, Final)
+        #print('The MoMA acquired ' + str(lt.size(datesArtworks)) + ' unique pieces between ' + Inicial + ' and ' + Final)
+        #print("First three elements: ")
+        #print(datesArtworks['elements'][0:3])
+        #print("Last three elements: ")
+        #print(datesArtworks['elements'][-3:])
 
     elif int(inputs[0]) == 4:
         pass

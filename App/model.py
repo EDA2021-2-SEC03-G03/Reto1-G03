@@ -97,7 +97,7 @@ def addArtwork(catalog, artwork):
         addArtworkArtist(catalog, a, artwork)
         
 def addArtworkArtist(catalog, artist_id, artwork):
-    artists = catalog['ArtworkArtist']
+    artists = catalog['Artists']
     posartist = lt.isPresent(artists,artist_id)
     if posartist > 0:
         artist = newArtist(artist_id)
@@ -175,7 +175,7 @@ def getArtistByDate(catalog, BeginDate, EndDate, ordenamiento):
 
     return Dates_Artist 
 
-def artworksByDate(catalog, inicial, final):
+def artworksByDate(catalog, inicial, final, ordenamiento):
 
     artworksDate = lt.newList('ARRAY_LIST')
 
@@ -188,7 +188,7 @@ def artworksByDate(catalog, inicial, final):
             if a1 >= inicialDate and a1 <= finalDate and a1 != '' and a1!='0':
                 lt.addLast(artworksDate, a)
 
-    sort_DateAcquired = sortDateAcquired(artworksDate)
+    sort_DateAcquired = sortDateAcquired(artworksDate, ordenamiento)
 
     return sort_DateAcquired
 
@@ -241,7 +241,8 @@ def comparenationality():
     pass
 
 def compDateAcquired(Date1, Date2):
-    return (date.fromisoformat(Date1['DateAcquired']) < date.fromisoformat(Date2['DateAcquired']))
+    if Date1['DateAcquired'] != '' and Date1['DateAcquired'] != '0' and Date2['DateAcquired'] != '0' and Date2['DateAcquired'] != '':
+        return (date.fromisoformat(Date1['DateAcquired']) < date.fromisoformat(Date2['DateAcquired']))
 
 # Funciones de ordenamiento
 
@@ -273,6 +274,30 @@ def SortDates(DatesArtist, ordenamiento):
         
     return sorted_list, elapsed_time_mseg
 
-def sortDateAcquired(artworksDate):
-    sorted_list = mergesort.sort(artworksDate, compDateAcquired)
-    return sorted_list
+def sortDateAcquired(catalog, ListSyze, ordenamiento):
+    artworksDate = lt.subList(catalog['Artwork'],1,ListSyze)
+    if ordenamiento == 'mergesort':
+        start_time = time.process_time()
+        sorted_list = mergesort.sort(artworksDate, compDateAcquired)
+        stop_time = time.process_time()
+        elapsed_time_mseg = (stop_time - start_time)*1000
+    
+    elif ordenamiento == 'insertionsort':
+        start_time = time.process_time()
+        sorted_list = insertionsort.sort(artworksDate, compDateAcquired)
+        stop_time = time.process_time()
+        elapsed_time_mseg = (stop_time - start_time)*1000
+    
+    elif ordenamiento == 'shellsort':
+        start_time = time.process_time()
+        sorted_list = shellsort.sort(artworksDate, compDateAcquired)
+        stop_time = time.process_time()
+        elapsed_time_mseg = (stop_time - start_time)*1000
+    
+    elif ordenamiento == 'quicksort':
+        start_time = time.process_time()
+        sorted_list = quicksort.sort(artworksDate, compDateAcquired)
+        stop_time = time.process_time()
+        elapsed_time_mseg = (stop_time - start_time)*1000
+        
+    return sorted_list, elapsed_time_mseg
