@@ -46,14 +46,13 @@ def newCatalog(listType):
     
     catalog = {'Artwork': None,
                'Artists': None,
-               'artworkArtist': None,
                'ArtistsDate': None,
                'ArtworksDateAcquired': None}
 
     catalog['Artwork'] = lt.newList(listType, cmpfunction=compareartworks)
     catalog['Artists'] = lt.newList(listType,
                                     cmpfunction=compareartists) 
-    catalog['artworkArtist'] = lt.newList(listType, cmpfunction='')
+    #catalog['artworkArtist'] = lt.newList(listType, cmpfunction='')
     catalog['ArtistsDate'] = lt.newList(listType, cmpfunction='')
     catalog['ArtworksDateAcquired'] = lt.newList(listType, cmpfunction='')
 
@@ -92,20 +91,18 @@ def addArtwork(catalog, artwork):
  
     lt.addLast(catalog['Artwork'], listArtwork)
     addArtworkDAcquired(catalog, listArtwork)
-    #artistID = listArtwork['ConstituentID'].split(',') 
+    artistID = listArtwork['ConstituentID'].split(',') 
 
-    #for a in artistID:
-        #addArtworkArtist(catalog, artwork, artistID[1:-1])
+    for a in artistID:
+        addArtworkArtist(catalog, a, artwork)
         
 def addArtworkArtist(catalog, artist_id, artwork):
     artists = catalog['ArtworkArtist']
     posartist = lt.isPresent(artists,artist_id)
     if posartist > 0:
         artist = newArtist(artist_id)
-    else:
-        artist = newArtist(artist_id)
-        lt.addLast(artists, artist)
-    lt.addLast(artist['ArtworkArtist'], artwork)
+        lt.addLast(artist['Artworks'], artwork)
+    #lt.addLast(artist['ArtworkArtist'], artwork)
 
 
 def addArtistDate(catalog, listArtist):
@@ -218,10 +215,16 @@ def compareartworks(a1, a2):
     else:
         return 1
 
-def cmpartistartowork(o1, o2):
-    if (o1['ObjectID'] < o2['ObjectID']) or (o1['ConstituentID'] < o2['ConstituentID']):
-        return -1
-    elif (o1['ObjectID'] == o2['ObjectID']) and (o1['ConstituentID'] == o2['ConstituentID']):
+#def cmpartistartowork(o1, o2):
+    #if (o1['ObjectID'] < o2['ObjectID']) or (o1['ConstituentID'] < o2['ConstituentID']):
+        #return -1
+    #elif (o1['ObjectID'] == o2['ObjectID']) and (o1['ConstituentID'] == o2['ConstituentID']):
+        #return 0
+    #else:
+        #return 1
+
+def compareartistID(a1, artist):
+    if (a1 in artist['ConstituentID']):
         return 0
     else:
         return 1
