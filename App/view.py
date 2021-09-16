@@ -60,7 +60,7 @@ while True:
     inputs = input('Seleccione una opción para continuar\n')
     if int(inputs[0]) == 1:
         print("Cargando información de los archivos ....")
-        listType = input('Ingrese el tipo de lista que quiere implementar (ARRAY_LIST o SINGLE_LINKED): ').upper()
+        listType = input('Ingrese el tipo de lista que quiere implementar (ARRAY_LIST o LINKED_LIST): ').upper()
         catalog = controller.initCatalog(listType)
 
         controller.loadData(catalog)
