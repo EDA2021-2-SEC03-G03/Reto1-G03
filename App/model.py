@@ -52,7 +52,7 @@ def newCatalog(listType):
     catalog['Artwork'] = lt.newList(listType, cmpfunction=compareartworks)
     catalog['Artists'] = lt.newList(listType,
                                     cmpfunction=compareartists) 
-    #catalog['artworkArtist'] = lt.newList(listType, cmpfunction='')
+    catalog['artworkArtist'] = lt.newList(listType, cmpfunction='')
     catalog['ArtistsDate'] = lt.newList(listType, cmpfunction='')
     catalog['ArtworksDateAcquired'] = lt.newList(listType, cmpfunction='')
 
@@ -95,14 +95,13 @@ def addArtwork(catalog, artwork):
 
     for a in artistID:
         addArtworkArtist(catalog, a, artwork)
-        
+
 def addArtworkArtist(catalog, artist_id, artwork):
     artists = catalog['Artists']
     posartist = lt.isPresent(artists,artist_id)
     if posartist > 0:
         artist = newArtist(artist_id)
         lt.addLast(artist['Artworks'], artwork)
-    #lt.addLast(artist['ArtworkArtist'], artwork)
 
 
 def addArtistDate(catalog, listArtist):
@@ -195,6 +194,17 @@ def artworksByDate(catalog, inicial, final, ordenamiento):
 
 def ArtistByTecnique(catalog, artist):
     pass
+
+def getArtworksByNationality(catalog):
+    nat = lt.newList('ARRAY_LIST')
+    for a in lt.iterator(catalog['ArtworksArtist']):
+        pass
+        """
+        if a['Nationality'] != '' and a['Nationality']!='0':
+            checker = lt.isPresent(nat, a["Nationality"])
+            if not checker: 
+                lt.addLast(nat)
+        """
 
 
 # Funciones utilizadas para comparar elementos dentro de una lista

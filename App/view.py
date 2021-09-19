@@ -90,21 +90,21 @@ while True:
         ordenamiento = input('Ingrese el tipo de algoritmo de ordenamiento iterativo (insertionsort, shellsort, mergesort, quicksort): ').lower()
         
         #Req1: 
-        #anoInicial = int(input('Ingresa el año inicial del rango: '))
-        #anoFinal = int(input('Ingrese el año final del rango: '))
-        #DatesA = controller.getArtistByDate(catalog, anoInicial, anoFinal, ordenamiento)
-        #print("Tiempo utilizado en el ordenamiento: " + str(DatesA[1]) + " Milisegundos" )
-        #print('There are ' + str(lt.size(DatesA[0])) + ' artists born between ' + str(anoInicial) + ' and ' + str(anoFinal))
-        #i=1
-        #print("First three artists:")
-        #while i < 4:
-            #print(str(lt.getElement(DatesA[0], i)))
-            #i+=1
-        #j = -2
-        #print("Last three artists: ")
-        #while j < 1:
-            #print(str(lt.getElement(DatesA[0], j)))
-            #j+=1
+        anoInicial = int(input('Ingresa el año inicial del rango: '))
+        anoFinal = int(input('Ingrese el año final del rango: '))
+        DatesA = controller.getArtistByDate(catalog, anoInicial, anoFinal, ordenamiento)
+        print("Tiempo utilizado en el ordenamiento: " + str(DatesA[1]) + " Milisegundos" )
+        print('There are ' + str(lt.size(DatesA[0])) + ' artists born between ' + str(anoInicial) + ' and ' + str(anoFinal))
+        i=1
+        print("First three artists:")
+        while i < 4:
+            print(str(lt.getElement(DatesA[0], i)))
+            i+=1
+        j = -2
+        print("Last three artists: ")
+        while j < 1:
+            print(str(lt.getElement(DatesA[0], j)))
+            j+=1
         
 
 
@@ -112,23 +112,24 @@ while True:
         
         ordi = controller.sortDateArtwork(catalog, ordenamiento, ListSyze)
         print("Tiempo utilizado en el ordenamiento: " + str(ordi[1]) + " Milisegundos " + " con un tamaño de muestra de " + str(ListSyze))
-        #print("Para la muestra de", ListSyze, " elementos, el tiempo (mseg) es: ", str(ordi[0]))
+        print("Para la muestra de", ListSyze, " elementos, el tiempo (mseg) es: ", str(ordi[0]))
         #Req2:
-        #Inicial = input('Ingresa la fecha inicial del rango, en el formato AAAA-MM-DD: ')
-        #Final = input('Ingrese la fecha final del rango, en el formato AAAA-MM-DD: ')
-        #datesArtworks = controller.getArtworksByDateAcquired(catalog, Inicial, Final)
-        #print('The MoMA acquired ' + str(lt.size(datesArtworks)) + ' unique pieces between ' + Inicial + ' and ' + Final)
-        #print("First three elements: ")
-        #print(datesArtworks['elements'][0:3])
-        #print("Last three elements: ")
-        #print(datesArtworks['elements'][-3:])
+        Inicial = input('Ingresa la fecha inicial del rango, en el formato AAAA-MM-DD: ')
+        Final = input('Ingrese la fecha final del rango, en el formato AAAA-MM-DD: ')
+        datesArtworks = controller.getArtworksByDateAcquired(catalog, Inicial, Final)
+        print('The MoMA acquired ' + str(lt.size(datesArtworks)) + ' unique pieces between ' + Inicial + ' and ' + Final)
+        print("First three elements: ")
+        print(datesArtworks['elements'][0:3])
+        print("Last three elements: ")
+        print(datesArtworks['elements'][-3:])
 
     elif int(inputs[0]) == 4:
         pass
 
     
     elif int(inputs[0]) == 5:
-        pass
+        #Req4: 
+        DatesA = controller.getArtworksByNationality(catalog)
 
     elif int(inputs[0]) == 6:
         pass

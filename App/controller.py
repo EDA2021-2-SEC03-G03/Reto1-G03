@@ -86,6 +86,10 @@ def getArtworksByDateAcquired(catalog, inicial, final):
     aDateAcquired = model.artworksByDate(catalog, inicial, final)
     return aDateAcquired 
 
+def getArtworksByNationality(catalog):
+
+    agetArtworksByNationality = model.getArtworksByNationality(catalog)
+    return agetArtworksByNationality
 
 
 
