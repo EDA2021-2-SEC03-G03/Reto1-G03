@@ -46,6 +46,7 @@ def printMenu():
     print("4- Calsificación de obras de un artista por técnica")
     print("5- Clasificar obras por la nacionalidad de sus creadores")
     print("6- Transporte de obras de un departamento")
+    print("7- Proponer una nueva exposición en el museo")
 
 catalog = None
 
@@ -127,6 +128,7 @@ while True:
         #Req 3:
         Artist = input('Ingrese el nombre del artista: ')
         ArtworkTecnique = controller.getArtistByTecnique(catalog, artist)
+        
 
     
     elif int(inputs[0]) == 5:
@@ -134,8 +136,10 @@ while True:
         DatesA = controller.getArtworksByNationality(catalog)
 
     elif int(inputs[0]) == 6:
-        pass
+        dep = input('Ingrese el departamento del museo: ')
 
+    elif int(inputs[0]) == 7:
+        pass
 
     else:
         sys.exit(0)

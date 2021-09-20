@@ -191,20 +191,27 @@ def artworksByDate(catalog, inicial, final, ordenamiento):
 
     return sort_DateAcquired
 
+def ArtistID(catalog, artistname):
 
-def ArtistByTecnique(catalog, artist):
-    tec = lt.newList('ARRAY_LIST')
+    artist = lt.isPresent(catalog['Artists'], artistname)
 
-    for artwork in lt.iterator(catalog['Artwork']):
-        
-        if artwork['Medium'] != '' and artwork['Medium'] != '0':
+    if artist == True:
+        for artists in lt.iterator(catalog['Artists']):
+           artistID = lt.getElement(artists, artists['DisplayName']) 
+    
+    ArtistByTecnique(catalog, artistID)
+    
 
-            intecnique = lt.isPresent(artwork, artwork['Medium'])
 
-            if not intecnique:
-                lt.addLast(tec, artwork['Medium'])
+def ArtistByTecnique(catalog, artistID):
+    tecID = lt.newList('ARRAY_LIST')
 
-    return tec
+    if artistID != '' and artistID != '0':
+
+       pass   
+
+
+    return tecID
 
 def getArtworksByNationality(catalog):
     nat = lt.newList('ARRAY_LIST')
