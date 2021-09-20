@@ -91,10 +91,14 @@ def addArtwork(catalog, artwork):
  
     lt.addLast(catalog['Artwork'], listArtwork)
     addArtworkDAcquired(catalog, listArtwork)
-    artistID = listArtwork['ConstituentID'].split(',') 
-
-    for a in artistID:
+    artistsID = listArtwork['ConstituentID']
+    for a in artistsID:
         addArtworkArtist(catalog, a, artwork)
+def Artistinfo(catalog,artistID):
+    for artist in artistID:
+        lt.isPresent(catalog["Artists"])
+
+
 
 def addArtworkArtist(catalog, artist_id, artwork):
     artists = catalog['Artists']
@@ -102,7 +106,6 @@ def addArtworkArtist(catalog, artist_id, artwork):
     if posartist > 0:
         artist = newArtist(artist_id)
         lt.addLast(artist['Artworks'], artwork)
-
 
 def addArtistDate(catalog, listArtist):
         addDate = newArtistDate(listArtist['DisplayName'], listArtist['BeginDate'], listArtist['EndDate'], listArtist['Nationality'], listArtist['Gender'], listArtist['ArtistBio'], listArtist['Wiki QID'], listArtist['ULAN'])
@@ -218,12 +221,9 @@ def getArtworksByNationality(catalog):
     nat = lt.newList('ARRAY_LIST')
     for a in lt.iterator(catalog['ArtworksArtist']):
         pass
-        """
+        
         if a['Nationality'] != '' and a['Nationality']!='0':
-            checker = lt.isPresent(nat, a["Nationality"])
-            if not checker: 
-                lt.addLast(nat)
-        """
+            pass
 
 
 # Funciones utilizadas para comparar elementos dentro de una lista
