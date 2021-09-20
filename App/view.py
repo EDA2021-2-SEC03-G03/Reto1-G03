@@ -124,7 +124,9 @@ while True:
         print(datesArtworks['elements'][-3:])
 
     elif int(inputs[0]) == 4:
-        pass
+        #Req 3:
+        Artist = input('Ingrese el nombre del artista: ')
+        ArtworkTecnique = controller.getArtistByTecnique(catalog, artist)
 
     
     elif int(inputs[0]) == 5:

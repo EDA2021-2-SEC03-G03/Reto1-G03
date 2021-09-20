@@ -91,5 +91,9 @@ def getArtworksByNationality(catalog):
     agetArtworksByNationality = model.getArtworksByNationality(catalog)
     return agetArtworksByNationality
 
+def getArtistByTecnique(catalog, artist):
+    ArtistByTecnique = model.ArtistByTecnique(catalog, artist)
+    return ArtistByTecnique
+
 
 

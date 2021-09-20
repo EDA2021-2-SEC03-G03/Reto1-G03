@@ -193,7 +193,18 @@ def artworksByDate(catalog, inicial, final, ordenamiento):
 
 
 def ArtistByTecnique(catalog, artist):
-    pass
+    tec = lt.newList('ARRAY_LIST')
+
+    for artwork in lt.iterator(catalog['Artwork']):
+        
+        if artwork['Medium'] != '' and artwork['Medium'] != '0':
+
+            intecnique = lt.isPresent(artwork, artwork['Medium'])
+
+            if not intecnique:
+                lt.addLast(tec, artwork['Medium'])
+
+    return tec
 
 def getArtworksByNationality(catalog):
     nat = lt.newList('ARRAY_LIST')
