@@ -197,7 +197,7 @@ def ArtistID(catalog, artistname):
 
     if artist == True:
         for artists in lt.iterator(catalog['Artists']):
-           artistID = lt.getElement(artists, artists['DisplayName']) 
+           artistID = lt.getElement(artists, artists['ConstutuentID']) 
     
     ArtistByTecnique(catalog, artistID)
     
@@ -207,8 +207,9 @@ def ArtistByTecnique(catalog, artistID):
     tecID = lt.newList('ARRAY_LIST')
 
     if artistID != '' and artistID != '0':
-
-       pass   
+        for a in lt.iterator(catalog['Artowrks']):
+            tecnique = lt.getElement(catalog['Artowrks'], a['Medium'])
+            lt.addLast(tecID, tecnique)
 
 
     return tecID
