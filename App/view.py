@@ -127,8 +127,8 @@ while True:
         mayorM = 1
         for medium in ArtworkTecnique['MediumName']:
             countM += 1
-            if lt.size(ArtworkTecnique['MediumName'])> mayorM:
-                mayorM = lt.size(ArtworkTecnique['MediumName'])
+            if lt.size(ArtworkTecnique['Artworks'])> mayorM:
+                mayorM = lt.size(ArtworkTecnique['Artworks'])
                 Medium = ArtworkTecnique['MediumName']
                 obras = ArtworkTecnique['Artworks']
 
