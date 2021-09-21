@@ -74,13 +74,17 @@ def subListArtwork(catalog, ListSyze):
 # Funciones de ordenamiento
 
 def sortDateArtwork(catalog, ordenamiento, ListSyze):
-    return model.sortDateAcquired(catalog, ListSyze, ordenamiento)
+    return model.sortDateAcquired(catalog, ListSyze)
 
 # Funciones de consulta sobre el catálogo
 
-def getArtistByDate(catalog, BeginDate, EndDate, ordenamiento): 
-    a = model.getArtistByDate(catalog, BeginDate, EndDate, ordenamiento)
+def getArtistByDate(catalog, BeginDate, EndDate): 
+    a = model.getArtistByDate(catalog, BeginDate, EndDate)
     return a
+
+def getartworkPurchased(catalog):
+    p = model.artworksPurchased(catalog)
+    return p
 
 def getArtworksByDateAcquired(catalog, inicial, final):
     aDateAcquired = model.artworksByDate(catalog, inicial, final)

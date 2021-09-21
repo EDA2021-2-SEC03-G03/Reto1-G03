@@ -111,14 +111,15 @@ while True:
 
     elif int(inputs[0]) == 3:
         
-        ordi = controller.sortDateArtwork(catalog, ordenamiento, ListSyze)
-        print("Tiempo utilizado en el ordenamiento: " + str(ordi[1]) + " Milisegundos " + " con un tamaño de muestra de " + str(ListSyze))
-        print("Para la muestra de", ListSyze, " elementos, el tiempo (mseg) es: ", str(ordi[0]))
+        #ordi = controller.sortDateArtwork(catalog, ordenamiento, ListSyze)
+        #print("Tiempo utilizado en el ordenamiento: " + str(ordi[1]) + " Milisegundos " + " con un tamaño de muestra de " + str(ListSyze))
+        #print("Para la muestra de", ListSyze, " elementos, el tiempo (mseg) es: ", str(ordi[0]))
         #Req2:
         Inicial = input('Ingresa la fecha inicial del rango, en el formato AAAA-MM-DD: ')
         Final = input('Ingrese la fecha final del rango, en el formato AAAA-MM-DD: ')
         datesArtworks = controller.getArtworksByDateAcquired(catalog, Inicial, Final)
         print('The MoMA acquired ' + str(lt.size(datesArtworks)) + ' unique pieces between ' + Inicial + ' and ' + Final)
+        print('With ' + str(lt.size(catalog['Artists'])) + ' different artists and purchased ' + str(controller.getartworkPurchased(catalog)) + ' of them.')
         print("First three elements: ")
         print(datesArtworks['elements'][0:3])
         print("Last three elements: ")

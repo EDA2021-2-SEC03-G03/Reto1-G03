@@ -112,7 +112,7 @@ def addArtistDate(catalog, listArtist):
         lt.addLast(catalog['ArtistsDate'], addDate)
 
 def addArtworkDAcquired(catalog, listArtwork):
-    addDateAcquired = newArtworksDateAcquired(listArtwork['ObjectID'], listArtwork['Title'], listArtwork['Medium'], listArtwork['Dimensions'], listArtwork['Date'], listArtwork['DateAcquired'], listArtwork['URL'])
+    addDateAcquired = newArtworksDateAcquired(listArtwork['ObjectID'], listArtwork['Title'], listArtwork['ArtistName'], listArtwork['Medium'], listArtwork['Dimensions'], listArtwork['Date'], listArtwork['DateAcquired'], listArtwork['URL'])
     lt.addLast(catalog['ArtworksDateAcquired'], addDateAcquired)
 
 
@@ -141,12 +141,12 @@ def newArtistDate(artist, BeginDate, EndDate, nationality, gender, Artistbio, Wi
 
     return artistDate
 
-def newArtworksDateAcquired(ObjectID, artwork, Medium, Dimensions, Date, DateAcquired, URL):
+def newArtworksDateAcquired(ObjectID, artwork, artistname, Medium, Dimensions, Date, DateAcquired, URL):
     ArtworkDateAcquired = {'ObjectID': '', 'Title': '', 'ArtistsName': '', 'Medium': '', 'Dimensions': '',
     'Date':'', 'DateAcquired': '', 'URL':''}
     ArtworkDateAcquired['ObjectID'] = ObjectID
     ArtworkDateAcquired['Title'] = artwork 
-    #ArtworkDateAcquired['ArtistsName'] = Artistname
+    ArtworkDateAcquired['ArtistsName'] = artistname
     ArtworkDateAcquired['Medium'] = Medium 
     ArtworkDateAcquired['Dimensions'] = Dimensions
     ArtworkDateAcquired['Date'] = Date 
@@ -164,7 +164,7 @@ def subListArtwork(catalog, ListSyze):
 
 # Funciones de consulta
 
-def getArtistByDate(catalog, BeginDate, EndDate, ordenamiento):
+def getArtistByDate(catalog, BeginDate, EndDate):
 
     
     DatesArtist = lt.newList('ARRAY_LIST')
@@ -173,11 +173,11 @@ def getArtistByDate(catalog, BeginDate, EndDate, ordenamiento):
         if int(a['BeginDate']) >= BeginDate and int(a['BeginDate']) <= EndDate and a['BeginDate'] != "" and a['BeginDate'] != 0:
             lt.addLast(DatesArtist, a)
 
-    Dates_Artist = SortDates(DatesArtist, ordenamiento)
+    Dates_Artist = SortDates(DatesArtist)
 
     return Dates_Artist 
 
-def artworksByDate(catalog, inicial, final, ordenamiento):
+def artworksByDate(catalog, inicial, final):
 
     artworksDate = lt.newList('ARRAY_LIST')
 
@@ -190,9 +190,18 @@ def artworksByDate(catalog, inicial, final, ordenamiento):
             if a1 >= inicialDate and a1 <= finalDate and a1 != '' and a1!='0':
                 lt.addLast(artworksDate, a)
 
-    sort_DateAcquired = sortDateAcquired(artworksDate, ordenamiento)
+    sort_DateAcquired = sortDateAcquired(artworksDate)
 
     return sort_DateAcquired
+
+def artworksPurchased(catalog):
+    count = 0
+    for a in lt.iterator(catalog['Artwork']):
+        if a['CreditLine'].lower() == 'purchased':
+            count += 1
+    
+    return count
+
 
 def ArtistID(catalog, artistname):
 
@@ -275,58 +284,18 @@ def compDateAcquired(Date1, Date2):
 
 # Funciones de ordenamiento
 
-def SortDates(DatesArtist, ordenamiento):
-
-    if ordenamiento == 'mergesort':
-        start_time = time.process_time()
-        sorted_list = mergesort.sort(DatesArtist, compArtistDate)
-        stop_time = time.process_time()
-        elapsed_time_mseg = (stop_time - start_time)*1000
-    
-    elif ordenamiento == 'insertionsort':
-        start_time = time.process_time()
-        sorted_list = insertionsort.sort(DatesArtist, compArtistDate)
-        stop_time = time.process_time()
-        elapsed_time_mseg = (stop_time - start_time)*1000
-    
-    elif ordenamiento == 'shellsort':
-        start_time = time.process_time()
-        sorted_list = shellsort.sort(DatesArtist, compArtistDate)
-        stop_time = time.process_time()
-        elapsed_time_mseg = (stop_time - start_time)*1000
-    
-    elif ordenamiento == 'quicksort':
-        start_time = time.process_time()
-        sorted_list = quicksort.sort(DatesArtist, compArtistDate)
-        stop_time = time.process_time()
-        elapsed_time_mseg = (stop_time - start_time)*1000
-        
+def SortDates(DatesArtist):
+    start_time = time.process_time()
+    sorted_list = mergesort.sort(DatesArtist, compArtistDate)
+    stop_time = time.process_time()
+    elapsed_time_mseg = (stop_time - start_time)*1000 
     return sorted_list, elapsed_time_mseg
 
-def sortDateAcquired(catalog, ListSyze, ordenamiento):
+def sortDateAcquired(catalog, ListSyze):
     artworksDate = lt.subList(catalog['Artwork'],1,ListSyze)
-    if ordenamiento == 'mergesort':
-        start_time = time.process_time()
-        sorted_list = mergesort.sort(artworksDate, compDateAcquired)
-        stop_time = time.process_time()
-        elapsed_time_mseg = (stop_time - start_time)*1000
-    
-    elif ordenamiento == 'insertionsort':
-        start_time = time.process_time()
-        sorted_list = insertionsort.sort(artworksDate, compDateAcquired)
-        stop_time = time.process_time()
-        elapsed_time_mseg = (stop_time - start_time)*1000
-    
-    elif ordenamiento == 'shellsort':
-        start_time = time.process_time()
-        sorted_list = shellsort.sort(artworksDate, compDateAcquired)
-        stop_time = time.process_time()
-        elapsed_time_mseg = (stop_time - start_time)*1000
-    
-    elif ordenamiento == 'quicksort':
-        start_time = time.process_time()
-        sorted_list = quicksort.sort(artworksDate, compDateAcquired)
-        stop_time = time.process_time()
-        elapsed_time_mseg = (stop_time - start_time)*1000
+    start_time = time.process_time()
+    sorted_list = mergesort.sort(artworksDate, compDateAcquired)
+    stop_time = time.process_time()
+    elapsed_time_mseg = (stop_time - start_time)*1000
         
     return sorted_list, elapsed_time_mseg
