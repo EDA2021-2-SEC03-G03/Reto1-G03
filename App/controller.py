@@ -95,13 +95,10 @@ def getArtworksByNationality(catalog):
     agetArtworksByNationality = model.getArtworksByNationality(catalog)
     return agetArtworksByNationality
 
-def getArtistByTecnique(catalog, artist):
-    ArtistByTecnique = model.ArtistByTecnique(catalog, artist)
+def getArtistByTecnique(catalog, Artist):
+    ArtistByTecnique = model.getArtistByTecnique(catalog, Artist)
     return ArtistByTecnique
 
-def getArtistNumberWorks(catalog, name):
-    ArtistNumberWorks = model.artistArtwork(catalog, name)
-    return ArtistNumberWorks
 
 
 

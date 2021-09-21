@@ -68,17 +68,10 @@ while True:
 
         print('Obras de arte cargados: ' + str(lt.size(catalog['Artwork'])))
         print('Artistas cargados: ' + str(lt.size(catalog['Artists'])))
-        size1 = lt.size(catalog['Artwork'])
-        size2 = lt.size(catalog['Artists'])
-        L3Artworks = lt.subList(catalog['Artwork'], size1 - 2, 3 )
-        print('Últimas tres obras:')
-        for artwork in lt.iterator(L3Artworks):
-            print(artwork)
-        print('----------------------------------------------------------------------------------------')
-        print('Últimos tres artistas')
-        L3Artists = lt.subList(catalog['Artists'], size2 - 2, 3)
-        for artist in lt.iterator(L3Artists):
-            print(artist)
+        print("Last three artworks:")
+        print(catalog['Artwork']['elements'][-3:])
+        print("Last three artists:")
+        print(catalog['Artists']['elements'][-3:])
         
         
         
@@ -123,17 +116,15 @@ while True:
     elif int(inputs[0]) == 4:
         #Req 3:
         Artist = input('Ingrese el nombre del artista: ')
-        #ArtworkTecnique = controller.getArtistByTecnique(catalog, artist)
-        number = controller.getArtistNumberWorks(catalog, Artist)
+        ArtworkTecnique = controller.getArtistByTecnique(catalog, Artist)
+        print(ArtworkTecnique)
+
+        #print(' with MoMA ID ' + ' has ' + ' pieces in his/her name at the museum.')
+        #print('There are ' + ' different mediums/tecniques in his/her work.')
 
 
-        print(' with MoMA ID ' + ' has ' + str(number) + ' pieces in his/her name at the museum.')
-        print('There are ' + ' different mediums/tecniques in his/her work.')
-        print('Her/His top 5 Medium/Tecnique are: ')
-
-
-        print('His/Her most used Medium/Tecnique is ' + ' with ' + ' pieces')
-        print('A sample of ' + ' from the collection are:')
+        #print('His/Her most used Medium/Tecnique is ' + ' with ' + ' pieces')
+        #print('A sample of ' + ' from the collection are:')
        
         
 
@@ -145,6 +136,16 @@ while True:
     elif int(inputs[0]) == 6:
         #Req5:
         dep = input('Ingrese el departamento del museo: ')
+
+        print('The MoMA is going to transport ' + ' artifacts from Drawings and Prints')
+        print("REMEMBER! NOT all MoMA's data is complete!!!... These are estimates.")
+        print("Estimated cargo weight (kg): ")
+        print("Estimated cargo cost (USD): ")
+
+        print("--------------------------------------------------------------------------")
+        print("Top 5 oldest artworks to transport: ")
+        print("--------------------------------------------------------------------------")
+        print("Top 5 most expensive artworks to transport: ")
 
     elif int(inputs[0]) == 7:
         pass
