@@ -47,7 +47,8 @@ def newCatalog(listType):
     catalog = {'Artwork': None,
                'Artists': None,
                'ArtistsDate': None,
-               'ArtworksDateAcquired': None}
+               'ArtworksDateAcquired': None,
+               'ArtistTecnique': None}
 
     catalog['Artwork'] = lt.newList(listType, cmpfunction=compareartworks)
     catalog['Artists'] = lt.newList(listType,
@@ -55,6 +56,7 @@ def newCatalog(listType):
     catalog['artworkArtist'] = lt.newList(listType, cmpfunction='')
     catalog['ArtistsDate'] = lt.newList(listType, cmpfunction='')
     catalog['ArtworksDateAcquired'] = lt.newList(listType, cmpfunction='')
+    catalog['ArtistTecnique'] = lt.newList(listType, cmpfunction='')
 
     return catalog
 
@@ -68,9 +70,6 @@ def addArtist(catalog, artist):
                 'EndDate': artist['EndDate'],
                 'Nationality': artist['Nationality'],
                 'Gender': artist['Gender'],
-                'ArtistBio': artist['ArtistBio'],
-                'Wiki QID': artist['Wiki QID'],
-                'ULAN': artist['ULAN'],
                 'Artworks': lt.newList('ARRAY_LIST')} 
     
     lt.addLast(catalog['Artists'], listArtist)
@@ -96,26 +95,28 @@ def addArtwork(catalog, artwork):
         addArtworkArtist(catalog, a, artwork)
 def Artistinfo(catalog,artistID):
     for artist in artistID:
-        lt.isPresent(catalog["Artists"])
-
+        lt.isPresent(catalog["Artists"], artist)
 
 
 def addArtworkArtist(catalog, artist_id, artwork):
     artists = catalog['Artists']
     posartist = lt.isPresent(artists,artist_id)
     if posartist > 0:
-        artist = newArtist(artist_id)
+        artist = lt.getElement(artists, posartist)
         lt.addLast(artist['Artworks'], artwork)
 
+
 def addArtistDate(catalog, listArtist):
-        addDate = newArtistDate(listArtist['DisplayName'], listArtist['BeginDate'], listArtist['EndDate'], listArtist['Nationality'], listArtist['Gender'], listArtist['ArtistBio'], listArtist['Wiki QID'], listArtist['ULAN'])
+        addDate = newArtistDate(listArtist['DisplayName'], listArtist['BeginDate'])
         lt.addLast(catalog['ArtistsDate'], addDate)
 
 def addArtworkDAcquired(catalog, listArtwork):
-    addDateAcquired = newArtworksDateAcquired(listArtwork['ObjectID'], listArtwork['Title'], listArtwork['ArtistName'], listArtwork['Medium'], listArtwork['Dimensions'], listArtwork['Date'], listArtwork['DateAcquired'], listArtwork['URL'])
+    addDateAcquired = newArtworksDateAcquired(listArtwork['ObjectID'], listArtwork['Title'], listArtwork['Medium'], listArtwork['Dimensions'], listArtwork['Date'], listArtwork['DateAcquired'], listArtwork['CreditLine'])
     lt.addLast(catalog['ArtworksDateAcquired'], addDateAcquired)
 
-
+def addArtistTecnique(catalog, listArtwork):
+    addArtistTecnique = newArtistTecnique(listArtwork['Medium']) 
+    lt.addLast(catalog['ArtistTecnique'], addArtistTecnique)
 
 # Funciones para creacion de datos
 
@@ -129,31 +130,40 @@ def newArtist(artistid):
     return artist
 
 def newArtistDate(artist, BeginDate, EndDate, nationality, gender, Artistbio, Wiki, ULAN):
-    artistDate = {'Name': '', 'BeginDate': '', 'EndDate': '', 'Nationality': '', 'Gender': '', 'ArtistBio': '', 'Wiki QID': '', 'ULAN': ''}
+    artistDate = {'Name': '', 'BeginDate': '', 'EndDate': '', 'Nationality': '', 'Gender': ''}
     artistDate['Name'] = artist
     artistDate['BeginDate'] = BeginDate
     artistDate['EndDate'] = EndDate
     artistDate['Nationality'] = nationality
     artistDate['Gender'] = gender
-    artistDate['ArtistBio'] = Artistbio
-    artistDate['Wiki'] = Wiki
-    artistDate['ULAN'] = ULAN
+    
 
     return artistDate
 
-def newArtworksDateAcquired(ObjectID, artwork, artistname, Medium, Dimensions, Date, DateAcquired, URL):
+def newArtworksDateAcquired(ObjectID, artwork, Medium, Dimensions, Date, DateAcquired, CreditLine):
     ArtworkDateAcquired = {'ObjectID': '', 'Title': '', 'ArtistsName': '', 'Medium': '', 'Dimensions': '',
-    'Date':'', 'DateAcquired': '', 'URL':''}
+    'Date':'', 'DateAcquired': ''}
     ArtworkDateAcquired['ObjectID'] = ObjectID
     ArtworkDateAcquired['Title'] = artwork 
-    ArtworkDateAcquired['ArtistsName'] = artistname
+    #ArtworkDateAcquired['ArtistsName'] = artistname
     ArtworkDateAcquired['Medium'] = Medium 
     ArtworkDateAcquired['Dimensions'] = Dimensions
     ArtworkDateAcquired['Date'] = Date 
     ArtworkDateAcquired['DateAcquired'] = DateAcquired
-    ArtworkDateAcquired['URL'] = URL 
+    #ArtworkDateAcquired['CreditLine'] = CreditLine
 
     return ArtworkDateAcquired
+#Numero de obras que tiene el artista req 4:
+def artistArtwork(catalog, name):
+    count = 0
+    for a in lt.iterator(catalog['Artists']):
+        if name in a['DisplayName']:
+            count += 1
+    return count 
+
+def newArtistTecnique(tecnique):
+    ArtistTecnique = {'MediumName': '', 'Count': ''}
+    ArtistTecnique['Medium'] = tecnique 
 
 def subListArtwork(catalog, ListSyze):
     """
@@ -189,15 +199,16 @@ def artworksByDate(catalog, inicial, final):
             a1 = date.fromisoformat(a['DateAcquired'])
             if a1 >= inicialDate and a1 <= finalDate and a1 != '' and a1!='0':
                 lt.addLast(artworksDate, a)
+                
 
     sort_DateAcquired = sortDateAcquired(artworksDate)
 
     return sort_DateAcquired
 
-def artworksPurchased(catalog):
+def artworksPurchased(sort_DateAcquired):
     count = 0
-    for a in lt.iterator(catalog['Artwork']):
-        if a['CreditLine'].lower() == 'purchased':
+    for a in lt.iterator(sort_DateAcquired):
+        if 'purchase' in a['CreditLine'].lower():
             count += 1
     
     return count
@@ -285,17 +296,17 @@ def compDateAcquired(Date1, Date2):
 # Funciones de ordenamiento
 
 def SortDates(DatesArtist):
-    start_time = time.process_time()
+    #start_time = time.process_time()
     sorted_list = mergesort.sort(DatesArtist, compArtistDate)
-    stop_time = time.process_time()
-    elapsed_time_mseg = (stop_time - start_time)*1000 
-    return sorted_list, elapsed_time_mseg
+    #stop_time = time.process_time()
+    #elapsed_time_mseg = (stop_time - start_time)*1000 
+    return sorted_list
 
-def sortDateAcquired(catalog, ListSyze):
-    artworksDate = lt.subList(catalog['Artwork'],1,ListSyze)
-    start_time = time.process_time()
+def sortDateAcquired(artworksDate):
+    
+    #start_time = time.process_time()
     sorted_list = mergesort.sort(artworksDate, compDateAcquired)
-    stop_time = time.process_time()
-    elapsed_time_mseg = (stop_time - start_time)*1000
+    #stop_time = time.process_time()
+    #elapsed_time_mseg = (stop_time - start_time)*1000
         
-    return sorted_list, elapsed_time_mseg
+    return sorted_list

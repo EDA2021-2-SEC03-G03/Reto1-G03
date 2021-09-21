@@ -85,15 +85,10 @@ while True:
         
     elif int(inputs[0]) == 2:
         
-        ListSyze = int(input('Por favor ingrese el tamaño de muestra que desea utilizar(tenga en cuenta el tamaño de los datos cargados): '))
-        if ListSyze > lt.size(catalog['Artwork']):
-            ListSyze = int(input('El tamaño que escogió es muy grande, elija una muestra menor a ', str(lt.size(catalog['Artwork'])), ': '))
-        ordenamiento = input('Ingrese el tipo de algoritmo de ordenamiento iterativo (insertionsort, shellsort, mergesort, quicksort): ').lower()
-        
         #Req1: 
         anoInicial = int(input('Ingresa el año inicial del rango: '))
         anoFinal = int(input('Ingrese el año final del rango: '))
-        DatesA = controller.getArtistByDate(catalog, anoInicial, anoFinal, ordenamiento)
+        DatesA = controller.getArtistByDate(catalog, anoInicial, anoFinal)
         print("Tiempo utilizado en el ordenamiento: " + str(DatesA[1]) + " Milisegundos" )
         print('There are ' + str(lt.size(DatesA[0])) + ' artists born between ' + str(anoInicial) + ' and ' + str(anoFinal))
         i=1
@@ -119,7 +114,7 @@ while True:
         Final = input('Ingrese la fecha final del rango, en el formato AAAA-MM-DD: ')
         datesArtworks = controller.getArtworksByDateAcquired(catalog, Inicial, Final)
         print('The MoMA acquired ' + str(lt.size(datesArtworks)) + ' unique pieces between ' + Inicial + ' and ' + Final)
-        print('With ' + str(lt.size(catalog['Artists'])) + ' different artists and purchased ' + str(controller.getartworkPurchased(catalog)) + ' of them.')
+        print('And purchased ' + str(controller.getartworkPurchased(datesArtworks)) + ' of them.')
         print("First three elements: ")
         print(datesArtworks['elements'][0:3])
         print("Last three elements: ")
@@ -128,7 +123,18 @@ while True:
     elif int(inputs[0]) == 4:
         #Req 3:
         Artist = input('Ingrese el nombre del artista: ')
-        ArtworkTecnique = controller.getArtistByTecnique(catalog, artist)
+        #ArtworkTecnique = controller.getArtistByTecnique(catalog, artist)
+        number = controller.getArtistNumberWorks(catalog, Artist)
+
+
+        print(' with MoMA ID ' + ' has ' + str(number) + ' pieces in his/her name at the museum.')
+        print('There are ' + ' different mediums/tecniques in his/her work.')
+        print('Her/His top 5 Medium/Tecnique are: ')
+
+
+        print('His/Her most used Medium/Tecnique is ' + ' with ' + ' pieces')
+        print('A sample of ' + ' from the collection are:')
+       
         
 
     
@@ -137,6 +143,7 @@ while True:
         DatesA = controller.getArtworksByNationality(catalog)
 
     elif int(inputs[0]) == 6:
+        #Req5:
         dep = input('Ingrese el departamento del museo: ')
 
     elif int(inputs[0]) == 7:
