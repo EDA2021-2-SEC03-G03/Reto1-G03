@@ -84,9 +84,6 @@ def addArtwork(catalog, artwork):
                   'CreditLine': artwork['CreditLine'],
                   'Department': artwork['Department'],
                   'DateAcquired': artwork['DateAcquired'],
-<<<<<<< HEAD
-                  'URL': artwork['URL']}
-=======
                   'URL': artwork['URL'],
                   'Circumference': artwork['Circumference (cm)'],
                   'Depth': artwork['Depth (cm)'],
@@ -95,7 +92,6 @@ def addArtwork(catalog, artwork):
                   'Length': artwork['Length (cm)'],
                   'Weight': artwork['Weight (kg)'],
                   'Width': artwork['Width (cm)']}
->>>>>>> b1da5cb295d38439e3deb7c774eb315c32b4a38d
     lt.addLast(catalog['Artwork'], listArtwork)
     artistsID = listArtwork['ConstituentID']
     artistsID = eval(artistsID)
