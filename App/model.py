@@ -84,18 +84,46 @@ def addArtwork(catalog, artwork):
                   'CreditLine': artwork['CreditLine'],
                   'Department': artwork['Department'],
                   'DateAcquired': artwork['DateAcquired'],
+<<<<<<< HEAD
                   'URL': artwork['URL']}
+=======
+                  'URL': artwork['URL'],
+                  'Circumference': artwork['Circumference (cm)'],
+                  'Depth': artwork['Depth (cm)'],
+                  'Diameter': artwork['Diameter (cm)'],
+                  'Height': artwork['Height (cm)'],
+                  'Length': artwork['Length (cm)'],
+                  'Weight': artwork['Weight (kg)'],
+                  'Width': artwork['Width (cm)']}
+>>>>>>> b1da5cb295d38439e3deb7c774eb315c32b4a38d
     lt.addLast(catalog['Artwork'], listArtwork)
     artistsID = listArtwork['ConstituentID']
     artistsID = eval(artistsID)
 
     for a in artistsID:
+
+
         addArtworkArtist(catalog, a, listArtwork)
     addArtworkDAcquired(catalog, listArtwork)
 
-def Artistinfo(catalog,artistID):
-    for artist in artistID:
-        lt.isPresent(catalog["Artists"], artist)
+def Artistinfo(catalog,artistsID):
+    Artistsfound = lt.newList(datastructure='ARRAY_LIST')
+    artistsIDList = artistsID.replace('[', '').replace(']', '').split(",")
+    print(artistsIDList)
+    i=0
+    for artist in lt.iterator(catalog["Artists"]):
+        if str(artist['ConstituentID']) in artistsIDList:
+            lt.addLast(Artistsfound, artist)
+            print(i)
+            i +=1
+        continue
+    if lt.size(Artistsfound)>= 1:
+        print(Artistsfound)
+    
+    return Artistsfound
+
+
+
 
 
 def addArtworkArtist(catalog, artist_id, Artwork):

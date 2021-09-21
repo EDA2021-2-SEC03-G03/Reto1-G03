@@ -45,12 +45,15 @@ def loadData(catalog):
     loadArtists(catalog)
     loadArtworks(catalog)
     
+<<<<<<< HEAD
 def loadArtists(catalog):
     
     artistsfile = cf.data_dir + 'MoMA (1)/Artists-utf8-small.csv'
     input_file = csv.DictReader(open(artistsfile, encoding='utf-8'))
     for artist in input_file:
         model.addArtist(catalog, artist)
+=======
+>>>>>>> b1da5cb295d38439e3deb7c774eb315c32b4a38d
 
 def loadArtworks(catalog):
     """
@@ -62,7 +65,19 @@ def loadArtworks(catalog):
     input_file = csv.DictReader(open(artworksfile, encoding='utf-8'))
     for artwork in input_file:
         model.addArtwork(catalog, artwork)
+<<<<<<< HEAD
     
+=======
+
+def loadArtists(catalog):
+    """
+    Carga todos los tags del archivo y los agrega a la lista de tags
+    """
+    artistsfile = cf.data_dir + 'MoMA (1)/Artists-utf8-large.csv'
+    input_file = csv.DictReader(open(artistsfile, encoding='utf-8'))
+    for artist in input_file:
+        model.addArtist(catalog, artist)
+>>>>>>> b1da5cb295d38439e3deb7c774eb315c32b4a38d
 
 def subListArtwork(catalog, ListSyze):
     """
