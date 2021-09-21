@@ -97,8 +97,6 @@ def addArtwork(catalog, artwork):
     artistsID = eval(artistsID)
 
     for a in artistsID:
-
-
         addArtworkArtist(catalog, a, listArtwork)
     addArtworkDAcquired(catalog, listArtwork)
 
@@ -132,7 +130,7 @@ def addArtworkArtist(catalog, artist_id, Artwork):
     else:
         artist = newArtist(artist_id)
         lt.addLast(artists, artist)
-    #print(artist)
+    
     lt.addLast(artist['Artworks'], Artwork)
     
 
@@ -144,9 +142,6 @@ def addArtworkDAcquired(catalog, listArtwork):
     addDateAcquired = newArtworksDateAcquired(listArtwork['ObjectID'], listArtwork['Title'], listArtwork['Medium'], listArtwork['Dimensions'], listArtwork['Date'], listArtwork['DateAcquired'], listArtwork['CreditLine'])
     lt.addLast(catalog['ArtworksDateAcquired'], addDateAcquired)
 
-#def addArtistTecnique(catalog, listArtwork):
-    #addArtistTecnique = newArtistTecnique(listArtwork['Medium']) 
-    #lt.addLast(catalog['ArtistTecnique'], addArtistTecnique)
 
 # Funciones para creacion de datos
 
@@ -185,12 +180,6 @@ def newArtworksDateAcquired(ObjectID, artwork, Medium, Dimensions, Date, DateAcq
     return ArtworkDateAcquired
 
 
-def newArtistTecnique(tecnique):
-    ArtistTecnique = {'MediumName': '', 'Artworks': ''}
-    ArtistTecnique['Medium'] = tecnique 
-    ArtistTecnique['Artworks'] = lt.newList('ARRAY_LIST')
-
-    return ArtistTecnique
 
 def subListArtwork(catalog, ListSyze):
     """

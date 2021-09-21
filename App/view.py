@@ -123,12 +123,11 @@ while True:
         countA = 0
         for artwork in lt.iterator(ArtworkTecnique['Artworks']):
             countA += 1
-            countM = 0
-            for medium in artwork['MediumName']:
-                countM += 1
+        countM = 0
+        for medium in ArtworkTecnique['MediumName']:
+            countM += 1 
 
-
-        print(' with MoMA ID ' + str(artist_id) + ' has ' + str(countA) + ' pieces in his/her name at the museum.')
+        print('With MoMA ID ' + str(artist_id) + ' has ' + str(countA) + ' pieces in his/her name at the museum.')
         print('There are ' + str(countM) + ' different mediums/tecniques in his/her work.')
 
 
