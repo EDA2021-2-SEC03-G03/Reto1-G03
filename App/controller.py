@@ -23,6 +23,7 @@
 import config as cf
 import model
 import csv
+from DISClib.ADT import list as lt
 
 
 """
@@ -41,8 +42,15 @@ def loadData(catalog):
     Carga los datos de los archivos y cargar los datos en la
     estructura de datos
     """
-    loadArtworks(catalog)
     loadArtists(catalog)
+    loadArtworks(catalog)
+    
+def loadArtists(catalog):
+    
+    artistsfile = cf.data_dir + 'MoMA (1)/Artists-utf8-small.csv'
+    input_file = csv.DictReader(open(artistsfile, encoding='utf-8'))
+    for artist in input_file:
+        model.addArtist(catalog, artist)
 
 def loadArtworks(catalog):
     """
@@ -54,15 +62,7 @@ def loadArtworks(catalog):
     input_file = csv.DictReader(open(artworksfile, encoding='utf-8'))
     for artwork in input_file:
         model.addArtwork(catalog, artwork)
-
-def loadArtists(catalog):
-    """
-    Carga todos los tags del archivo y los agrega a la lista de tags
-    """
-    artistsfile = cf.data_dir + 'MoMA (1)/Artists-utf8-small.csv'
-    input_file = csv.DictReader(open(artistsfile, encoding='utf-8'))
-    for artist in input_file:
-        model.addArtist(catalog, artist)
+    
 
 def subListArtwork(catalog, ListSyze):
     """
@@ -75,6 +75,7 @@ def subListArtwork(catalog, ListSyze):
 
 def sortDateArtwork(catalog, ordenamiento, ListSyze):
     return model.sortDateAcquired(catalog, ListSyze)
+
 
 # Funciones de consulta sobre el catálogo
 

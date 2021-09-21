@@ -82,17 +82,17 @@ while True:
         anoInicial = int(input('Ingresa el año inicial del rango: '))
         anoFinal = int(input('Ingrese el año final del rango: '))
         DatesA = controller.getArtistByDate(catalog, anoInicial, anoFinal)
-        print("Tiempo utilizado en el ordenamiento: " + str(DatesA[1]) + " Milisegundos" )
-        print('There are ' + str(lt.size(DatesA[0])) + ' artists born between ' + str(anoInicial) + ' and ' + str(anoFinal))
+        #print("Tiempo utilizado en el ordenamiento: " + str(DatesA[1]) + " Milisegundos" )
+        print('There are ' + str(lt.size(DatesA)) + ' artists born between ' + str(anoInicial) + ' and ' + str(anoFinal))
         i=1
         print("First three artists:")
         while i < 4:
-            print(str(lt.getElement(DatesA[0], i)))
+            print(str(lt.getElement(DatesA, i)))
             i+=1
         j = -2
         print("Last three artists: ")
         while j < 1:
-            print(str(lt.getElement(DatesA[0], j)))
+            print(str(lt.getElement(DatesA, j)))
             j+=1
         
 
@@ -115,16 +115,25 @@ while True:
 
     elif int(inputs[0]) == 4:
         #Req 3:
-        Artist = input('Ingrese el nombre del artista: ')
-        ArtworkTecnique = controller.getArtistByTecnique(catalog, Artist)
-        print(ArtworkTecnique)
+        Artistname = input('Ingrese el nombre del artista: ')
+        ArtworkTecnique = controller.getArtistByTecnique(catalog, Artistname)
+        for artist in lt.iterator(catalog['Artists']):
+            if artist['DisplayName'] == Artistname:
+                artist_id = artist['ConstituentID']
+        countA = 0
+        for artwork in lt.iterator(ArtworkTecnique['Artworks']):
+            countA += 1
+            countM = 0
+            for medium in artwork['MediumName']:
+                countM += 1
 
-        #print(' with MoMA ID ' + ' has ' + ' pieces in his/her name at the museum.')
-        #print('There are ' + ' different mediums/tecniques in his/her work.')
+
+        print(' with MoMA ID ' + str(artist_id) + ' has ' + str(countA) + ' pieces in his/her name at the museum.')
+        print('There are ' + str(countM) + ' different mediums/tecniques in his/her work.')
 
 
-        #print('His/Her most used Medium/Tecnique is ' + ' with ' + ' pieces')
-        #print('A sample of ' + ' from the collection are:')
+        print('His/Her most used Medium/Tecnique is ' + ' with ' + ' pieces')
+        print('A sample of ' + ' from the collection are:')
        
         
 

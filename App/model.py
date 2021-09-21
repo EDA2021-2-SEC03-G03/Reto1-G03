@@ -48,10 +48,9 @@ def newCatalog(listType):
                'Artists': None,
                'ArtistsDate': None,
                'ArtworksDateAcquired': None}
-
-    catalog['Artwork'] = lt.newList(listType, cmpfunction=compareartworks)
     catalog['Artists'] = lt.newList(listType,
-                                    cmpfunction=compareartistID) 
+                                    cmpfunction=compareartists) 
+    catalog['Artwork'] = lt.newList(listType, cmpfunction=compareartworks)
     catalog['ArtistsDate'] = lt.newList(listType, cmpfunction='')
     catalog['ArtworksDateAcquired'] = lt.newList(listType, cmpfunction='')
     #catalog['ArtistTecnique'] = lt.newList(listType, cmpfunction='')
@@ -71,45 +70,47 @@ def addArtist(catalog, artist):
                 'Artworks': lt.newList('ARRAY_LIST')} 
     
     lt.addLast(catalog['Artists'], listArtist)
+    
     addArtistDate(catalog, listArtist)
 
 def addArtwork(catalog, artwork):
 
     listArtwork = {'ObjectID': artwork['ObjectID'], 
                   'Title': artwork['Title'],
-                  'ConstituentID': artwork['ConstituentID'][1:-1],
+                  'ConstituentID': artwork['ConstituentID'],
                   'Date': artwork['Date'],
                   'Medium': artwork['Medium'],
                   'Dimensions': artwork['Dimensions'],
                   'CreditLine': artwork['CreditLine'],
                   'Department': artwork['Department'],
                   'DateAcquired': artwork['DateAcquired'],
-                  'URL': artwork['URL'],
-                  'Circumference': artwork['Circunference'],
-                  'Depth': artwork['Depth'],
-                  'Diameter': artwork['Diameter'],
-                  'Height': artwork['Height'],
-                  'Length': artwork['Length'],
-                  'Weight': artwork['Wight'],
-                  'Width': artwork['Width']}
+                  'URL': artwork['URL']}
     lt.addLast(catalog['Artwork'], listArtwork)
-    addArtworkDAcquired(catalog, listArtwork)
     artistsID = listArtwork['ConstituentID']
+    artistsID = eval(artistsID)
+
     for a in artistsID:
         addArtworkArtist(catalog, a, listArtwork)
+    addArtworkDAcquired(catalog, listArtwork)
 
 def Artistinfo(catalog,artistID):
     for artist in artistID:
         lt.isPresent(catalog["Artists"], artist)
 
 
-def addArtworkArtist(catalog, artist_id, artwork):
+def addArtworkArtist(catalog, artist_id, Artwork):
+    
     artists = catalog['Artists']
     posartist = lt.isPresent(artists,artist_id)
     if posartist > 0:
         artist = lt.getElement(artists, posartist)
-        lt.addLast(artist['Artworks'], artwork)
-
+        
+    else:
+        artist = newArtist(artist_id)
+        lt.addLast(artists, artist)
+    #print(artist)
+    lt.addLast(artist['Artworks'], Artwork)
+    
 
 def addArtistDate(catalog, listArtist):
         addDate = newArtistDate(listArtist['DisplayName'], listArtist['BeginDate'], listArtist['EndDate'], listArtist['Nationality'], listArtist['Gender'])
@@ -160,10 +161,12 @@ def newArtworksDateAcquired(ObjectID, artwork, Medium, Dimensions, Date, DateAcq
     return ArtworkDateAcquired
 
 
-#def newArtistTecnique(tecnique):
-    #ArtistTecnique = {'MediumName': '', 'Artworks': ''}
-    #ArtistTecnique['Medium'] = tecnique 
-    #ArtistTecnique['Artworks'] = lt.newList('ARRAY_LIST')
+def newArtistTecnique(tecnique):
+    ArtistTecnique = {'MediumName': '', 'Artworks': ''}
+    ArtistTecnique['Medium'] = tecnique 
+    ArtistTecnique['Artworks'] = lt.newList('ARRAY_LIST')
+
+    return ArtistTecnique
 
 def subListArtwork(catalog, ListSyze):
     """
@@ -214,23 +217,19 @@ def artworksPurchased(sort_DateAcquired):
     return count
 
 #Req 3:
-def getArtistByTecnique(catalog, Artist):
+def getArtistByTecnique(catalog, Artistname):
     ArtistTecnique = lt.newList('ARRAY_LIST')
     ArtistTecnique = {'MediumName': '', 'Artworks': ''} 
     ArtistTecnique['Artworks'] = lt.newList('ARRAY_LIST')
     for artists in lt.iterator(catalog['Artists']):
-        if artists['DisplayName'] == Artist:
-            for a in artists['Artworks']:
+        if artists['DisplayName'] == Artistname:
+            for a in lt.iterator(artists['Artworks']):
                 tecnique = a['Medium']
                 ArtistTecnique['MediumName'] = tecnique
                 lt.addLast(ArtistTecnique['Artworks'], a)
-    
-    #sort_ArtworkTecnique = sortArtworkTecnique(ArtistTecnique)
-    #return sort_ArtworkTecnique  
+      
     return ArtistTecnique         
 
-    
-                
 
 def getArtworksByNationality(catalog):
     nat = lt.newList('ARRAY_LIST')
@@ -250,10 +249,13 @@ def getArtworkByDepartment(catalog):
 # Funciones utilizadas para comparar elementos dentro de una lista
 
 def compareartists(a1, a2):
-    if a1 in a2['ConstituentID']:
+    
+    if a1 < int(a2['ConstituentID']):
+        return -1
+    elif a1 == int(a2['ConstituentID']):
         return 0
     else:
-        return -1
+        return 1
 
 def compareartworks(a1, a2):
     if a1['ObjectID'] < a2['ObjectID']:
@@ -272,10 +274,10 @@ def compareartworks(a1, a2):
         #return 1
 
 def compareartistID(a1, artist):
-    if a1 in artist['ConstituentID']:
+    if str(a1) in str(artist['ConstituentID']):
         return 0
     else:
-        return 1
+        return -1
 
 
 def compArtistDate(Artist1, Artist2):
@@ -291,6 +293,10 @@ def comparenationality():
 def compDateAcquired(Date1, Date2):
     if Date1['DateAcquired'] != '' and Date1['DateAcquired'] != '0' and Date2['DateAcquired'] != '0' and Date2['DateAcquired'] != '':
         return (date.fromisoformat(Date1['DateAcquired']) < date.fromisoformat(Date2['DateAcquired']))
+
+def compArtworkTecnique(tecnique1, tecnique2):
+    return lt.size(tecnique1['Artworks']) > lt.size(tecnique2['Artworks'])
+
 
 # Funciones de ordenamiento
 
@@ -311,5 +317,7 @@ def sortDateAcquired(artworksDate):
     return sorted_list
 
 def sortArtworkTecnique(ArtistTecnique):
-    pass
+    sort_list = mergesort.sort(ArtistTecnique, compArtworkTecnique)
+    return sort_list
+    
     
