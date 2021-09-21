@@ -124,15 +124,22 @@ while True:
         for artwork in lt.iterator(ArtworkTecnique['Artworks']):
             countA += 1
         countM = 0
+        mayorM = 1
         for medium in ArtworkTecnique['MediumName']:
-            countM += 1 
+            countM += 1
+            if lt.size(ArtworkTecnique['MediumName'])> mayorM:
+                mayorM = lt.size(ArtworkTecnique['MediumName'])
+                Medium = ArtworkTecnique['MediumName']
+                obras = ArtworkTecnique['Artworks']
+
 
         print('With MoMA ID ' + str(artist_id) + ' has ' + str(countA) + ' pieces in his/her name at the museum.')
         print('There are ' + str(countM) + ' different mediums/tecniques in his/her work.')
 
 
-        print('His/Her most used Medium/Tecnique is ' + ' with ' + ' pieces')
-        print('A sample of ' + ' from the collection are:')
+        print('His/Her most used Medium/Tecnique is ' + str(Medium) + ' with ' + str(mayorM) + ' pieces')
+        print('List of the artworks of the most used tecnique/medium:')
+        print(obras)
        
         
 
