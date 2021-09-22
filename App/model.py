@@ -77,6 +77,7 @@ def addArtwork(catalog, artwork):
 
     listArtwork = {'ObjectID': artwork['ObjectID'], 
                   'Title': artwork['Title'],
+                  'Artist': lt.newList('ARRAY_LIST'),
                   'ConstituentID': artwork['ConstituentID'],
                   'Date': artwork['Date'],
                   'Medium': artwork['Medium'],
@@ -137,6 +138,7 @@ def addArtworkArtist(catalog, artist_id, Artwork):
         lt.addLast(artists, artist)
     
     lt.addLast(artist['Artworks'], Artwork)
+    lt.addLast(Artwork['Artist'], artist['DisplayName'])
     
 
 def addArtistDate(catalog, listArtist):
@@ -145,7 +147,7 @@ def addArtistDate(catalog, listArtist):
         lt.addLast(catalog['ArtistsDate'], addDate)
 
 def addArtworkDAcquired(catalog, listArtwork):
-    addDateAcquired = newArtworksDateAcquired(listArtwork['ObjectID'], listArtwork['Title'], listArtwork['Medium'], listArtwork['Dimensions'], listArtwork['Date'], listArtwork['DateAcquired'], listArtwork['CreditLine'])
+    addDateAcquired = newArtworksDateAcquired(listArtwork['ObjectID'], listArtwork['Title'], listArtwork['Artist'],listArtwork['Medium'], listArtwork['Dimensions'], listArtwork['Date'], listArtwork['DateAcquired'], listArtwork['CreditLine'])
     lt.addLast(catalog['ArtworksDateAcquired'], addDateAcquired)
 
 # Funciones para creacion de datos
@@ -169,12 +171,12 @@ def newArtistDate(artist, BeginDate, EndDate, nationality, gender):
 
     return artistDate
 
-def newArtworksDateAcquired(ObjectID, artwork, Medium, Dimensions, Date, DateAcquired, CreditLine):
+def newArtworksDateAcquired(ObjectID, artwork, artistname, Medium, Dimensions, Date, DateAcquired, CreditLine):
     ArtworkDateAcquired = {'ObjectID': '', 'Title': '', 'ArtistsName': '', 'Medium': '', 'Dimensions': '',
     'Date':'', 'DateAcquired': ''}
     ArtworkDateAcquired['ObjectID'] = ObjectID
     ArtworkDateAcquired['Title'] = artwork 
-    #ArtworkDateAcquired['ArtistsName'] = artistname
+    ArtworkDateAcquired['Artists'] = artistname
     ArtworkDateAcquired['Medium'] = Medium 
     ArtworkDateAcquired['Dimensions'] = Dimensions
     ArtworkDateAcquired['Date'] = Date 
@@ -260,7 +262,7 @@ def getArtistByTecnique(catalog, Artistname):
                 else:
                     tec = newTecnique(a['Medium'])
                     lt.addLast(ArtistTecnique, tec)
-                lt.addLast(tec['Artworks'], a)   
+                lt.addLast(tec['Artworks'], a) 
               
     sort_list = ArtworkTecniqueSort(ArtistTecnique)
     stop_time = time.process_time()
@@ -359,7 +361,7 @@ def compareprice(p1,p2):
 
 def compareage(a1,a2):
     return (int(a1['Date']) < int(a2['Date']))
-    
+
 def compareartists(a1, a2):
     
     if a1 < int(a2['ConstituentID']):
