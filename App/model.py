@@ -140,7 +140,7 @@ def addArtistDate(catalog, listArtist):
         lt.addLast(catalog['ArtistsDate'], addDate)
 
 def addArtworkDAcquired(catalog, listArtwork):
-    addDateAcquired = newArtworksDateAcquired(listArtwork['ObjectID'], listArtwork['Title'], listArtwork['Medium'], listArtwork['Dimensions'], listArtwork['Date'], listArtwork['DateAcquired'], listArtwork['CreditLine'])
+    addDateAcquired = newArtworksDateAcquired(listArtwork['ObjectID'], listArtwork['Title'], listArtwork['ConstituentID'], listArtwork['Medium'], listArtwork['Dimensions'], listArtwork['Date'], listArtwork['DateAcquired'], listArtwork['CreditLine'])
     lt.addLast(catalog['ArtworksDateAcquired'], addDateAcquired)
 
 # Funciones para creacion de datos
@@ -165,12 +165,12 @@ def newArtistDate(artist, BeginDate, EndDate, nationality, gender):
 
     return artistDate
 
-def newArtworksDateAcquired(ObjectID, artwork, Medium, Dimensions, Date, DateAcquired, CreditLine):
-    ArtworkDateAcquired = {'ObjectID': '', 'Title': '', 'ArtistsName': '', 'Medium': '', 'Dimensions': '',
+def newArtworksDateAcquired(ObjectID, artwork, ConstituentID, Medium, Dimensions, Date, DateAcquired, CreditLine):
+    ArtworkDateAcquired = {'ObjectID': '', 'Title': '', 'ConstituentID': '', 'Medium': '', 'Dimensions': '',
     'Date':'', 'DateAcquired': ''}
     ArtworkDateAcquired['ObjectID'] = ObjectID
     ArtworkDateAcquired['Title'] = artwork 
-    #ArtworkDateAcquired['ArtistsName'] = artistname
+    ArtworkDateAcquired['ConstituentID'] = ConstituentID
     ArtworkDateAcquired['Medium'] = Medium 
     ArtworkDateAcquired['Dimensions'] = Dimensions
     ArtworkDateAcquired['Date'] = Date 
@@ -194,6 +194,7 @@ def subListArtwork(catalog, ListSyze):
 
 # Funciones de consulta
 
+#Req 1:
 def getArtistByDate(catalog, BeginDate, EndDate):
 
     
@@ -207,6 +208,7 @@ def getArtistByDate(catalog, BeginDate, EndDate):
 
     return Dates_Artist 
 
+#Req 2
 def artworksByDate(catalog, inicial, final):
 
     artworksDate = lt.newList('ARRAY_LIST')
