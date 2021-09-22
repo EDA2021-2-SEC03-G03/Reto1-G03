@@ -161,6 +161,7 @@ def newArtistDate(artist, BeginDate, EndDate, nationality, gender):
     artistDate['EndDate'] = EndDate
     artistDate['Nationality'] = nationality
     artistDate['Gender'] = gender
+    
 
     return artistDate
 
@@ -184,12 +185,6 @@ def newTecnique(tecnique):
     artec['MediumName'] = tecnique
     return artec
 
-def newNationality(Nationality):
-    artnat = {'Nationality': '',
-             'Artworks': lt.newList('ARRAY_LIST')}
-    artnat['Nationality'] = Nationality
-    return artnat
-
 def subListArtwork(catalog, ListSyze):
     """
     Genera la sublista de Artworks
@@ -199,7 +194,7 @@ def subListArtwork(catalog, ListSyze):
 
 # Funciones de consulta
 
-#Req 1:
+#Req1:
 def getArtistByDate(catalog, BeginDate, EndDate):
 
     
@@ -264,21 +259,29 @@ def getArtistByTecnique(catalog, Artistname):
 
 #Req 4 
 def getArtworksByNationality(catalog):
-    ArtistNationality = lt.newList('ARRAY_LIST', cmpfunction=comparenationality)
+    ListByNationality = lt.newList('ARRAY_LIST')
     for artists in lt.iterator(catalog['Artists']):
-        for a in lt.iterator(artists['Artworks']):
-            Nation = artists['Nationality']
-            position = lt.isPresent(ArtistNationality,Nation)
-            if position > 0:
-                Nation = lt.getElement(ArtistNationality, position)
-                lt.addLast(Nation['Artworks'], a)
-            else:
-                newnation = newNationality(artists['Nationality'])
-                lt.addLast(ArtistNationality, newnation)
-            lt.addLast(newnation['Artworks'], a)
-    sorted_list = sortArtworkNationality(ArtistNationality)
-    print(sorted_list)
-    return sorted_list
+        
+        checker = comparenationality(ListByNationality, artists['Nationality'])
+        print(checker)
+        if checker == "False":
+            gotcha = NewNationality(artists['Nationality'])
+            for a in lt.iterator(artists['Artworks']):
+                listNation = gotcha[artists["Nationality"]]
+                lt.addLast(listNation, a)
+        else:
+            listNation = ListByNationality[artists['Nationality']]
+            print(ListByNationality[artists["Nationality"]])
+            for a in lt.iterator(artists['Artworks']):
+                lt.addLast(listNation, a)
+            lt.addLast(ListByNationality, gotcha)  
+    #print(ListByNationality)
+    return ListByNationality
+
+def NewNationality(Nationality):
+    ListArtwork= lt.newList('ARRAY_LIST')
+    InfoNation = {Nationality:ListArtwork}
+    return InfoNation
     
 
 #Req 5
@@ -326,17 +329,20 @@ def compATecnique(tec, artistTecnique):
         return -1 
 
 
-def comparenationality(Nation,Nations):
-    if Nation.lower() == Nations['Nationality'].lower():
-        return 0
-    else:
-        return -1 
+def comparenationality(ListNationality, Nationality):
+    for pepe in  lt.iterator(ListNationality):
+        print(pepe)
+        print(list(pepe.keys()))
+        if Nationality in list(pepe.keys()) and pepe != None and ListNationality != None:
+            print(Nationality)
+            return True
+        else:
+            return False
  
         
     
             
-def compArtworkNation(N1, N2):
-    return int(lt.size(N1['Artworks'])) > int(lt.size(N2['Artworks']))
+    
 
 def compDateAcquired(Date1, Date2):
     if Date1['DateAcquired'] != '' and Date1['DateAcquired'] != '0' and Date2['DateAcquired'] != '0' and Date2['DateAcquired'] != '':
@@ -367,8 +373,5 @@ def sortDateAcquired(artworksDate):
 def sortArtworkTecnique(ArtistTecnique):
     sort_list = mergesort.sort(ArtistTecnique, compArtworkTecnique)
     return sort_list
-
-def sortArtworkNationality(ArtistNationality):
-    sort_list = mergesort.sort(ArtistNationality, compArtworkNation)
-    return sort_list  
+    
     
