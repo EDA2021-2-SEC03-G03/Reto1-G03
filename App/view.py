@@ -150,6 +150,16 @@ while True:
     elif int(inputs[0]) == 5:
         #Req4: 
         DatesA = controller.getArtworksByNationality(catalog)
+        i = 1
+        top10 = lt.subList(DatesA,1,10)
+        print("TOP 10 Nationalities")
+        for item in lt.iterator(top10):           
+            print(str(i) +'. '+ str(item["Nationality"]) +' with '+ str(lt.size(item["Artworks"])) + " Artworks")
+            i+=1
+        firtsplace= lt.getElement(top10,1)
+        print("ARTWORKS FROM " + str(firtsplace["Nationality"]).upper())
+        for artwork in lt.iterator(firtsplace["Artworks"]):
+            print(str(artwork["Title"]) +', '+ str(artwork["DateAcquired"]) +', '+ str(artwork["Medium"])+', '+str(artwork["Height"]) +', '+ str(artwork["Width"]))
 
     elif int(inputs[0]) == 6:
         #Req5:
