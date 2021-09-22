@@ -144,8 +144,6 @@ while True:
         print('His/Her most used Medium/Tecnique is ' + str(medium) + ' with ' + str(mayorM) + ' pieces')
         print('List of the artworks of the most used tecnique/medium:')
         print(obras)
-       
-        
 
     
     elif int(inputs[0]) == 5:

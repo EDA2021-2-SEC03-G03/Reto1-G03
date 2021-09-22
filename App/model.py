@@ -145,7 +145,7 @@ def addArtistDate(catalog, listArtist):
         lt.addLast(catalog['ArtistsDate'], addDate)
 
 def addArtworkDAcquired(catalog, listArtwork):
-    addDateAcquired = newArtworksDateAcquired(listArtwork['ObjectID'], listArtwork['Title'], listArtwork['ConstituentID'], listArtwork['Medium'], listArtwork['Dimensions'], listArtwork['Date'], listArtwork['DateAcquired'], listArtwork['CreditLine'])
+    addDateAcquired = newArtworksDateAcquired(listArtwork['ObjectID'], listArtwork['Title'], listArtwork['Medium'], listArtwork['Dimensions'], listArtwork['Date'], listArtwork['DateAcquired'], listArtwork['CreditLine'])
     lt.addLast(catalog['ArtworksDateAcquired'], addDateAcquired)
 
 # Funciones para creacion de datos
@@ -166,16 +166,15 @@ def newArtistDate(artist, BeginDate, EndDate, nationality, gender):
     artistDate['EndDate'] = EndDate
     artistDate['Nationality'] = nationality
     artistDate['Gender'] = gender
-    
 
     return artistDate
 
-def newArtworksDateAcquired(ObjectID, artwork, ConstituentID, Medium, Dimensions, Date, DateAcquired, CreditLine):
-    ArtworkDateAcquired = {'ObjectID': '', 'Title': '', 'ConstituentID': '', 'Medium': '', 'Dimensions': '',
+def newArtworksDateAcquired(ObjectID, artwork, Medium, Dimensions, Date, DateAcquired, CreditLine):
+    ArtworkDateAcquired = {'ObjectID': '', 'Title': '', 'ArtistsName': '', 'Medium': '', 'Dimensions': '',
     'Date':'', 'DateAcquired': ''}
     ArtworkDateAcquired['ObjectID'] = ObjectID
     ArtworkDateAcquired['Title'] = artwork 
-    ArtworkDateAcquired['ConstituentID'] = ConstituentID
+    #ArtworkDateAcquired['ArtistsName'] = artistname
     ArtworkDateAcquired['Medium'] = Medium 
     ArtworkDateAcquired['Dimensions'] = Dimensions
     ArtworkDateAcquired['Date'] = Date 
@@ -190,6 +189,12 @@ def newTecnique(tecnique):
     artec['MediumName'] = tecnique
     return artec
 
+def newNationality(Nationality):
+    artnat = {'Nationality': '',
+             'Artworks': lt.newList('ARRAY_LIST')}
+    artnat['Nationality'] = Nationality
+    return artnat
+
 def subListArtwork(catalog, ListSyze):
     """
     Genera la sublista de Artworks
@@ -199,7 +204,6 @@ def subListArtwork(catalog, ListSyze):
 
 # Funciones de consulta
 
-#Req1:
 def getArtistByDate(catalog, BeginDate, EndDate):
 
     
@@ -213,7 +217,6 @@ def getArtistByDate(catalog, BeginDate, EndDate):
 
     return Dates_Artist 
 
-#Req 2
 def artworksByDate(catalog, inicial, final):
 
     artworksDate = lt.newList('ARRAY_LIST')
@@ -264,13 +267,13 @@ def getArtistByTecnique(catalog, Artistname):
 
 #Req 4 
 def getArtworksByNationality(catalog):
-    ListByNationality = lt.newList('ARRAY_LIST')
+    ArtistNationality = lt.newList('ARRAY_LIST', cmpfunction=comparenationality)
     for artists in lt.iterator(catalog['Artists']):
         for a in lt.iterator(artists['Artworks']):
             Nation = artists['Nationality']
-            position = lt.isPresent(ListByNationality,Nation)
+            position = lt.isPresent(ArtistNationality,Nation)
             if position > 0:
-                Nation = lt.getElement(ListByNationality, position)
+                Nation = lt.getElement(ArtistNationality, position)
                 trabajo = lt.newList("ARRAY_LIST")
                 lt.addLast(trabajo,a)
                 lt.addLast(trabajo,artists["DisplayName"])
@@ -280,17 +283,13 @@ def getArtworksByNationality(catalog):
                 trabajo = lt.newList("ARRAY_LIST")
                 lt.addLast(trabajo,a)
                 lt.addLast(trabajo,artists["DisplayName"])
-                lt.addLast(ListByNationality, newnation)
+                lt.addLast(ArtistNationality, newnation)
                 lt.addLast(newnation['Artworks'], trabajo)
-    sorted_list = sortArtworkNationality(ListByNationality)
+    sorted_list = sortArtworkNationality(ArtistNationality)
     print(sorted_list)
     return sorted_list
     
-def newNationality(Nationality):
-    arnat = {'Nationality': '',
-             'Artworks': lt.newList('ARRAY_LIST')}
-    arnat['MediumName'] = Nationality
-    return arnat
+
 #Req 5
 
 def getArtworksByDepartment(catalog, department):
@@ -400,20 +399,11 @@ def compATecnique(tec, artistTecnique):
         return 0
     else:
         return -1 
-def comparenationality(ListNationality, Nationality):
-    for pepe in  lt.iterator(ListNationality):
-        print(pepe)
-        print(list(pepe.keys()))
-        if Nationality in list(pepe.keys()) and pepe != None and ListNationality != None:
-            print(Nationality)
-            return True
-        else:
-            return False
- 
         
     
             
-    
+def compArtworkNation(N1, N2):
+    return int(lt.size(N1['Artworks'])) > int(lt.size(N2['Artworks']))
 
 def compDateAcquired(Date1, Date2):
     if Date1['DateAcquired'] != '' and Date1['DateAcquired'] != '0' and Date2['DateAcquired'] != '0' and Date2['DateAcquired'] != '':
@@ -421,9 +411,6 @@ def compDateAcquired(Date1, Date2):
 
 def compArtworkTecnique(tecnique1, tecnique2):
     return lt.size(tecnique1['Artworks']) > lt.size(tecnique2['Artworks'])
-
-def compArtworkNationality(n1, n2):
-    return lt.size(n1['Artworks']) > lt.size(n2['Artworks'])
 
 
 # Funciones de ordenamiento
@@ -449,6 +436,6 @@ def sortArtworkTecnique(ArtistTecnique):
     return sort_list
 
 def sortArtworkNationality(ArtistNationality):
-    sort_list = mergesort.sort(ArtistNationality, compArtworkNationality)
-    return sort_list
+    sort_list = mergesort.sort(ArtistNationality, compArtworkNation)
+    return sort_list  
     
