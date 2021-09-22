@@ -135,7 +135,8 @@ def addArtworkArtist(catalog, artist_id, Artwork):
     
 
 def addArtistDate(catalog, listArtist):
-        addDate = newArtistDate(listArtist['DisplayName'], listArtist['BeginDate'], listArtist['EndDate'], listArtist['Nationality'], listArtist['Gender'])
+        addDate = newArtistDate(listArtist['DisplayName'], listArtist['BeginDate'], listArtist['EndDate'], 
+                                listArtist['Nationality'], listArtist['Gender'])
         lt.addLast(catalog['ArtistsDate'], addDate)
 
 def addArtworkDAcquired(catalog, listArtwork):
@@ -257,29 +258,7 @@ def getArtistByTecnique(catalog, Artistname):
     return ArtistTecnique
 
 
-""""
-def addArtworkArtist(catalog, artist_id, Artwork):
-    
-    artists = catalog['Artists']
-    posartist = lt.isPresent(artists,artist_id)
-    if posartist > 0:
-        artist = lt.getElement(artists, posartist)
-        
-    else:
-        artist = newArtist(artist_id)
-        lt.addLast(artists, artist)
-    
-    lt.addLast(artist['Artworks'], Artwork)
 
-    postecnique = lt.isPresent(ArtistTecnique['MediumName'], a['Medium'])
-                if postecnique > 0:
-                    tec = lt.getElement(ArtistTecnique['MediumName'], postecnique)
-                    #lt.addLast(ArtistTecnique['Artworks'], a)
-                else:
-                    tec = newTecnique(a['Medium'])
-                    lt.addLast(ArtistTecnique['MediumName'], a['Medium'])
-                lt.addLast(tec['Artworks'], a)
-"""
 
 #Req 4 
 def getArtworksByNationality(catalog):

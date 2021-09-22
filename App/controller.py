@@ -24,7 +24,7 @@ import config as cf
 import model
 import csv
 from DISClib.ADT import list as lt
-
+from DISClib.Algorithms.Sorting import mergesort
 
 """
 El controlador se encarga de mediar entre la vista y el modelo.
@@ -77,7 +77,12 @@ def subListArtwork(catalog, ListSyze):
 def sortDateArtwork(catalog, ordenamiento, ListSyze):
     return model.sortDateAcquired(catalog, ListSyze)
 
+def ArtworkTecniqueSort(ArtworkTecnique):
+    return mergesort.sort(ArtworkTecnique, cmpfunction=compTec)
 
+def compTec(tec1, tec2):
+    return lt.size(tec1['Artworks']) > lt.size(tec2['Artworks'])
+    
 # Funciones de consulta sobre el catálogo
 
 def getArtistByDate(catalog, BeginDate, EndDate): 

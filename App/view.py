@@ -120,20 +120,29 @@ while True:
         for artist in lt.iterator(catalog['Artists']):
             if artist['DisplayName'] == Artistname:
                 artist_id = artist['ConstituentID']
+        countM = lt.size(ArtworkTecnique)
         countA = 0
-        #for artwork in lt.iterator(ArtworkTecnique['Artworks']):
-            #countA += 1
-
-        countM = 0
+        for tec in lt.iterator(ArtworkTecnique):
+            countA += lt.size(tec['Artworks'])
         
-        print(ArtworkTecnique)
-        print('With MoMA ID ' + str(artist_id) + ' has ' + str(countA) + ' pieces in his/her name at the museum.')
-        #print('There are ' + str(lt.size(countM)) + ' different mediums/tecniques in his/her work.')
+        sort_list = controller.ArtworkTecniqueSort(ArtworkTecnique)
+        Medium = lt.getElement(sort_list, 1)
+        medium = Medium['MediumName']
+
+        mayorM = lt.size(Medium['Artworks'])
+        obras = Medium['Artworks']
+        
+                 
+
+        #['MediumName']
+        #print(ArtworkTecnique)
+        print(Artistname + ' with MoMA ID ' + str(artist_id) + ' has ' + str(countA) + ' pieces in his/her name at the museum.')
+        print('There are ' + str(countM) + ' different mediums/tecniques in his/her work.')
 
 
-        #print('His/Her most used Medium/Tecnique is ' + str(Medium) + ' with ' + str(mayorM) + ' pieces')
-        #print('List of the artworks of the most used tecnique/medium:')
-        #print(obras)
+        print('His/Her most used Medium/Tecnique is ' + str(medium) + ' with ' + str(mayorM) + ' pieces')
+        print('List of the artworks of the most used tecnique/medium:')
+        print(obras)
        
         
 
