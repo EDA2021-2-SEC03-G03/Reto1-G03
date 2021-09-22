@@ -135,7 +135,8 @@ def addArtworkArtist(catalog, artist_id, Artwork):
     
 
 def addArtistDate(catalog, listArtist):
-        addDate = newArtistDate(listArtist['DisplayName'], listArtist['BeginDate'], listArtist['EndDate'], listArtist['Nationality'], listArtist['Gender'])
+        addDate = newArtistDate(listArtist['DisplayName'], listArtist['BeginDate'], listArtist['EndDate'], 
+                                listArtist['Nationality'], listArtist['Gender'])
         lt.addLast(catalog['ArtistsDate'], addDate)
 
 def addArtworkDAcquired(catalog, listArtwork):
