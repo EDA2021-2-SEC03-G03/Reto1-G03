@@ -104,13 +104,18 @@ def Artistinfo(catalog,artistsID):
     Artistsfound = lt.newList(datastructure='ARRAY_LIST')
     artistsIDList = artistsID.replace('[', '').replace(']', '').split(",")
     print(artistsIDList)
-    i=0
-    for artist in lt.iterator(catalog["Artists"]):
-        if str(artist['ConstituentID']) in artistsIDList:
-            lt.addLast(Artistsfound, artist)
-            print(i)
-            i +=1
-        continue
+    for artist in artistsIDList:
+            pos = lt.isPresent(catalog["Artists"],int(artist))
+            if pos > 0:
+                final = lt.getElement(catalog["Artists"],int(pos))
+                lt.addLast(Artistsfound,final["DisplayName"])
+            else:
+                continue
+    return Artistsfound
+            
+    
+            
+        
     if lt.size(Artistsfound)>= 1:
         print(Artistsfound)
     
@@ -140,7 +145,7 @@ def addArtistDate(catalog, listArtist):
         lt.addLast(catalog['ArtistsDate'], addDate)
 
 def addArtworkDAcquired(catalog, listArtwork):
-    addDateAcquired = newArtworksDateAcquired(listArtwork['ObjectID'], listArtwork['Title'], listArtwork['ConstituentID'], listArtwork['Medium'], listArtwork['Dimensions'], listArtwork['Date'], listArtwork['DateAcquired'], listArtwork['CreditLine'])
+    addDateAcquired = newArtworksDateAcquired(listArtwork['ObjectID'], listArtwork['Title'], listArtwork['Medium'], listArtwork['Dimensions'], listArtwork['Date'], listArtwork['DateAcquired'], listArtwork['CreditLine'])
     lt.addLast(catalog['ArtworksDateAcquired'], addDateAcquired)
 
 # Funciones para creacion de datos
@@ -161,16 +166,15 @@ def newArtistDate(artist, BeginDate, EndDate, nationality, gender):
     artistDate['EndDate'] = EndDate
     artistDate['Nationality'] = nationality
     artistDate['Gender'] = gender
-    
 
     return artistDate
 
-def newArtworksDateAcquired(ObjectID, artwork, ConstituentID, Medium, Dimensions, Date, DateAcquired, CreditLine):
-    ArtworkDateAcquired = {'ObjectID': '', 'Title': '', 'ConstituentID': '', 'Medium': '', 'Dimensions': '',
+def newArtworksDateAcquired(ObjectID, artwork, Medium, Dimensions, Date, DateAcquired, CreditLine):
+    ArtworkDateAcquired = {'ObjectID': '', 'Title': '', 'ArtistsName': '', 'Medium': '', 'Dimensions': '',
     'Date':'', 'DateAcquired': ''}
     ArtworkDateAcquired['ObjectID'] = ObjectID
     ArtworkDateAcquired['Title'] = artwork 
-    ArtworkDateAcquired['ConstituentID'] = ConstituentID
+    #ArtworkDateAcquired['ArtistsName'] = artistname
     ArtworkDateAcquired['Medium'] = Medium 
     ArtworkDateAcquired['Dimensions'] = Dimensions
     ArtworkDateAcquired['Date'] = Date 
@@ -185,6 +189,12 @@ def newTecnique(tecnique):
     artec['MediumName'] = tecnique
     return artec
 
+def newNationality(Nationality):
+    artnat = {'Nationality': '',
+             'Artworks': lt.newList('ARRAY_LIST')}
+    artnat['Nationality'] = Nationality
+    return artnat
+
 def subListArtwork(catalog, ListSyze):
     """
     Genera la sublista de Artworks
@@ -194,7 +204,6 @@ def subListArtwork(catalog, ListSyze):
 
 # Funciones de consulta
 
-#Req1:
 def getArtistByDate(catalog, BeginDate, EndDate):
 
     
@@ -208,7 +217,6 @@ def getArtistByDate(catalog, BeginDate, EndDate):
 
     return Dates_Artist 
 
-#Req 2
 def artworksByDate(catalog, inicial, final):
 
     artworksDate = lt.newList('ARRAY_LIST')
@@ -265,41 +273,92 @@ def getArtistByTecnique(catalog, Artistname):
 
 #Req 4 
 def getArtworksByNationality(catalog):
-    ListByNationality = lt.newList('ARRAY_LIST')
+    ArtistNationality = lt.newList('ARRAY_LIST', cmpfunction=comparenationality)
     for artists in lt.iterator(catalog['Artists']):
-        
-        checker = comparenationality(ListByNationality, artists['Nationality'])
-        print(checker)
-        if checker == "False":
-            gotcha = NewNationality(artists['Nationality'])
-            for a in lt.iterator(artists['Artworks']):
-                listNation = gotcha[artists["Nationality"]]
-                lt.addLast(listNation, a)
-        else:
-            listNation = ListByNationality[artists['Nationality']]
-            print(ListByNationality[artists["Nationality"]])
-            for a in lt.iterator(artists['Artworks']):
-                lt.addLast(listNation, a)
-            lt.addLast(ListByNationality, gotcha)  
-    #print(ListByNationality)
-    return ListByNationality
-
-def NewNationality(Nationality):
-    ListArtwork= lt.newList('ARRAY_LIST')
-    InfoNation = {Nationality:ListArtwork}
-    return InfoNation
+        for a in lt.iterator(artists['Artworks']):
+            Nation = artists['Nationality']
+            position = lt.isPresent(ArtistNationality,Nation)
+            if position > 0:
+                Nation = lt.getElement(ArtistNationality, position)
+                trabajo = lt.newList("ARRAY_LIST")
+                lt.addLast(trabajo,a)
+                lt.addLast(trabajo,artists["DisplayName"])
+                lt.addLast(Nation['Artworks'], trabajo)
+            else:
+                newnation = newNationality(artists['Nationality'])
+                trabajo = lt.newList("ARRAY_LIST")
+                lt.addLast(trabajo,a)
+                lt.addLast(trabajo,artists["DisplayName"])
+                lt.addLast(ArtistNationality, newnation)
+                lt.addLast(newnation['Artworks'], trabajo)
+    sorted_list = sortArtworkNationality(ArtistNationality)
+    print(sorted_list)
+    return sorted_list
     
 
 #Req 5
 
-def getArtworkByDepartment(catalog):
+def getArtworksByDepartment(catalog, department):
+    ArtworkinCategory = lt.newList('ARRAY_LIST',cmpfunction=compACategory)
     
-    ListByDepartment = lt.newList('ARRAY_LIST')
+    for artworks in lt.iterator(catalog["Artwork"]):
+        if artworks['Department'] == department:
+            lt.addLast(ArtworkinCategory,artworks)
+
+    listaconprecio = precioest(ArtworkinCategory)
+    pesoestim = pesoest(ArtworkinCategory, "Weight")
+    precioestim = pesoest(ArtworkinCategory, "Price")
+    print(listaconprecio)
+    sorted_listbyprice = mergesort.sort(listaconprecio, compareprice)
+    artworkingsub = lt.subList(listaconprecio,1, lt.size(ArtworkinCategory))
+    print(artworkingsub)
+    sorted_listbyage = mergesort.sort(artworkingsub, compareage)
+    print(sorted_listbyprice)
+    return sorted_listbyprice, sorted_listbyage,pesoestim, precioestim
      
+def precioest(ArtworkinCategory):
+    
+    for artworks in lt.iterator(ArtworkinCategory):
+        if artworks["Weight"] == '':
+            porPeso = 0
+        else:
+            porPeso = round(72 * float(artworks["Weight"]),4)
+        if (artworks["Height"] == '' or artworks["Width"] == '') and artworks["Diameter"] == '':
+            porArea = 0
+        elif artworks["Diameter"] != '':
+            radius = float(artworks["Diameter"])/200
+            porArea = round((radius)**2*(3.1415)*72, 4)
+        else: 
+            porArea = round(((float(artworks["Height"])*float(artworks["Width"]))/ 10000)*72,4)
+        if (artworks["Height"] == '' or artworks["Width"] == '' or artworks["Length"] == ''):
+            porVol = 0
+        else:
+            porVol = round(((float(artworks["Height"])*float(artworks["Width"])*float(artworks["Length"]))/ 1000000)*72,4)
+
+        if porVol == 0 and porArea == 0 and porPeso == 0:
+            precio_final = 48
+        else:
+            precio_final = max(porPeso,porArea,porVol)
+        artworks['Price'] = precio_final
+    return ArtworkinCategory
+        
+
+
+def pesoest(ArtworkinCategory, category):
+    suma = 0
+    for artworks in lt.iterator(ArtworkinCategory):
+        if artworks[category] != '':
+            suma += float(artworks[category])
+    return round(suma,4)
+    
 
 
 # Funciones utilizadas para comparar elementos dentro de una lista
+def compareprice(p1,p2):
+    return (float(p1['Price']) > float(p2['Price']))
 
+def compareage(a1,a2):
+    return (int(a1['Date']) < int(a2['Date']))
 def compareartists(a1, a2):
     
     if a1 < int(a2['ConstituentID']):
@@ -328,23 +387,29 @@ def compArtistDate(Artist1, Artist2):
     return (int(Artist1['BeginDate']) < int(Artist2['BeginDate'])) 
 
 
-def compATecnique(tec, artistTecnique):
-    if tec.lower() == artistTecnique['MediumName'].lower():
+def compACategory(dep, artworkD):
+    if dep.lower() == artworkD["Department"].lower():
         return 0
     else:
         return -1 
 
 
-def comparenationality(ListNationality, Nationality):
-    for pepe in  lt.iterator(ListNationality):
-        print(pepe)
-        print(list(pepe.keys()))
-        if Nationality in list(pepe.keys()) and pepe != None and ListNationality != None:
-            print(Nationality)
-            return True
-        else:
-            return False
- 
+def comparenationality(Nation,Nations):
+    if Nation.lower() == Nations['Nationality'].lower():
+        return 0
+    else:
+        return -1 
+
+def compATecnique(tec, artistTecnique):
+    if tec.lower() == artistTecnique['MediumName'].lower():
+        return 0
+    else:
+        return -1 
+        
+    
+            
+def compArtworkNation(N1, N2):
+    return int(lt.size(N1['Artworks'])) > int(lt.size(N2['Artworks']))
 
 def compDateAcquired(Date1, Date2):
     if Date1['DateAcquired'] != '' and Date1['DateAcquired'] != '0' and Date2['DateAcquired'] != '0' and Date2['DateAcquired'] != '':
@@ -381,9 +446,7 @@ def ArtworkTecniqueSort(ArtworkTecnique):
     #elapsed_time_mseg = (stop_time - start_time)*1000 
     return sort_list
 
+def sortArtworkNationality(ArtistNationality):
+    sort_list = mergesort.sort(ArtistNationality, compArtworkNation)
+    return sort_list  
     
-"""
-start_time = time.process_time()
-stop_time = time.process_time()
-elapsed_time_mseg = (stop_time - start_time)*1000
-"""    
