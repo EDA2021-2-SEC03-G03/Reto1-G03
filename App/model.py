@@ -142,7 +142,6 @@ def addArtworkDAcquired(catalog, listArtwork):
     addDateAcquired = newArtworksDateAcquired(listArtwork['ObjectID'], listArtwork['Title'], listArtwork['Medium'], listArtwork['Dimensions'], listArtwork['Date'], listArtwork['DateAcquired'], listArtwork['CreditLine'])
     lt.addLast(catalog['ArtworksDateAcquired'], addDateAcquired)
 
-
 # Funciones para creacion de datos
 
 def newArtist(artistid):
@@ -179,7 +178,11 @@ def newArtworksDateAcquired(ObjectID, artwork, Medium, Dimensions, Date, DateAcq
 
     return ArtworkDateAcquired
 
-
+def newTecnique(tecnique):
+    artec = {'MediumName': '',
+             'Artworks': lt.newList('ARRAY_LIST')}
+    artec['MediumName'] = tecnique
+    return artec
 
 def subListArtwork(catalog, ListSyze):
     """
@@ -229,19 +232,49 @@ def artworksPurchased(sort_DateAcquired):
     
     return count
 
+
 #Req 3:
 def getArtistByTecnique(catalog, Artistname):
-    ArtistTecnique = lt.newList('ARRAY_LIST')
-    ArtistTecnique = {'MediumName': '', 'Artworks': ''} 
-    ArtistTecnique['Artworks'] = lt.newList('ARRAY_LIST')
+    ArtistTecnique = lt.newList('ARRAY_LIST', cmpfunction=compATecnique)
     for artists in lt.iterator(catalog['Artists']):
         if artists['DisplayName'] == Artistname:
             for a in lt.iterator(artists['Artworks']):
                 tecnique = a['Medium']
-                ArtistTecnique['MediumName'] = tecnique
-                lt.addLast(ArtistTecnique['Artworks'], a)
-      
-    return ArtistTecnique         
+                pos = lt.isPresent(ArtistTecnique,tecnique)
+                if pos > 0:
+                    tec = lt.getElement(ArtistTecnique, pos)
+                    lt.addLast(tec['Artworks'], a)
+                else:
+                    tec = newTecnique(a['Medium'])
+                    lt.addLast(ArtistTecnique, tec)
+                lt.addLast(tec['Artworks'], a)   
+            
+    return ArtistTecnique
+
+
+""""
+def addArtworkArtist(catalog, artist_id, Artwork):
+    
+    artists = catalog['Artists']
+    posartist = lt.isPresent(artists,artist_id)
+    if posartist > 0:
+        artist = lt.getElement(artists, posartist)
+        
+    else:
+        artist = newArtist(artist_id)
+        lt.addLast(artists, artist)
+    
+    lt.addLast(artist['Artworks'], Artwork)
+
+    postecnique = lt.isPresent(ArtistTecnique['MediumName'], a['Medium'])
+                if postecnique > 0:
+                    tec = lt.getElement(ArtistTecnique['MediumName'], postecnique)
+                    #lt.addLast(ArtistTecnique['Artworks'], a)
+                else:
+                    tec = newTecnique(a['Medium'])
+                    lt.addLast(ArtistTecnique['MediumName'], a['Medium'])
+                lt.addLast(tec['Artworks'], a)
+"""
 
 
 def getArtworksByNationality(catalog):
@@ -297,8 +330,12 @@ def compArtistDate(Artist1, Artist2):
     return (int(Artist1['BeginDate']) < int(Artist2['BeginDate'])) 
 
 
-def comparetecnique():
-    pass
+def compATecnique(tec, artistTecnique):
+    if tec.lower() == artistTecnique['MediumName'].lower():
+        return 0
+    else:
+        return -1 
+
 
 def comparenationality():
     pass
