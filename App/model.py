@@ -253,6 +253,7 @@ def getArtistByTecnique(catalog, Artistname):
 
 
 
+
 #Req 4 
 def getArtworksByNationality(catalog):
     ListByNationality = lt.newList('ARRAY_LIST')
