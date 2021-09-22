@@ -253,19 +253,39 @@ def getArtistByTecnique(catalog, Artistname):
 
 
 
+#Req 4 
 def getArtworksByNationality(catalog):
-    nat = lt.newList('ARRAY_LIST')
-    for a in lt.iterator(catalog['ArtworksArtist']):
-        pass
+    ListByNationality = lt.newList('ARRAY_LIST')
+    for artists in lt.iterator(catalog['Artists']):
         
-        if a['Nationality'] != '' and a['Nationality']!='0':
-            pass
+        checker = comparenationality(ListByNationality, artists['Nationality'])
+        print(checker)
+        if checker == "False":
+            gotcha = NewNationality(artists['Nationality'])
+            for a in lt.iterator(artists['Artworks']):
+                listNation = gotcha[artists["Nationality"]]
+                lt.addLast(listNation, a)
+        else:
+            listNation = ListByNationality[artists['Nationality']]
+            print(ListByNationality[artists["Nationality"]])
+            for a in lt.iterator(artists['Artworks']):
+                lt.addLast(listNation, a)
+            lt.addLast(ListByNationality, gotcha)  
+    #print(ListByNationality)
+    return ListByNationality
+
+def NewNationality(Nationality):
+    ListArtwork= lt.newList('ARRAY_LIST')
+    InfoNation = {Nationality:ListArtwork}
+    return InfoNation
+    
 
 #Req 5
+
 def getArtworkByDepartment(catalog):
     
-    for artwork in lt.iterator(catalog['Artwork']):
-        pass
+    ListByDepartment = lt.newList('ARRAY_LIST')
+     
 
 
 # Funciones utilizadas para comparar elementos dentro de una lista
@@ -287,14 +307,6 @@ def compareartworks(a1, a2):
     else:
         return 1
 
-#def cmpartistartowork(o1, o2):
-    #if (o1['ObjectID'] < o2['ObjectID']) or (o1['ConstituentID'] < o2['ConstituentID']):
-        #return -1
-    #elif (o1['ObjectID'] == o2['ObjectID']) and (o1['ConstituentID'] == o2['ConstituentID']):
-        #return 0
-    #else:
-        #return 1
-
 def compareartistID(a1, artist):
     if str(a1) in str(artist['ConstituentID']):
         return 0
@@ -313,8 +325,20 @@ def compATecnique(tec, artistTecnique):
         return -1 
 
 
-def comparenationality():
-    pass
+def comparenationality(ListNationality, Nationality):
+    for pepe in  lt.iterator(ListNationality):
+        print(pepe)
+        print(list(pepe.keys()))
+        if Nationality in list(pepe.keys()) and pepe != None and ListNationality != None:
+            print(Nationality)
+            return True
+        else:
+            return False
+ 
+        
+    
+            
+    
 
 def compDateAcquired(Date1, Date2):
     if Date1['DateAcquired'] != '' and Date1['DateAcquired'] != '0' and Date2['DateAcquired'] != '0' and Date2['DateAcquired'] != '':
