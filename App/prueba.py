@@ -1,5 +1,5 @@
-cruce = ["papa", "yuca", "platano"]
-if "platano" in cruce:
-    print("Sure")
+cruce = 3.12323
+if cruce:
+    print(cruce**2)
 else:
-    print("It's not working")
+    print(cruce**2)

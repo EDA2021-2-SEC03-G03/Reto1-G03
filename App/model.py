@@ -104,13 +104,18 @@ def Artistinfo(catalog,artistsID):
     Artistsfound = lt.newList(datastructure='ARRAY_LIST')
     artistsIDList = artistsID.replace('[', '').replace(']', '').split(",")
     print(artistsIDList)
-    i=0
-    for artist in lt.iterator(catalog["Artists"]):
-        if str(artist['ConstituentID']) in artistsIDList:
-            lt.addLast(Artistsfound, artist)
-            print(i)
-            i +=1
-        continue
+    for artist in artistsIDList:
+            pos = lt.isPresent(catalog["Artists"],int(artist))
+            if pos > 0:
+                final = lt.getElement(catalog["Artists"],int(pos))
+                lt.addLast(Artistsfound,final["DisplayName"])
+            else:
+                continue
+    return Artistsfound
+            
+    
+            
+        
     if lt.size(Artistsfound)>= 1:
         print(Artistsfound)
     
@@ -269,11 +274,17 @@ def getArtworksByNationality(catalog):
             position = lt.isPresent(ArtistNationality,Nation)
             if position > 0:
                 Nation = lt.getElement(ArtistNationality, position)
-                lt.addLast(Nation['Artworks'], a)
+                trabajo = lt.newList("ARRAY_LIST")
+                lt.addLast(trabajo,a)
+                lt.addLast(trabajo,artists["DisplayName"])
+                lt.addLast(Nation['Artworks'], trabajo)
             else:
                 newnation = newNationality(artists['Nationality'])
+                trabajo = lt.newList("ARRAY_LIST")
+                lt.addLast(trabajo,a)
+                lt.addLast(trabajo,artists["DisplayName"])
                 lt.addLast(ArtistNationality, newnation)
-            lt.addLast(newnation['Artworks'], a)
+                lt.addLast(newnation['Artworks'], trabajo)
     sorted_list = sortArtworkNationality(ArtistNationality)
     print(sorted_list)
     return sorted_list
@@ -281,14 +292,67 @@ def getArtworksByNationality(catalog):
 
 #Req 5
 
-def getArtworkByDepartment(catalog):
+def getArtworksByDepartment(catalog, department):
+    ArtworkinCategory = lt.newList('ARRAY_LIST',cmpfunction=compACategory)
     
-    ListByDepartment = lt.newList('ARRAY_LIST')
+    for artworks in lt.iterator(catalog["Artwork"]):
+        if artworks['Department'] == department:
+            lt.addLast(ArtworkinCategory,artworks)
+
+    listaconprecio = precioest(ArtworkinCategory)
+    pesoestim = pesoest(ArtworkinCategory, "Weight")
+    precioestim = pesoest(ArtworkinCategory, "Price")
+    print(listaconprecio)
+    sorted_listbyprice = mergesort.sort(listaconprecio, compareprice)
+    artworkingsub = lt.subList(listaconprecio,1, lt.size(ArtworkinCategory))
+    print(artworkingsub)
+    sorted_listbyage = mergesort.sort(artworkingsub, compareage)
+    print(sorted_listbyprice)
+    return sorted_listbyprice, sorted_listbyage,pesoestim, precioestim
      
+def precioest(ArtworkinCategory):
+    
+    for artworks in lt.iterator(ArtworkinCategory):
+        if artworks["Weight"] == '':
+            porPeso = 0
+        else:
+            porPeso = round(72 * float(artworks["Weight"]),4)
+        if (artworks["Height"] == '' or artworks["Width"] == '') and artworks["Diameter"] == '':
+            porArea = 0
+        elif artworks["Diameter"] != '':
+            radius = float(artworks["Diameter"])/200
+            porArea = round((radius)**2*(3.1415)*72, 4)
+        else: 
+            porArea = round(((float(artworks["Height"])*float(artworks["Width"]))/ 10000)*72,4)
+        if (artworks["Height"] == '' or artworks["Width"] == '' or artworks["Length"] == ''):
+            porVol = 0
+        else:
+            porVol = round(((float(artworks["Height"])*float(artworks["Width"])*float(artworks["Length"]))/ 1000000)*72,4)
+
+        if porVol == 0 and porArea == 0 and porPeso == 0:
+            precio_final = 48
+        else:
+            precio_final = max(porPeso,porArea,porVol)
+        artworks['Price'] = precio_final
+    return ArtworkinCategory
+        
+
+
+def pesoest(ArtworkinCategory, category):
+    suma = 0
+    for artworks in lt.iterator(ArtworkinCategory):
+        if artworks[category] != '':
+            suma += float(artworks[category])
+    return round(suma,4)
+    
 
 
 # Funciones utilizadas para comparar elementos dentro de una lista
+def compareprice(p1,p2):
+    return (float(p1['Price']) > float(p2['Price']))
 
+def compareage(a1,a2):
+    return (int(a1['Date']) < int(a2['Date']))
 def compareartists(a1, a2):
     
     if a1 < int(a2['ConstituentID']):
@@ -317,8 +381,8 @@ def compArtistDate(Artist1, Artist2):
     return (int(Artist1['BeginDate']) < int(Artist2['BeginDate'])) 
 
 
-def compATecnique(tec, artistTecnique):
-    if tec.lower() == artistTecnique['MediumName'].lower():
+def compACategory(dep, artworkD):
+    if dep.lower() == artworkD["Department"].lower():
         return 0
     else:
         return -1 
@@ -329,7 +393,12 @@ def comparenationality(Nation,Nations):
         return 0
     else:
         return -1 
- 
+
+def compATecnique(tec, artistTecnique):
+    if tec.lower() == artistTecnique['MediumName'].lower():
+        return 0
+    else:
+        return -1 
         
     
             

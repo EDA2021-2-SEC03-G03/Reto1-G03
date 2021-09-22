@@ -106,6 +106,10 @@ def getArtistByTecnique(catalog, Artist):
     ArtistByTecnique = model.getArtistByTecnique(catalog, Artist)
     return ArtistByTecnique
 
+def getArtworksByDepartment(catalog,department):
+    agetArtworksByDepartment = model.getArtworksByDepartment(catalog,department)
+    return agetArtworksByDepartment
+
 
 
 

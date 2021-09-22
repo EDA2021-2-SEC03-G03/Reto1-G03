@@ -20,6 +20,7 @@
  * along withthis program.  If not, see <http://www.gnu.org/licenses/>.
  """
 
+from model import Artistinfo
 import config as cf
 import sys
 import controller
@@ -159,22 +160,37 @@ while True:
         firtsplace= lt.getElement(top10,1)
         print("ARTWORKS FROM " + str(firtsplace["Nationality"]).upper())
         for artwork in lt.iterator(firtsplace["Artworks"]):
-            print(str(artwork["Title"]) +', '+ str(artwork["DateAcquired"]) +', '+ str(artwork["Medium"])+', '+str(artwork["Height"]) +', '+ str(artwork["Width"]))
+            trabajo = lt.getElement(artwork,1)
+            print(str(trabajo["Title"]) +', '+ str(trabajo["DateAcquired"]) +', '+ str(trabajo["Medium"])+', '+str(trabajo["Dimensions"]) + ','+ lt.getElement(artwork,2))
 
     elif int(inputs[0]) == 6:
         #Req5:
+        
         dep = input('Ingrese el departamento del museo: ')
-
-        print('The MoMA is going to transport ' + ' artifacts from Drawings and Prints')
+        DatesA = controller.getArtworksByDepartment(catalog,dep)
+        print('The MoMA is going to transport ' +str(lt.size(DatesA[0]))+ ' artifacts from Drawings and Prints')
         print("REMEMBER! NOT all MoMA's data is complete!!!... These are estimates.")
-        print("Estimated cargo weight (kg): ")
-        print("Estimated cargo cost (USD): ")
+        print("Estimated cargo weight (kg): " + str(DatesA[2]))
+        print("Estimated cargo cost (USD): "+ str(DatesA[3]))
 
         print("--------------------------------------------------------------------------")
         print("Top 5 oldest artworks to transport: ")
+        top5a = lt.subList(DatesA[1],1,5)
+        top5p = lt.subList(DatesA[0],1,5)
+        i = 1
+        for item in lt.iterator(top5a):           
+            lisArtist = Artistinfo(catalog,item["ConstituentID"])
+            print(str(i) +'. Title: '+ str(item["Title"]) +', Artists: ' +(str("TODO"))+ ', Date: ' + str(item["Date"]) + ', Medium: ' + str(item["Medium"]) +', Cost of transportation: ' 
+            + str(item["Price"]) + ',Dimensions: ' + str(item["Dimensions"]))
+            i+=1
         print("--------------------------------------------------------------------------")
         print("Top 5 most expensive artworks to transport: ")
-
+        i = 1
+        for item in lt.iterator(DatesA[0]):           
+            lisArtist = Artistinfo(catalog,item["ConstituentID"])
+            print(str(i) +'. Title: '+ str(item["Title"]) +', Artists: ' +str(lisArtist)+ ', Date: ' + str(item["Date"]) + ', Medium: ' + str(item["Medium"]) +', Cost of transportation: ' 
+            + str(item["Price"]) + ',Dimensions: ' + str(item["Dimensions"]))
+            i+=1
     elif int(inputs[0]) == 7:
         pass
 
