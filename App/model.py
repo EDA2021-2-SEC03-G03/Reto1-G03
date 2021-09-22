@@ -359,6 +359,7 @@ def compareprice(p1,p2):
 
 def compareage(a1,a2):
     return (int(a1['Date']) < int(a2['Date']))
+    
 def compareartists(a1, a2):
     
     if a1 < int(a2['ConstituentID']):
