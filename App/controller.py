@@ -61,7 +61,7 @@ def loadArtworks(catalog):
     referencia al libro que se esta procesando.
     """
     artworksfile = cf.data_dir + 'MoMA (1)/Artworks-utf8-small.csv'
-    input_file = csv.DictReader(open(artworksfile, encoding='utf-8'))
+    input_file = csv.DictReader(open(artworksfile, encoding='utf-8')) 
     for artwork in input_file:
         model.addArtwork(catalog, artwork)
 
@@ -77,11 +77,6 @@ def subListArtwork(catalog, ListSyze):
 def sortDateArtwork(catalog, ordenamiento, ListSyze):
     return model.sortDateAcquired(catalog, ListSyze)
 
-def ArtworkTecniqueSort(ArtworkTecnique):
-    return mergesort.sort(ArtworkTecnique, cmpfunction=compTec)
-
-def compTec(tec1, tec2):
-    return lt.size(tec1['Artworks']) > lt.size(tec2['Artworks'])
     
 # Funciones de consulta sobre el catálogo
 

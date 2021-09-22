@@ -46,7 +46,6 @@ def printMenu():
     print("4- Calsificación de obras de un artista por técnica")
     print("5- Clasificar obras por la nacionalidad de sus creadores")
     print("6- Transporte de obras de un departamento")
-    print("7- Proponer una nueva exposición en el museo")
 
 catalog = None
 
@@ -82,36 +81,35 @@ while True:
         anoInicial = int(input('Ingresa el año inicial del rango: '))
         anoFinal = int(input('Ingrese el año final del rango: '))
         DatesA = controller.getArtistByDate(catalog, anoInicial, anoFinal)
-        #print("Tiempo utilizado en el ordenamiento: " + str(DatesA[1]) + " Milisegundos" )
-        print('There are ' + str(lt.size(DatesA)) + ' artists born between ' + str(anoInicial) + ' and ' + str(anoFinal))
+        print("Tiempo utilizado en el ordenamiento: " + str(DatesA[1]) + " Milisegundos" )
+        print('There are ' + str(lt.size(DatesA[0])) + ' artists born between ' + str(anoInicial) + ' and ' + str(anoFinal))
         i=1
         print("First three artists:")
         while i < 4:
-            print(str(lt.getElement(DatesA, i)))
+            print(str(lt.getElement(DatesA[0], i)))
             i+=1
         j = -2
         print("Last three artists: ")
         while j < 1:
-            print(str(lt.getElement(DatesA, j)))
+            print(str(lt.getElement(DatesA[0], j)))
             j+=1
         
 
 
     elif int(inputs[0]) == 3:
         
-        #ordi = controller.sortDateArtwork(catalog, ordenamiento, ListSyze)
-        #print("Tiempo utilizado en el ordenamiento: " + str(ordi[1]) + " Milisegundos " + " con un tamaño de muestra de " + str(ListSyze))
-        #print("Para la muestra de", ListSyze, " elementos, el tiempo (mseg) es: ", str(ordi[0]))
+        
         #Req2:
         Inicial = input('Ingresa la fecha inicial del rango, en el formato AAAA-MM-DD: ')
         Final = input('Ingrese la fecha final del rango, en el formato AAAA-MM-DD: ')
         datesArtworks = controller.getArtworksByDateAcquired(catalog, Inicial, Final)
-        print('The MoMA acquired ' + str(lt.size(datesArtworks)) + ' unique pieces between ' + Inicial + ' and ' + Final)
-        print('And purchased ' + str(controller.getartworkPurchased(datesArtworks)) + ' of them.')
+        print('The MoMA acquired ' + str(lt.size(datesArtworks[0])) + ' unique pieces between ' + Inicial + ' and ' + Final)
+        print('And purchased ' + str(controller.getartworkPurchased(datesArtworks[0])) + ' of them.')
         print("First three elements: ")
-        print(datesArtworks['elements'][0:3])
+        print(datesArtworks[0]['elements'][0:3])
         print("Last three elements: ")
-        print(datesArtworks['elements'][-3:])
+        print(datesArtworks[0]['elements'][-3:])
+        print("Tiempo utilizado en el ordenamiento: " + str(datesArtworks[1]) + " Milisegundos")
 
     elif int(inputs[0]) == 4:
         #Req 3:
@@ -120,12 +118,12 @@ while True:
         for artist in lt.iterator(catalog['Artists']):
             if artist['DisplayName'] == Artistname:
                 artist_id = artist['ConstituentID']
-        countM = lt.size(ArtworkTecnique)
+        countM = lt.size(ArtworkTecnique[0])
         countA = 0
-        for tec in lt.iterator(ArtworkTecnique):
+        for tec in lt.iterator(ArtworkTecnique[0]):
             countA += lt.size(tec['Artworks'])
         
-        sort_list = controller.ArtworkTecniqueSort(ArtworkTecnique)
+        sort_list = ArtworkTecnique[0]
         Medium = lt.getElement(sort_list, 1)
         medium = Medium['MediumName']
 
@@ -133,9 +131,6 @@ while True:
         obras = Medium['Artworks']
         
                  
-
-        #['MediumName']
-        #print(ArtworkTecnique)
         print(Artistname + ' with MoMA ID ' + str(artist_id) + ' has ' + str(countA) + ' pieces in his/her name at the museum.')
         print('There are ' + str(countM) + ' different mediums/tecniques in his/her work.')
 
@@ -143,6 +138,7 @@ while True:
         print('His/Her most used Medium/Tecnique is ' + str(medium) + ' with ' + str(mayorM) + ' pieces')
         print('List of the artworks of the most used tecnique/medium:')
         print(obras)
+        print("Tiempo utilizado en el ordenamiento: " + str(ArtworkTecnique[1]) + " Milisegundos")
        
         
 
