@@ -113,14 +113,6 @@ def Artistinfo(catalog,artistsID):
             else:
                 continue
     return Artistsfound
-            
-    
-            
-        
-    if lt.size(Artistsfound)>= 1:
-        print(Artistsfound)
-    
-    return Artistsfound
 
 
 
@@ -294,7 +286,6 @@ def getArtworksByNationality(catalog):
                 lt.addLast(ArtistNationality, newnation)
                 lt.addLast(newnation['Artworks'], trabajo)
     sorted_list = sortArtworkNationality(ArtistNationality)
-    print(sorted_list)
     return sorted_list
     
 
