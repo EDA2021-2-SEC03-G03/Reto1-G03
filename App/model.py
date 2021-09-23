@@ -104,7 +104,6 @@ def addArtwork(catalog, artwork):
 def Artistinfo(catalog,artistsID):
     Artistsfound = lt.newList(datastructure='ARRAY_LIST')
     artistsIDList = artistsID.replace('[', '').replace(']', '').split(",")
-    print(artistsIDList)
     for artist in artistsIDList:
             pos = lt.isPresent(catalog["Artists"],int(artist))
             if pos > 0:
@@ -293,10 +292,14 @@ def getArtworksByNationality(catalog):
                 lt.addLast(trabajo,artists["DisplayName"])
                 lt.addLast(ArtistNationality, newnation)
                 lt.addLast(newnation['Artworks'], trabajo)
+    ombe = lt.isPresent(ArtistNationality, "Nationality unknown")
+    ayuda = lt.getElement(ArtistNationality, ombe)
+    NationalityUnknown = lt.size(ayuda["Artworks"])
+    lt.deleteElement(ArtistNationality, ombe)
     sorted_list = sortArtworkNationality(ArtistNationality)
     stop_time = time.process_time()
     elapsed_time_mseg = (stop_time - start_time)*1000
-    return sorted_list, elapsed_time_mseg
+    return sorted_list, elapsed_time_mseg, NationalityUnknown
     
 
 #Req 5
