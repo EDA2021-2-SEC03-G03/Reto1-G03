@@ -53,7 +53,7 @@ def newCatalog(listType):
     catalog['Artwork'] = lt.newList(listType, cmpfunction=compareartworks)
     catalog['ArtistsDate'] = lt.newList(listType, cmpfunction='')
     catalog['ArtworksDateAcquired'] = lt.newList(listType, cmpfunction='')
-    #catalog['ArtistTecnique'] = lt.newList(listType, cmpfunction='')
+    
 
     return catalog
 
