@@ -113,12 +113,15 @@ def Artistinfo(catalog,artistsID):
             else:
                 continue
     return Artistsfound
+<<<<<<< HEAD
             
         
     if lt.size(Artistsfound)>= 1:
         print(Artistsfound)
     
     return Artistsfound
+=======
+>>>>>>> 2937c62a879047ad880899b01939827dbc741dda
 
 
 
@@ -293,7 +296,6 @@ def getArtworksByNationality(catalog):
                 lt.addLast(ArtistNationality, newnation)
                 lt.addLast(newnation['Artworks'], trabajo)
     sorted_list = sortArtworkNationality(ArtistNationality)
-    print(sorted_list)
     return sorted_list
     
 

@@ -131,7 +131,7 @@ while True:
         mayorM = lt.size(Medium['Artworks'])
         obras = Medium['Artworks']
         
-                 
+        print("Tiempo utilizado en el ordenamiento: " + str(ArtworkTecnique[1]) + " Milisegundos")  
         print(Artistname + ' with MoMA ID ' + str(artist_id) + ' has ' + str(countA) + ' pieces in his/her name at the museum.')
         print('There are ' + str(countM) + ' different mediums/tecniques in his/her work.')
 
@@ -146,16 +146,23 @@ while True:
         DatesA = controller.getArtworksByNationality(catalog)
         i = 1
         top10 = lt.subList(DatesA,1,10)
+        print("--------------------------------------------------------------------------")
         print("TOP 10 Nationalities")
+        ombe = lt.isPresent(DatesA, "Nationality unknown")
+        ayuda = lt.getElement(DatesA, ombe)
         for item in lt.iterator(top10):           
-            print(str(i) +'. '+ str(item["Nationality"]) +' with '+ str(lt.size(item["Artworks"])) + " Artworks")
+            if item["Nationality"] == "":
+                print(str(i) +'. '+ "Unknown" +' with '+ str(lt.size(item["Artworks"]) + lt.size(ayuda["Artworks"])) + " Artworks")
+            else:
+                print(str(i) +'. '+ str(item["Nationality"]) +' with '+ str(lt.size(item["Artworks"])) + " Artworks")
             i+=1
         firtsplace= lt.getElement(top10,1)
+        print("--------------------------------------------------------------------------")
         print("ARTWORKS FROM " + str(firtsplace["Nationality"]).upper())
         for artwork in lt.iterator(firtsplace["Artworks"]):
             trabajo = lt.getElement(artwork,1)
             print(str(trabajo["Title"]) +', '+ str(trabajo["DateAcquired"]) +', '+ str(trabajo["Medium"])+', '+str(trabajo["Dimensions"]) + ','+ lt.getElement(artwork,2))
-
+        print("--------------------------------------------------------------------------")
     elif int(inputs[0]) == 6:
         #Req5:
         
@@ -184,7 +191,7 @@ while True:
             print(str(i) +'. Title: '+ str(item["Title"]) +', Artists: ' +str(lisArtist)+ ', Date: ' + str(item["Date"]) + ', Medium: ' + str(item["Medium"]) +', Cost of transportation: ' 
             + str(item["Price"]) + ',Dimensions: ' + str(item["Dimensions"]))
             i+=1
-
+        print("--------------------------------------------------------------------------")
     else:
         sys.exit(0)
 sys.exit(0)
