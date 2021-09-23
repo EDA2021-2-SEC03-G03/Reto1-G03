@@ -145,11 +145,11 @@ while True:
         #Req4: 
         DatesA = controller.getArtworksByNationality(catalog)
         i = 1
-        top10 = lt.subList(DatesA,1,10)
+        top10 = lt.subList(DatesA[0],1,10)
         print("--------------------------------------------------------------------------")
         print("TOP 10 Nationalities")
-        ombe = lt.isPresent(DatesA, "Nationality unknown")
-        ayuda = lt.getElement(DatesA, ombe)
+        ombe = lt.isPresent(DatesA[0], "Nationality unknown")
+        ayuda = lt.getElement(DatesA[0], ombe)
         for item in lt.iterator(top10):           
             if item["Nationality"] == "":
                 print(str(i) +'. '+ "Unknown" +' with '+ str(lt.size(item["Artworks"]) + lt.size(ayuda["Artworks"])) + " Artworks")
@@ -163,6 +163,8 @@ while True:
             trabajo = lt.getElement(artwork,1)
             print(str(trabajo["Title"]) +', '+ str(trabajo["DateAcquired"]) +', '+ str(trabajo["Medium"])+', '+str(trabajo["Dimensions"]) + ','+ lt.getElement(artwork,2))
         print("--------------------------------------------------------------------------")
+        print("Tiempo utilizado en el ordenamiento: " + str(DatesA[1]) + " Milisegundos")
+
     elif int(inputs[0]) == 6:
         #Req5:
         
@@ -178,7 +180,8 @@ while True:
         top5a = lt.subList(DatesA[1],1,5)
         top5p = lt.subList(DatesA[0],1,5)
         i = 1
-        for item in lt.iterator(top5a):           
+        for item in lt.iterator(top5a): 
+                      
             lisArtist = Artistinfo(catalog,item["ConstituentID"])
             print(str(i) +'. Title: '+ str(item["Title"]) +', Artists: ' +(str("TODO"))+ ', Date: ' + str(item["Date"]) + ', Medium: ' + str(item["Medium"]) +', Cost of transportation: ' 
             + str(item["Price"]) + ',Dimensions: ' + str(item["Dimensions"]))
@@ -186,12 +189,14 @@ while True:
         print("--------------------------------------------------------------------------")
         print("Top 5 most expensive artworks to transport: ")
         i = 1
-        for item in lt.iterator(DatesA[0]):           
+        for item in lt.iterator(top5p):  
+                     
             lisArtist = Artistinfo(catalog,item["ConstituentID"])
             print(str(i) +'. Title: '+ str(item["Title"]) +', Artists: ' +str(lisArtist)+ ', Date: ' + str(item["Date"]) + ', Medium: ' + str(item["Medium"]) +', Cost of transportation: ' 
             + str(item["Price"]) + ',Dimensions: ' + str(item["Dimensions"]))
-            i+=1
+            i += 1
         print("--------------------------------------------------------------------------")
+        print("Tiempo utilizado en el ordenamiento: " + str(DatesA[4]) + " Milisegundos")
     else:
         sys.exit(0)
 sys.exit(0)

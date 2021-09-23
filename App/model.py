@@ -198,8 +198,9 @@ def subListArtwork(catalog, ListSyze):
 
 # Funciones de consulta
 
+#Req1:
 def getArtistByDate(catalog, BeginDate, EndDate):
-
+    start_time = time.process_time()
     
     DatesArtist = lt.newList('ARRAY_LIST')
 
@@ -208,11 +209,14 @@ def getArtistByDate(catalog, BeginDate, EndDate):
             lt.addLast(DatesArtist, a)
 
     Dates_Artist = SortDates(DatesArtist)
+    stop_time = time.process_time()
+    elapsed_time_mseg = (stop_time - start_time)*1000
 
-    return Dates_Artist 
+    return Dates_Artist, elapsed_time_mseg
 
+#Req2:
 def artworksByDate(catalog, inicial, final):
-
+    start_time = time.process_time()
     artworksDate = lt.newList('ARRAY_LIST')
 
     inicialDate = date.fromisoformat(inicial)
@@ -226,8 +230,10 @@ def artworksByDate(catalog, inicial, final):
                 
 
     sort_DateAcquired = sortDateAcquired(artworksDate)
+    stop_time = time.process_time()
+    elapsed_time_mseg = (stop_time - start_time)*1000
 
-    return sort_DateAcquired
+    return sort_DateAcquired, elapsed_time_mseg
 
 def artworksPurchased(sort_DateAcquired):
     count = 0
@@ -268,6 +274,7 @@ def getArtistByTecnique(catalog, Artistname):
 
 #Req 4 
 def getArtworksByNationality(catalog):
+    start_time = time.process_time()
     ArtistNationality = lt.newList('ARRAY_LIST', cmpfunction=comparenationality)
     for artists in lt.iterator(catalog['Artists']):
         for a in lt.iterator(artists['Artworks']):
@@ -287,12 +294,15 @@ def getArtworksByNationality(catalog):
                 lt.addLast(ArtistNationality, newnation)
                 lt.addLast(newnation['Artworks'], trabajo)
     sorted_list = sortArtworkNationality(ArtistNationality)
-    return sorted_list
+    stop_time = time.process_time()
+    elapsed_time_mseg = (stop_time - start_time)*1000
+    return sorted_list, elapsed_time_mseg
     
 
 #Req 5
 
 def getArtworksByDepartment(catalog, department):
+    start_time = time.process_time()
     ArtworkinCategory = lt.newList('ARRAY_LIST',cmpfunction=compACategory)
     
     for artworks in lt.iterator(catalog["Artwork"]):
@@ -302,13 +312,15 @@ def getArtworksByDepartment(catalog, department):
     listaconprecio = precioest(ArtworkinCategory)
     pesoestim = pesoest(ArtworkinCategory, "Weight")
     precioestim = pesoest(ArtworkinCategory, "Price")
-    print(listaconprecio)
+    
     sorted_listbyprice = mergesort.sort(listaconprecio, compareprice)
     artworkingsub = lt.subList(listaconprecio,1, lt.size(ArtworkinCategory))
-    print(artworkingsub)
+    
     sorted_listbyage = mergesort.sort(artworkingsub, compareage)
-    print(sorted_listbyprice)
-    return sorted_listbyprice, sorted_listbyage,pesoestim, precioestim
+    stop_time = time.process_time()
+    elapsed_time_mseg = (stop_time - start_time)*1000
+    
+    return sorted_listbyprice, sorted_listbyage, pesoestim, precioestim, elapsed_time_mseg
      
 def precioest(ArtworkinCategory):
     
@@ -352,7 +364,8 @@ def compareprice(p1,p2):
     return (float(p1['Price']) > float(p2['Price']))
 
 def compareage(a1,a2):
-    return (int(a1['Date']) < int(a2['Date']))
+    if a1['Date'] != '' and a1['Date'] != '0' and a2['Date'] != '' and a2['Date'] != '0':
+        return (int(a1['Date']) < int(a2['Date']))
 
 def compareartists(a1, a2):
     
@@ -418,27 +431,22 @@ def compTec(tec1, tec2):
 # Funciones de ordenamiento
 
 def SortDates(DatesArtist):
-    start_time = time.process_time()
+    
     sorted_list = mergesort.sort(DatesArtist, compArtistDate)
-    stop_time = time.process_time()
-    elapsed_time_mseg = (stop_time - start_time)*1000 
-    return sorted_list, elapsed_time_mseg
+     
+    return sorted_list
 
 def sortDateAcquired(artworksDate):
     
-    start_time = time.process_time()
     sorted_list = mergesort.sort(artworksDate, compDateAcquired)
-    stop_time = time.process_time()
-    elapsed_time_mseg = (stop_time - start_time)*1000
         
-    return sorted_list, elapsed_time_mseg
+    return sorted_list
 
 
 def ArtworkTecniqueSort(ArtworkTecnique):
-    #start_time = time.process_time()
+    
     sort_list = mergesort.sort(ArtworkTecnique, cmpfunction=compTec)
-    #stop_time = time.process_time()
-    #elapsed_time_mseg = (stop_time - start_time)*1000 
+     
     return sort_list
 
 def sortArtworkNationality(ArtistNationality):
