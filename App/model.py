@@ -53,7 +53,7 @@ def newCatalog(listType):
     catalog['Artwork'] = lt.newList(listType, cmpfunction=compareartworks)
     catalog['ArtistsDate'] = lt.newList(listType, cmpfunction='')
     catalog['ArtworksDateAcquired'] = lt.newList(listType, cmpfunction='')
-    #catalog['ArtistTecnique'] = lt.newList(listType, cmpfunction='')
+    
 
     return catalog
 
@@ -240,10 +240,11 @@ def artworksPurchased(sort_DateAcquired):
 
 #Req 3:
 def getArtistByTecnique(catalog, Artistname):
+    start_time = time.process_time()
     ArtistTecnique = lt.newList('ARRAY_LIST', cmpfunction=compATecnique)
     
     for artists in lt.iterator(catalog['Artists']):
-        start_time = time.process_time()
+        
         if artists['DisplayName'] == Artistname:
             for a in lt.iterator(artists['Artworks']):
                 tecnique = a['Medium']
