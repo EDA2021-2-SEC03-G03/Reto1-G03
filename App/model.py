@@ -114,8 +114,6 @@ def Artistinfo(catalog,artistsID):
                 continue
     return Artistsfound
             
-    
-            
         
     if lt.size(Artistsfound)>= 1:
         print(Artistsfound)
