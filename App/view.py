@@ -20,6 +20,7 @@
  * along withthis program.  If not, see <http://www.gnu.org/licenses/>.
  """
 
+from typing import List
 from model import Artistinfo
 import config as cf
 import sys
@@ -148,12 +149,10 @@ while True:
         top10 = lt.subList(DatesA[0],1,10)
         print("--------------------------------------------------------------------------")
         print("TOP 10 Nationalities")
-        ombe = lt.isPresent(DatesA[0], "Nationality unknown")
-        ayuda = lt.getElement(DatesA[0], ombe)
+        print(DatesA[2])
         for item in lt.iterator(top10):           
             if item["Nationality"] == "":
-                print(str(i) +'. '+ "Unknown" +' with '+ str(lt.size(item["Artworks"]) + lt.size(ayuda["Artworks"])) + " Artworks")
-                lt.deleteElement(DatesA, ombe)
+                print(str(i) +'. '+ "Unknown" +' with '+ str(lt.size(item["Artworks"]) + DatesA[2]) + " Artworks")
             else:
                 print(str(i) +'. '+ str(item["Nationality"]) +' with '+ str(lt.size(item["Artworks"])) + " Artworks")
             i+=1
@@ -184,7 +183,7 @@ while True:
         for item in lt.iterator(top5a): 
                       
             lisArtist = Artistinfo(catalog,item["ConstituentID"])
-            print(str(i) +'. Title: '+ str(item["Title"]) +', Artists: ' +(str("TODO"))+ ', Date: ' + str(item["Date"]) + ', Medium: ' + str(item["Medium"]) +', Cost of transportation: ' 
+            print(str(i) +'. Title: '+ str(item["Title"]) +', Artists: ' +str(lisArtist)+ ', Date: ' + str(item["Date"]) + ', Medium: ' + str(item["Medium"]) +', Cost of transportation: ' 
             + str(item["Price"]) + ',Dimensions: ' + str(item["Dimensions"]))
             i+=1
         print("--------------------------------------------------------------------------")
