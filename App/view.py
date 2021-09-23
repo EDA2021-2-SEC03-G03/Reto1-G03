@@ -61,8 +61,8 @@ while True:
     inputs = input('Seleccione una opción para continuar\n')
     if int(inputs[0]) == 1:
         print("Cargando información de los archivos ....")
-        listType = input('Ingrese el tipo de lista que quiere implementar (ARRAY_LIST o LINKED_LIST): ').upper()
-        catalog = controller.initCatalog(listType)
+        #listType = input('Ingrese el tipo de lista que quiere implementar (ARRAY_LIST o LINKED_LIST): ').upper()
+        catalog = controller.initCatalog('ARRAY_LIST')
 
         controller.loadData(catalog)
 
@@ -153,7 +153,7 @@ while True:
         for item in lt.iterator(top10):           
             if item["Nationality"] == "":
                 print(str(i) +'. '+ "Unknown" +' with '+ str(lt.size(item["Artworks"]) + lt.size(ayuda["Artworks"])) + " Artworks")
-                lt.deleteElement(DatesA, ombe)
+                lt.deleteElement(DatesA[0], ombe)
             else:
                 print(str(i) +'. '+ str(item["Nationality"]) +' with '+ str(lt.size(item["Artworks"])) + " Artworks")
             i+=1
