@@ -269,8 +269,6 @@ def getArtistByTecnique(catalog, Artistname):
     return sort_list, elapsed_time_mseg
 
 
-
-
 #Req 4 
 def getArtworksByNationality(catalog):
     start_time = time.process_time()
