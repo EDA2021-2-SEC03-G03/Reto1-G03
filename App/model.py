@@ -249,9 +249,9 @@ def artworksPurchased(sort_DateAcquired):
 #Req 3:
 def getArtistByTecnique(catalog, Artistname):
     ArtistTecnique = lt.newList('ARRAY_LIST', cmpfunction=compATecnique)
-    
+    start_time = time.process_time()
     for artists in lt.iterator(catalog['Artists']):
-        start_time = time.process_time()
+        
         if artists['DisplayName'] == Artistname:
             for a in lt.iterator(artists['Artworks']):
                 tecnique = a['Medium']
