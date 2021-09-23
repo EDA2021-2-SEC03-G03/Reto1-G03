@@ -153,6 +153,7 @@ while True:
         for item in lt.iterator(top10):           
             if item["Nationality"] == "":
                 print(str(i) +'. '+ "Unknown" +' with '+ str(lt.size(item["Artworks"]) + lt.size(ayuda["Artworks"])) + " Artworks")
+                lt.deleteElement(DatesA, ombe)
             else:
                 print(str(i) +'. '+ str(item["Nationality"]) +' with '+ str(lt.size(item["Artworks"])) + " Artworks")
             i+=1
